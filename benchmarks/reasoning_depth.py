@@ -550,6 +550,9 @@ def main():
                    help="逐 stack 迭代 CE (HRM 式) — 每个迭代的输出都被直接"
                         "监督, 反制'学会无视迭代'退化解; 需 --stack")
     p.add_argument("--tag", default="")
+    p.add_argument("--device", choices=["auto", "cuda", "mps", "cpu"],
+                   default="auto",
+                   help="auto = cuda > mps > cpu (P0-C′ 本地 MPS 训练腿)")
     p.add_argument("--mode", choices=["anytime", "fixed"], default="fixed",
                    help="fixed: fresh model per depth, trained AND evaluated "
                         "at that depth (HRM-style, the primary P0 claim). "
@@ -619,7 +622,11 @@ def main():
         args.n_values = {"pointer_chase": 16, "mod_chain": 10,
                          "parity": 2, "s5_word": 120}[args.task]
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    if args.device == "auto":
+        device = ("cuda" if torch.cuda.is_available()
+                  else "mps" if torch.backends.mps.is_available() else "cpu")
+    else:
+        device = args.device
     if args.smoke:
         run(args.task, difficulty=2, n_values=8, seeds=[0], steps=30,
             batch=32, lr=3e-4, max_depth=2, eval_depths=[1, 2],

@@ -54,15 +54,26 @@ current_action: >-
   (v2 瘦身时误删,照字面执行会卡死在 --check-round 轮号不符)+
   退出码 5=MODE-OFF 显式化+seed 纪律对齐 ROADMAP §5(探针 ≥3/
   对外声明 ≥5);生命周期沙箱复验(guard→NOT-Achieved→ACHIEVED
-  弹出→audit 3=3)全通。下一心跳:goal_check ⇒ NOT-Achieved(队首
-  p0c-prime-depth-retest)⇒ 预注册判负标准落盘+探针执行。
+  弹出→audit 3=3)全通。
+  轮 3(2026-09-27)P0-C′ 发起:接管孤儿锁(前会话建锁即死,证据链=
+  锁 mtime==最后提交 mtime+零提交+零活进程)后按队列迭代——预注册
+  判负标准先行落盘(benchmarks/verdicts/p0c_prime.prereg.json:A 绝对
+  增益≥0.02 ∧ B≥2σ 配对 ∧ C grok 率非降,判负诊断四选一,k=16 退化桶
+  剔除主指标)+ reasoning_depth.py 补 --device(auto>cuda>mps>cpu)
+  + fixed-depth sweep 训练腿发射(pointer_chase 单环 mix d16/n16,
+  γ 配额 n_global_heads=2+full_mha,深度{1,2,4,8}×3 seeds×30k 步,
+  beta2=0.999/clip=0 grokking 卫生配方,T1 MPS,ETA≈69h,按 seed
+  分段落盘 jsonl,PID 记 benchmarks/results/p0c_prime_run.pid)。
+  下一步心跳:查训练进度;全部 seed 落盘后按预注册口径计算判决
+  benchmarks/verdicts/p0c_prime.json(h_supported 字段)+ 登记
+  ROADMAP §4.5,弹出队首。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX}.md
-updated: 2026-09-27 (轮 2 AMM-002 prompt 瘦身 canonical 化)
+updated: 2026-09-27 (轮 3 P0-C′ 训练腿发射)
 ```
 
 ```yaml
@@ -76,7 +87,7 @@ goal_queue:
     done_condition: 判决文件 benchmarks/verdicts/p0c_prime.json 存在且含
       h_supported 字段(预注册格式),ROADMAP 已登记判决条目。
     check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_prime.json')); assert 'h_supported' in d"
-    status: todo
+    status: doing
   - id: 2b-120k-leg
     goal: 2B 训练下一腿——60K 步(val PPL 2.556)后继续至 120K 步并登记
       val PPL;附上下文平坦 PPL 判读(128:2.72/256:2.72/512:2.68,长上下文
