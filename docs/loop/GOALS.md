@@ -73,13 +73,22 @@ current_action: >-
   8 测试入库(总 235 绿)。check_cmd 待该条升到队首时自然 ACHIEVED
   弹出。下一步心跳:查 P0-C′ 进度(seed 0 d=1 在途);seed 边界=
   判读点。
+  轮 5(2026-09-27)dpo-grpo-wiring:队首在途期间推进队列下一位——
+  DPO/GRPO 对齐损失接入真实训练:Recipe.rl_mode(默认 ""=SFT 主线
+  逐位不变;"dpo"/"grpo" 实验路径,禁 text 语料),TrainingRun 冻结
+  参考模型(init 快照)+ rl 单步路径(DPO: 答案位 chosen/错答 rejected
+  序列 logprob;GRPO: 答案位 G=4 采样 bandit+组优势+k3 KL+比率裁剪),
+  checkpoint 增量存 rl_ref_model+restore 强校验;集成测试 7 项真实
+  执行训练步(非纯数学单测),总 242 绿。check_cmd 待升队首自然弹出。
+  队列全部可执行项清空,此后心跳=P0-C′ 进度判读循环(seed 边界+
+  全落盘判决),若无产出心跳则按空审计阶梯计数。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX}.md
-updated: 2026-09-27 (轮 4 episodic-stream 落地;P0-C′ 在途)
+updated: 2026-09-27 (轮 5 dpo-grpo 接线;P0-C′ 在途)
 ```
 
 ```yaml
