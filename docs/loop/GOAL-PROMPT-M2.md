@@ -12,10 +12,12 @@
 启动先跑 ./scripts/marathon_guard(exit 1=已有活马拉松,确认状态即止,勿双开)。
 
 每心跳:
-1. 跑 ./scripts/goal_check,严格按其 VERDICT 行动:0=队首已弹出,继续
-   下一位;1=对队首迭代一步;2=队列空,按 GOALS.md 细则区的阶梯取活。
+1. 跑 ./scripts/goal_check,严格按其 VERDICT/输出行动:0=队首已弹出,
+   继续下一位;1=对队首迭代一步;2=队列空,按 GOALS.md 细则区的阶梯
+   取活;5=MODE-OFF(总开关关,停)。
 2. 产出心跳收尾(一律显式判定退出码,禁把管道尾巴退出码当门禁):
    pytest 全绿 + ./scripts/goal_check --audit 过 + ./scripts/direction_gate
+   --add 本轮判单(轮号取自 GOALS current_action 的"轮 N")后
    --check-round 本轮轮号 过 ⇒ 原子提交 main ⇒ 立即进入下一心跳。
 
 铁律(每条都被不变式测试守护,禁删改):
@@ -27,7 +29,8 @@
   验证落盘。
 - 实验预注册判负标准先行(判决文件 benchmarks/verdicts/<id>.json);
   负结果与正结果同等记录。
-- 双峰任务报 grok 率;机制对比 ≥3 seeds;禁单 seed 准确率声明。
+- 双峰任务报 grok 率;机制对比探针 ≥3 seeds;对外声明 ≥5 seeds
+  (ROADMAP §5);禁单 seed 准确率声明。
 - 只在四轴(数学/代码推理、长流式记忆、持续学习、端侧延迟/内存)做
   head-to-head 对标;PPL 非主指标。
 - 需人决策 ⇒ state: BLOCKED-HUMAN;机制改动只走 AMENDMENTS 提案,

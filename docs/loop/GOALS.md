@@ -50,7 +50,11 @@ current_action: >-
   (状态机/阶梯/四档/分级)自 prompt 下沉本文件细则区;阶梯④ 新增
   RSI 夜账到期检查(防 Physic 夜账断喂 91 轮式静默失效);根因=用
   户"太复杂了"质询+Physic AMM-037 先例(60 行→20 行,人工 Reflexion
-  治理)。下一心跳:goal_check ⇒ NOT-Achieved(队首
+  治理)。轮 2 验收修复(粘贴前终检):心跳步骤 2 补回 --add 判单步
+  (v2 瘦身时误删,照字面执行会卡死在 --check-round 轮号不符)+
+  退出码 5=MODE-OFF 显式化+seed 纪律对齐 ROADMAP §5(探针 ≥3/
+  对外声明 ≥5);生命周期沙箱复验(guard→NOT-Achieved→ACHIEVED
+  弹出→audit 3=3)全通。下一心跳:goal_check ⇒ NOT-Achieved(队首
   p0c-prime-depth-retest)⇒ 预注册判负标准落盘+探针执行。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
