@@ -7,6 +7,7 @@ tmp dir and drives the real scripts end-to-end through subprocess.
 """
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -81,6 +82,34 @@ class TestGoalCheckRouter:
         assert "- id: a" not in body
         assert "- id: b" in body
         assert "```yaml" in body and "state: RUNNING" in body
+
+    def test_achieved_pops_only_first_entry_multiline_queue(self, tmp_path):
+        """回归:pop_first 曾在 ≥3 条队列上隔条删除(吞掉第 3 条)。
+
+        用真实 GOALS.md 格式(多行折行 goal 字段)验证只摘除队首,
+        其余 3 条逐字节保留。
+        """
+        multiline = (
+            "  - id: a-first\n"
+            "    goal: 长字段折行测试——γ 全局头配额\n"
+            "      + full MHA 修复注意力后做 fixed-depth sweep,\n"
+            "      多 seed 纪律(双峰任务报 grok 率)。\n"
+            "    done_condition: 判决文件存在且含\n"
+            "      h_supported 字段(预注册格式)。\n"
+            "    check_cmd: true\n"
+            "    status: todo\n"
+        )
+        queue = (multiline
+                 + entry("b-second", "false")
+                 + entry("c-third", "false")
+                 + entry("d-fourth", "false"))
+        root = make_root(tmp_path, queue)
+        r = run(GOAL_CHECK, root)
+        assert r.returncode == 0
+        body = read_goals(root)
+        ids = re.findall(r"(?m)^\s*- id: (\S+)", body)
+        assert ids == ["b-second", "c-third", "d-fourth"], f"弹出吞错了条目: {ids}"
+        assert "check_cmd: false" in body and "status: todo" in body
 
     def test_achieved_on_single_entry_empties_queue(self, tmp_path):
         root = make_root(tmp_path, entry("only", "true"))

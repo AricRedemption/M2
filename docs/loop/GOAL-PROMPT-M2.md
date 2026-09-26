@@ -58,8 +58,8 @@
 ## 启动/收尾
 启动:./scripts/marathon_guard,exit 1 ⇒ 已有马拉松(锁 <100min),确认状态
 即结束;锁自过期后重启自然畅通;STALE-HINT=疑似死锁残留,人工证据链确认后
-可接管删除 .loop-lock。收口=模式切换而非会话结束:mode OFF 用 GOALS.yaml
-的 mode 字段(=iteration 开关语义),S4 手动照旧。
+可接管删除 .loop-lock。收口=模式切换而非会话结束:mode OFF 用 GOALS.md
+yaml 块的 mode 字段(=循环总开关,goal_check/ignite 均拒动),手动停止照旧。
 RSI 入账时机:每累计约 10 个产出心跳、或转 PARKED、或上下文收束前,
 按 docs/loop/RSI-INDEX.md 口径补账(夜账=追加式条目,机械维度脚本出草稿,
 K/T 终判人裁)。

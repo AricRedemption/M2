@@ -106,16 +106,12 @@ def audit(src):
 def pop_first(src, span):
     """从队列块中摘除队首条目(从首个 `- id:` 行到下一条目行之前),其余字节保持不变。"""
     block = src[span[0]:span[1]]
-    out, skipping = [], False
-    for line in block.splitlines(keepends=True):
-        if re.match(r"\s*- id: ", line):
-            if not skipping:
-                skipping = True  # 开始跳过队首条目
-                continue
-            skipping = False     # 下一条目开始,保留
-        if not skipping:
-            out.append(line)
-    return src[:span[0]] + "".join(out) + src[span[1]:]
+    entries = list(re.finditer(r"(?m)^\s*- id: ", block))
+    if not entries:
+        return src
+    start = entries[0].start()
+    end = entries[1].start() if len(entries) > 1 else len(block)
+    return src[:span[0]] + block[:start] + block[end:] + src[span[1]:]
 
 
 def write_atomic(path, content):

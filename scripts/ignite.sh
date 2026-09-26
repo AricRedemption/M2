@@ -2,7 +2,7 @@
 # ignite — 跨 Agent 点火器(v1,移植自 AwareLiquid-Physic AMM-020;Ralph 式,
 # 机器级 cron/launchd 驱动,与具体 Agent 软件解耦)。
 #
-# 语义:锁新鲜(<100min)=马拉松活着 ⇒ 退出;mode=OFF/PARKED ⇒ 退出;
+# 语义:锁新鲜(<100min)=马拉松活着 ⇒ 退出;mode=OFF 或 state≠RUNNING ⇒ 退出;
 # 否则用 docs/loop/agent-cmd.conf 配置的命令把 GOAL-PROMPT-M2 正文
 # (```text 围栏)喂给任意 agent CLI。
 #
@@ -24,8 +24,9 @@ CONF=docs/loop/agent-cmd.conf
 if [[ -f .loop-lock ]] && [[ -n $(find .loop-lock -mmin -100 2>/dev/null) ]]; then
   exit 0
 fi
-# 停机条件:mode=OFF ⇒ 不点火(state 由 prompt 内状态机自管理)
+# 停机条件:mode=OFF 或 state≠RUNNING(PARKED/BLOCKED-HUMAN)⇒ 不点火
 grep -q "^mode: ON" docs/loop/GOALS.md || { echo "$(now) mode=OFF,不点火" >> $LOG; exit 0; }
+grep -q "^state: RUNNING" docs/loop/GOALS.md || { echo "$(now) state 非 RUNNING,不点火(重入口=用户指令)" >> $LOG; exit 0; }
 
 PROMPT=$(awk '/^```text$/{f=1;next}/^```$/{f=0}f' docs/loop/GOAL-PROMPT-M2.md)
 [[ -n $PROMPT ]] || { echo "$(now) 未从 GOAL-PROMPT-M2.md 提取到 text 围栏" >> $LOG; exit 1; }

@@ -33,8 +33,8 @@
 ### 2026-09-27 · bootstrap(轮 1)
 - K: 0(体系轮,无研究结论;含 D 基线事件=2026-07 第六轮复现危机入账为
   既有教训,不计入本循环 K)
-- T+: +6(goal_check/marathon_guard/direction_gate/ignite.sh +
-  GOALS/GOAL-PROMPT-M2/AMENDMENTS/RSI-INDEX 文档体系,带 tests/test_loop.py)
+- T+: +5(4 脚本 goal_check/marathon_guard/direction_gate/ignite.sh,
+  其中 3 个带测试;+tests/test_loop.py 22 项。文档账本不计入工具数)
 - A: 1 提案 / 1 采纳(AMM-001)
 - D: 门禁首跑全绿(pytest+audit+gate --check-round 1)
 - EXP: 0%(体系轮,证据轮从下一腿起计)
