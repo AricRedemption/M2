@@ -64,16 +64,22 @@ current_action: >-
   γ 配额 n_global_heads=2+full_mha,深度{1,2,4,8}×3 seeds×30k 步,
   beta2=0.999/clip=0 grokking 卫生配方,T1 MPS,ETA≈69h,按 seed
   分段落盘 jsonl,PID 记 benchmarks/results/p0c_prime_run.pid)。
-  下一步心跳:查训练进度;全部 seed 落盘后按预注册口径计算判决
-  benchmarks/verdicts/p0c_prime.json(h_supported 字段)+ 登记
-  ROADMAP §4.5,弹出队首。
+  轮 4(2026-09-27)episodic-stream:队首+次位均训练腿在途(P0-C′
+  本地 MPS / 2b-120k 服务器),按细则"训练在途≠阻塞"推进队列下一位
+  可执行项——m2_training/episodic_stream.py 落地(DATA_FORMS §2 规格:
+  Step/EventSegment/Episode 三时标层级+to_episode_stream 守门入口,
+  时间戳一等公民+单调不减校验=反模式3 的 shuffle 拒绝+SHA-256 内容
+  身份沿用 text_data.Corpus 纪律,dump/load 往返强校验防静默篡改),
+  8 测试入库(总 235 绿)。check_cmd 待该条升到队首时自然 ACHIEVED
+  弹出。下一步心跳:查 P0-C′ 进度(seed 0 d=1 在途);seed 边界=
+  判读点。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX}.md
-updated: 2026-09-27 (轮 3 P0-C′ 训练腿发射)
+updated: 2026-09-27 (轮 4 episodic-stream 落地;P0-C′ 在途)
 ```
 
 ```yaml
