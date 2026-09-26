@@ -7,6 +7,18 @@
 
 ## 提案
 
+### AMM-002 Goal Prompt 瘦身 canonical 化 — ADOPTED(2026-09-27)
+- 提案:v2 精简版(~20 行,指针+铁律式)升为**唯一** canonical 点火源;
+  v1 全文(110 行)降级 `GOAL-PROMPT-M2-v1-ARCHIVED.md`(带废止横幅,
+  仅立法史);承重铁律建立机械门禁 `tests/test_goal_prompt_invariants.py`
+  (17 条,每条对应一次真实事故);细则(状态机/阶梯/四档/分级)下沉
+  GOALS.md 细则区渐进披露。
+- 根因:用户质询"太复杂了";Physic AMM-037 同型先例(prompt 太细=
+  人工 Reflexion,canonical 停旧版=静默失效;v9.0 60 行→20 行,
+  27 条承重句不变式零改动)。
+- 语义保全:v1 的全部机制语义经三条路径无损保留——铁律进 v2 正文、
+  细节进 GOALS.md 细则区、立法史进本文件;invariants 测试守护回归。
+
 ### AMM-001 采纳循环体系(GOAL-PROMPT-M2 v1.0)— ADOPTED(2026-09-27)
 - 提案:移植 AwareLiquid-Physic 循环体系(GOAL-PROMPT-v8,AMM-035 优化版
   语义)至 M2:程序计数器 GOALS.md+goal_check 心跳路由器+marathon_guard

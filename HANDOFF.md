@@ -2,6 +2,15 @@
 
 Owner: Everest.
 
+2026-09-27（轮 2）：[循环体系](docs/loop/GOAL-PROMPT-M2.md) 瘦身
+canonical 化（AMM-002，参照 Physic AMM-037 先例）——v2 精简版（~20 行
+指针+铁律）升为唯一点火源，v1 全文降级 `GOAL-PROMPT-M2-v1-ARCHIVED.md`
+（废止横幅）；承重铁律机械门禁 `tests/test_goal_prompt_invariants.py`
+（17 条，每条对应一次真实事故）；细则（状态机/阶梯/算力四档/结论分级）
+下沉 GOALS.md 细则区；阶梯④新增 RSI 夜账到期检查（防断喂）；高危词
+扫描修掉"两因结束 vs PARKED 结束会话"矛盾（改显式三因）。全仓
+207+20=227 passed。
+
 2026-09-27：新增 [循环体系](docs/loop/GOAL-PROMPT-M2.md) —— 移植
 AwareLiquid-Physic 循环体系（GOAL-PROMPT-v8/AMM-035 语义）：`GOALS.md`
 =程序计数器+goal_queue（4 条初始队列：P0-C′ 深度复测/2B 120K 腿/情节流/
