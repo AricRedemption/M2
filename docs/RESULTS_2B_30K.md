@@ -56,3 +56,5 @@
   不是与 gpt2-vocab 模型直接可比的数值；不做跨 vocab 的 PPL 对比宣传
 - **下一步候选**：① 更长预算（60K+ 步）；② 记忆探针评估（cross-window recall @2b 规模，
   把 M1 已验证的记忆优势在 2b 规模复测）；③ checkpoint 下载归档（4.1GB，磁盘有限）
+
+- **HF 同步（09-28）**：200K 权重已导出 AwareLiquid/M2-2B（model.safetensors 替换 60K + t2b_200k.pt 原始可恢复版）。
