@@ -17,7 +17,8 @@ AwareLiquid-Physic 循环体系（GOAL-PROMPT-v8/AMM-035 语义）：`GOALS.md`
 RL 接线），`scripts/goal_check`=轮次路由器（每轮全队列达成检测/深位
 弹出/current_variable 锚点回显，`--audit` 数数锚），`scripts/marathon_guard`
 =锁检，`scripts/direction_gate`=提交前判单门（四轴耦合声明），驱动=用户
-Desktop Go 拉式点火（AMM-003，禁 cron/定时，ignite.sh 已于轮 11 归档），
+Desktop Go 拉式点火（AMM-003+AMM-010：点火一次=一个单目标连续循环，goal
+校验驱动轮次直至队列清空或 BLOCKED-HUMAN；禁 cron/定时，ignite.sh 已于轮 11 归档），
 同步=PR 流（AMM-004：fork 分支+PR，禁直推远端 main）。账本三件：
 `RSI-INDEX.md`=定量指数+十轮节拍唯一定义处，`DISTILL.md`=四栏经验账本
 （AMM-005 蒸馏门），`RSI-HORIZON.md`=外部对标+社区蒸馏门协议（AMM-008

@@ -38,7 +38,7 @@
   ④ 工程硬化(工具缺口/测试加固/**RSI 夜账到期检查**——累计 ≥10 产出
      轮次未入账即属此项有活,防夜账断喂式静默失效);
   ⑤ 全空 ⇒ **空审计**:四项逐项审计依据写进 current_action 后提交,
-     合轮等待下次点火;连续 3 次(跨轮)⇒ PARKED。
+     合轮(连续循环内由 goal 校验驱动下一轮);连续 3 次(跨轮)⇒ PARKED。
 - **算力四档**:T0 本地 CPU / T1 本地加速器(本机 MPS / RTX 5060 8GB,
   视所在机器) / T2 服务器 / T3 Kaggle;T2/T3 发起需用户预先授权;
   资源红线=护机优先,异常即中止。
@@ -60,11 +60,12 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 16 机制修订:AMM-010 单目标连续循环 ADOPTED(v4.1);下轮起按连续循环驱动(单目标=队列清空或 BLOCKED-HUMAN);d=8 复核臂(pid 40268)在途,出数即终判
+state: RUNNING            # 轮 17 验收轮:AMM-010 一致性 3 处残留修补完毕,体系一致;下轮起连续循环驱动;d=8 复核臂(pid 40268)在途,出数即终判
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
-  M2 循环 v1(AMM-003 拉式):训练腿跨轮的 Go 轮次循环(轮次协议/阶梯/
-  纪律唯一源=docs/loop/GOAL-PROMPT-M2.md,本文件不复述)。
+  M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
+  单目标=队列清空或推进至 BLOCKED-HUMAN(协议/阶梯/纪律唯一源=
+  docs/loop/GOAL-PROMPT-M2.md,本文件不复述)。
 current_variable: p0c-prime-depth(思考深度→能力;组合变量=γ配额K=2+full_mha 原子修复包,其余冻结;判据=verdicts/p0c_prime.prereg.v2.json,沿用 v1,no_posthoc_move)
 current_action: >-
   [轮次索引:更早轮单行,全文=git log(AMM-009 瘦身,永不丢)]
@@ -108,13 +109,16 @@ current_action: >-
   "绝不中途弃轮"语义保全(作用域=轮内)。21 承重句 fragment 零改动;
   空转闸(3 空审计⇒PARKED)=连续循环防呆,原样;禁外部调度不变。
   例外轮(机制修订,用户明示 ⇒ 连击重置)。
+  轮 17(10-01)验收轮(用户点名):AMM-010 一致性全仓扫描——修 3 处残留
+  (阶梯⑤"等待下次点火"/current_goal v1 引用/HANDOFF 驱动段补 AMM-010),
+  AMENDMENTS 旧语义=立法史不算不一致;21 fragment 复验绿,交付 v4.1 全文。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 16 AMM-010 单目标连续循环 v4.1;d=8 复核臂 pid 40268 在途,出数即终判)
+updated: 2026-10-01 (轮 17 验收:AMM-010 一致性 3 处修补,体系一致;v4.1 为现行宪法)
 ```
 
 ```yaml
