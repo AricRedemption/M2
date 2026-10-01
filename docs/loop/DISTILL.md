@@ -65,3 +65,18 @@
   开新会话先查锁龄+工作树遗留物,不重做已完成段。
 - 变量判定: 例外轮(体系研究/写作登记;AMM-006/007 为 p0c-prime-depth
   裁决链之后的候补工作)。
+
+### 轮 9(2026-10-01;社区蒸馏门落地轮)
+- 现状: AMM-008 问表协议入 HORIZON 并立即执行 2 笔(Dream-RSI 深挖/
+  pointer-chase 可达性先验);phase_3 复核在途(d1 至 22k 步)。
+- 问题: phase_3 出数前 P0-C′ 判读悬置;若 chance,下一预注册在
+  "加预算(社区量级参照 10^5-10^6 步)"vs"换任务"之间,需用户裁决。
+- 有效经验: ①问表的"检索颗粒度"栏是真闸——#2 的社区语言翻译
+  (multi-hop pointer chasing small transformer grokking)一次命中
+  EACL 2026+NeurIPS 2024,项目黑话(γ配额/MT-LNN)永远检不到;
+  ②判读问题的第一答案在冻结落盘数据上找(Dream-RSI 启发式,18.5h
+  死亡腿 log 免费回答 chance 平台期=先例);③连续两轮编辑事故
+  (DISTILL 错位插入/HORIZON 吃标题)都出在"替换锚点太短"——
+  old_string 用标题级锚点时,new_string 必须原样带回锚点。
+- 变量判定: 推进 current_variable=p0c-prime-depth(社区先验 #2 直接
+  喂判读链与下一预注册量级);AMM-008 机制建设=例外半轮。

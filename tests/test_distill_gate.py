@@ -44,3 +44,27 @@ def test_goals_current_variable_declared_and_atomic():
     assert m, "GOALS.md 缺 current_variable(蒸馏门锚点,AMM-005)"
     assert len(re.findall(r"(?m)^current_variable:", src)) == 1, \
         "current_variable 只允许一个(单变量纪律)"
+
+
+HORIZON = os.path.join(ROOT, "docs", "loop", "RSI-HORIZON.md")
+
+
+def test_horizon_community_gate_protocol_present():
+    """AMM-008 社区蒸馏门:问表四栏协议必须常驻 HORIZON(缺=机制退化)。"""
+    src = open(HORIZON, encoding="utf-8").read()
+    assert "社区蒸馏门协议" in src, "HORIZON 缺社区蒸馏门协议区(AMM-008)"
+    for field in ("现状", "问题", "目标", "检索颗粒度"):
+        assert field in src, f"问表缺栏: {field}(用户规格,AMM-008 依据)"
+    for rule in ("独立来源", "拒绝也留痕"):
+        assert rule in src, f"社区蒸馏门纪律缺条款: {rule}"
+
+
+def test_horizon_entries_carry_query_card():
+    """每条社区获取条目必须带问表+判定(无问表的检索=手工检索,不入账)。"""
+    src = open(HORIZON, encoding="utf-8").read()
+    blocks = re.split(r"(?m)^### #\d+", src)[1:]
+    assert blocks, "社区获取条目缺席(AMM-008 落地轮应有首批)"
+    for b in blocks:
+        body = b.split("\n## ")[0]
+        assert "**问表**" in body, "条目缺问表(检索前必填,AMM-008)"
+        assert "**判定**" in body, "条目缺判定(四分法,拒绝也留痕)"

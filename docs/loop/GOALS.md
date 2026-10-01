@@ -53,6 +53,13 @@
   例外轮显式声明原因,**连续 2 个例外轮 ⇒ BLOCKED-HUMAN**;蒸馏只在
   轮内发生,禁定时任务写入;换变量须旧变量判读落盘(或显式弃置+原因)
   后留痕切换。
+- **社区蒸馏门(AMM-008)**:检索前必填**问表**(现状/问题/目标/检索
+  颗粒度;颗粒度对齐=检索词落在"别人也遇到过的那个问题层级",太抽象
+  或太项目特定=不对齐须重写);触发=例行 ~10 产出轮/同一
+  current_variable 连续 ≥2 轮 NOT-Achieved 无进展/用户点名;≥2 独立
+  来源交叉,单源=待验证;入账 RSI-HORIZON(已具备/缺口⇒AMM 候选/
+  条件触发/拒,**拒绝也留痕**);采纳走 AMENDMENTS;零定时,检索只在
+  轮内。协议全文=RSI-HORIZON.md「社区蒸馏门协议」。
 
 ```yaml
 state: RUNNING            # RUNNING | PARKED | BLOCKED-HUMAN(PARKED 不删 .loop-lock,100min 自过期)
@@ -157,13 +164,23 @@ current_action: >-
   拒 1(并行变体探索,与单变量收敛冲突);RSI-INDEX 头部补定性/定量
   账本指针。phase_3 复核在途判读(d1 至 10k 步 mid-eval 全 chance,
   mid_eval_discipline 禁中途判)。
+  轮 9(2026-10-01)社区蒸馏门落地(AMM-008,ADOPTED;用户规格=问表
+  四栏)+Dream-RSI 深挖:问表协议入 RSI-HORIZON「社区蒸馏门协议」区
+  +测试守护;首批问表条目 #1 Dream-RSI(arXiv 2609.14858:改进在编排
+  层/冻结重放世界/判读问题第一答案在冻结落盘数据上找/探索-评估成本
+  分离——4 启发式采纳为做法层纪律,重放基建=条件触发)+#2 pointer-chase
+  可达性先验(EACL 2026:多跳=固定层数小模型结构性障碍;NeurIPS 2024:
+  隐式多跳仅经 grokking 可达,社区量级 10^5-10^6 步)——#2 直接服务
+  current_variable:phase_3 若 chance ⇒ budget_wall 有文献支撑,下一
+  预注册"加预算"量级参照 10^5-10^6 步而非 2-3×,或走"换任务另立
+  预注册"。phase_3 在途(d1 至 22k 步,mid-eval 禁中途判)。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 8 研究登记:RSI-HORIZON 对标 8 体系+AMM-006/007 PROPOSED;phase_3 复核在途)
+updated: 2026-10-01 (轮 9 社区蒸馏门 AMM-008 落地+首批 2 问表条目;phase_3 复核在途)
 ```
 
 ```yaml
