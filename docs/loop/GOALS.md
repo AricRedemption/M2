@@ -58,7 +58,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 13 判读+事故响应:d=1 判读落盘;原 d=8 腿死于 20:22 机器重启,已幂等重发(pid 40268);下轮=d=8 终评判读+readout_rule 终判
+state: RUNNING            # 轮 14 工程硬化:轮13b 工具缺口候补两项落地(双开防护跨 pidfile+PYTHONUNBUFFERED);d=8 复核臂(pid 40268)在途,下轮=d=8 终评判读+readout_rule 终判
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
   M2 循环 v1(AMM-003 拉式):训练腿跨轮的 Go 轮次循环(轮次协议/阶梯/
@@ -80,12 +80,9 @@ current_action: >-
   障碍+grokking 量级 10^5-10^6 步)喂 P0-C′ 判读链。
   轮 10(10-01)AMM-009 大道至简(GOAL-PROMPT v4.0 承重句 19→21+程序计数器
   瘦身+变动率一行仪表);phase_3 d=1 终评 chance 落盘,d=8 在途。
-  轮 11(10-01)清理轮(审计处方打包,零承重句变动)⇒ 例外轮连击(10+11)按
-  铁律触发 BLOCKED-HUMAN(解除口=回研究主线 d=8 读数或用户明示)。
-  轮 12(10-01)例外轮计数语义补丁(用户问询=明示授权):①半例外(推进为
-  主+机制为辅)不计入连击——轮 7/9 用法先于定义,账本不改;②用户明示
-  续作机制工作 ⇒ 重置连击;阈值/后果零改动。BLOCKED-HUMAN→人裁→解除
-  全链路实测通过,state 回 RUNNING。
+  轮 11(10-01)清理轮(审计处方打包,零承重句变动);例外连击(10+11)
+  触发 BLOCKED-HUMAN,轮 12 用户问询=明示授权解除(半例外不计连击+
+  明示续作重置连击,阈值/后果零改动)。
   轮 13(10-01)研究主线判读轮+事故响应:phase_3 d=1 终评按预注册口径判读
   M(1,0)=0.066=chance(k1-15 均值;k16=1.000 退化桶仅透明报告;与对照臂
   phase_1 M=0.0637 同平台)。事故:原 d=8 腿(24851,18:31 起)与 20:01 并
@@ -97,13 +94,20 @@ current_action: >-
   ETA≈10-02 上午;终判(readout_rule:d8 亦全 chance ⇒ budget_wall 判负)归
   下轮点火。清前会话 watcher 残留(kill -0 0 永等)。PR 同步遇 github 443
   不可达,推迟(AMM-004 本仓红线不破:未直推远端 main)。
+  轮 14(10-01)工程硬化轮:轮 13b 工具缺口候补两项落地——①launcher 双开
+  防护扩展到 PIDFILE 同目录全部 *.pid(2026-10-01 两次真实绕过:20:01 死
+  轮会话异 pidfile 重复发射;并行轮取证窗口内我方误删其活 pidfile 后自
+  绕);②PYTHONUNBUFFERED=1 发射 runner(stdout 块缓冲 log 滞后 ~30min
+  致两轮误判零进度);桩 fixture 增环境探针列,+2 测试守护。d=8 复核臂
+  (pid 40268)在途未动,终判仍归下轮点火。上轮(并行轮取证退出)遗留
+  锁=我方残留,本轮开场按证据链接管删除。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 13 判读+d=8 腿重启事故响应;新腿 pid 40268 在途)
+updated: 2026-10-01 (轮 14 工程硬化:双开防护跨 pidfile+unbuffered 落地;d=8 复核臂 pid 40268 在途,终判归下轮)
 ```
 
 ```yaml

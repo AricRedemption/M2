@@ -24,6 +24,11 @@
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
+# 轮 14 工程硬化:python stdout 块缓冲使 log 步数滞后真实进度可达 ~30min,
+# 两轮判读被假报零进度误导(轮 13 实测 90s 短窗撞缓冲边界);unbuffered
+# 让 log 即时反映在途状态,步速计量不再依赖长窗采样。
+export PYTHONUNBUFFERED=1
+
 PY=${P0C_PYTHON:-.venv/bin/python}
 DEVICE=${P0C_DEVICE:-mps}
 STEPS=${P0C_STEPS:-30000}
@@ -49,14 +54,21 @@ case $MODE in
     ;;
 esac
 
-# 双开防护:活 pid 不双开(死 pid 视为陈旧,直接接管)
-if [[ -f $PIDFILE ]]; then
-  oldpid=$(cat "$PIDFILE" 2>/dev/null || true)
+# 双开防护:活 pid 不双开(死 pid 视为陈旧,直接接管)。
+# 轮 14 工程硬化:防护覆盖 PIDFILE 同目录全部 *.pid——2026-10-01 事故:换一个
+# P0C_PIDFILE 即绕过单文件检查,同一 GPU 上重复发射(T1 单机=全局单训练)。
+for pf in "$PIDFILE" "$(dirname "$PIDFILE")"/*.pid; do
+  [[ -f $pf ]] || continue
+  oldpid=$(cat "$pf" 2>/dev/null || true)
   if [[ -n $oldpid ]] && kill -0 "$oldpid" 2>/dev/null; then
-    echo "已有活训练进程 pid=$oldpid,不双开。查进度: tail -f $LOG" >&2
+    if [[ $pf == "$PIDFILE" ]]; then
+      echo "已有活训练进程 pid=$oldpid,不双开。查进度: tail -f $LOG" >&2
+    else
+      echo "$pf 指向活进程 pid=$oldpid(异 pidfile 双开),不双开。查进度: tail -f $LOG" >&2
+    fi
     exit 1
   fi
-fi
+done
 
 seeds=("$@")
 [[ ${#seeds[@]} -eq 0 ]] && seeds=(0 1 2)

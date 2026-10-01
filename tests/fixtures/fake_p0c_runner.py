@@ -24,4 +24,6 @@ path = os.path.join("benchmarks", "results", "reasoning_depth.jsonl")
 os.makedirs(os.path.dirname(path), exist_ok=True)
 with open(path, "a", encoding="utf-8") as f:
     f.write(json.dumps({"mode": "fixed_sweep", "seed": seed, "tag": tag,
-                        "stub": True, "flags": flags}) + "\n")
+                        "stub": True, "flags": flags,
+                        "env_unbuffered": os.environ.get("PYTHONUNBUFFERED")
+                        }) + "\n")

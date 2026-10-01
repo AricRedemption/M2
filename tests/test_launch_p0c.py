@@ -104,6 +104,34 @@ def test_refuses_double_launch(tmp_path):
         os.remove(pidfile)
 
 
+def test_refuses_double_launch_via_other_pidfile(tmp_path):
+    """轮 14 事故补丁:换一个 P0C_PIDFILE 不得绕过双开防护——同目录任一
+    *.pid 指向活进程 ⇒ 拒绝点火(2026-10-01 两次真实绕过;T1 单机=全局
+    单训练)。"""
+    env = _env(tmp_path)
+    other = tmp_path / "other_run.pid"
+    other.write_text(str(os.getpid()))  # pytest 进程本身=活进程
+    try:
+        r = subprocess.run([LAUNCHER, "0"], env=env,
+                           capture_output=True, text=True, cwd=ROOT)
+        assert r.returncode == 1
+        assert "不双开" in (r.stdout + r.stderr)
+        assert _tag_rows() == []
+    finally:
+        other.unlink()
+
+
+def test_runner_gets_unbuffered_stdout(tmp_path):
+    """轮 14 工程硬化:launcher 必须 PYTHONUNBUFFERED=1 发射 runner——
+    stdout 块缓冲使 log 步数滞后真实进度 ~30min,判读被假报零进度误导
+    (轮 10/13 实测)。桩把环境探针写进行,断言 launcher 传到了。"""
+    env = _env(tmp_path)
+    r = subprocess.run([LAUNCHER, "0"], env=env,
+                       capture_output=True, text=True, cwd=ROOT)
+    assert r.returncode == 0, r.stderr
+    assert _tag_rows()[0]["env_unbuffered"] == "1"
+
+
 def test_control_mode_launches_transformer_only(tmp_path):
     """P0C_MODE=control(对照先行):命令行必须带 --transformer_only、
     不带 --eval_depths,且幂等/双开纪律与 sweep 模式一致。"""
