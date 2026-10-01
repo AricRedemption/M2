@@ -68,3 +68,13 @@ def test_horizon_entries_carry_query_card():
         body = b.split("\n## ")[0]
         assert "**问表**" in body, "条目缺问表(检索前必填,AMM-008)"
         assert "**判定**" in body, "条目缺判定(四分法,拒绝也留痕)"
+
+
+def test_goals_current_action_bounded():
+    """程序计数器瘦身(AMM-009):current_action 块 ≤48 行——近 2 轮
+    全文+更早轮单行;历史全文=git。块高反弹 ⇒ 本测试红,逼下一轮压缩。"""
+    src = open(GOALS, encoding="utf-8").read()
+    m = re.search(r"(?m)^current_action: >-\n(.*?)(?=^blocked_on:)", src, re.S)
+    assert m, "current_action 块缺失"
+    assert len(m.group(1).splitlines()) <= 48, \
+        f"current_action 块 {len(m.group(1).splitlines())} 行 >48(AMM-009 瘦身纪律:压缩更早轮为单行)"

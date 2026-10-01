@@ -45,21 +45,13 @@
 - **判单门**:每产出轮次提交前 direction_gate --add --round N
   --direction(四轴耦合) --evidence,再 --check-round N;连续 2 条
   DRIFT ⇒ BLOCKED-HUMAN。
-- **蒸馏门(AMM-005)**:GOALS meta 的 current_variable=当前唯一研究
-  变量(单变量;组合变量须在其预注册原子声明,如 γ配额K=2+full_mha
-  修复包);goal_check 每轮**全队列**检测达成(深位达成即弹出,不排
-  队首)+回显锚点+--audit 校验非空;每个产出轮合轮前在
-  docs/loop/DISTILL.md 追加四栏条目(现状/问题/有效经验/变量判定),
-  例外轮显式声明原因,**连续 2 个例外轮 ⇒ BLOCKED-HUMAN**;蒸馏只在
-  轮内发生,禁定时任务写入;换变量须旧变量判读落盘(或显式弃置+原因)
-  后留痕切换。
-- **社区蒸馏门(AMM-008)**:检索前必填**问表**(现状/问题/目标/检索
-  颗粒度;颗粒度对齐=检索词落在"别人也遇到过的那个问题层级",太抽象
-  或太项目特定=不对齐须重写);触发=例行 ~10 产出轮/同一
-  current_variable 连续 ≥2 轮 NOT-Achieved 无进展/用户点名;≥2 独立
-  来源交叉,单源=待验证;入账 RSI-HORIZON(已具备/缺口⇒AMM 候选/
-  条件触发/拒,**拒绝也留痕**);采纳走 AMENDMENTS;零定时,检索只在
-  轮内。协议全文=RSI-HORIZON.md「社区蒸馏门协议」。
+- **蒸馏门(AMM-005;纪律正文=GOAL-PROMPT v4.0,本区只留 GOALS 特有)**:
+  current_variable=当前唯一研究变量(单变量;组合变量须在其预注册原子
+  声明);换变量须旧变量判读落盘(或显式弃置+原因)后留痕切换。
+- **社区蒸馏门(AMM-008)**:问表四栏+颗粒度对齐纪律+触发条件+入账
+  四分法=RSI-HORIZON.md 协议区,不在本区复述;采纳走 AMENDMENTS。
+- **程序计数器瘦身(AMM-009)**:current_action 仅近 2 轮全文+更早轮
+  单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
 state: RUNNING            # RUNNING | PARKED | BLOCKED-HUMAN(PARKED 不删 .loop-lock,100min 自过期)
@@ -69,118 +61,35 @@ current_goal: >-
   纪律唯一源=docs/loop/GOAL-PROMPT-M2.md,本文件不复述)。
 current_variable: p0c-prime-depth(思考深度→能力;组合变量=γ配额K=2+full_mha 原子修复包,其余冻结;判据=verdicts/p0c_prime.prereg.v2.json,沿用 v1,no_posthoc_move)
 current_action: >-
-  轮 1(2026-09-27)循环体系 bootstrap:移植 Physic 循环体系
-  (GOAL-PROMPT-v8 语义),落地 goal_check/marathon_guard/direction_gate/
-  ignite.sh 四脚本+docs/loop/ 文档+21 测试,初始队列 4 条(见下)。
-  轮 1.5 验收修复:pop_first 隔条删除 bug(≥3 条队列吞第 3 条)+
-  ignite 漏检 PARKED+RSI T+ 计数勘误,回归测试入库(207 passed)。
-  轮 2(AMM-002)prompt 瘦身 canonical 化:v2 精简版(指针+铁律式,
-  ~20 行)升唯一点火源,v1 全文降级 ARCHIVED 存档;承重句不变式
-  门禁建立(tests/test_goal_prompt_invariants.py,17 条铁律);细则
-  (状态机/阶梯/四档/分级)自 prompt 下沉本文件细则区;阶梯④ 新增
-  RSI 夜账到期检查(防 Physic 夜账断喂 91 轮式静默失效);根因=用
-  户"太复杂了"质询+Physic AMM-037 先例(60 行→20 行,人工 Reflexion
-  治理)。轮 2 验收修复(粘贴前终检):心跳步骤 2 补回 --add 判单步
-  (v2 瘦身时误删,照字面执行会卡死在 --check-round 轮号不符)+
-  退出码 5=MODE-OFF 显式化+seed 纪律对齐 ROADMAP §5(探针 ≥3/
-  对外声明 ≥5);生命周期沙箱复验(guard→NOT-Achieved→ACHIEVED
-  弹出→audit 3=3)全通。
-  轮 3(2026-09-27)P0-C′ 发起:接管孤儿锁(前会话建锁即死,证据链=
-  锁 mtime==最后提交 mtime+零提交+零活进程)后按队列迭代——预注册
-  判负标准先行落盘(benchmarks/verdicts/p0c_prime.prereg.json:A 绝对
-  增益≥0.02 ∧ B≥2σ 配对 ∧ C grok 率非降,判负诊断四选一,k=16 退化桶
-  剔除主指标)+ reasoning_depth.py 补 --device(auto>cuda>mps>cpu)
-  + fixed-depth sweep 训练腿发射(pointer_chase 单环 mix d16/n16,
-  γ 配额 n_global_heads=2+full_mha,深度{1,2,4,8}×3 seeds×30k 步,
-  beta2=0.999/clip=0 grokking 卫生配方,T1 MPS,ETA≈69h,按 seed
-  分段落盘 jsonl,PID 记 benchmarks/results/p0c_prime_run.pid)。
-  轮 4(2026-09-27)episodic-stream:队首+次位均训练腿在途(P0-C′
-  本地 MPS / 2b-120k 服务器),按细则"训练在途≠阻塞"推进队列下一位
-  可执行项——m2_training/episodic_stream.py 落地(DATA_FORMS §2 规格:
-  Step/EventSegment/Episode 三时标层级+to_episode_stream 守门入口,
-  时间戳一等公民+单调不减校验=反模式3 的 shuffle 拒绝+SHA-256 内容
-  身份沿用 text_data.Corpus 纪律,dump/load 往返强校验防静默篡改),
-  8 测试入库(总 235 绿)。check_cmd 待该条升到队首时自然 ACHIEVED
-  弹出。下一步心跳:查 P0-C′ 进度(seed 0 d=1 在途);seed 边界=
-  判读点。
-  轮 5(2026-09-27)dpo-grpo-wiring:队首在途期间推进队列下一位——
-  DPO/GRPO 对齐损失接入真实训练:Recipe.rl_mode(默认 ""=SFT 主线
-  逐位不变;"dpo"/"grpo" 实验路径,禁 text 语料),TrainingRun 冻结
-  参考模型(init 快照)+ rl 单步路径(DPO: 答案位 chosen/错答 rejected
-  序列 logprob;GRPO: 答案位 G=4 采样 bandit+组优势+k3 KL+比率裁剪),
-  checkpoint 增量存 rl_ref_model+restore 强校验;集成测试 7 项真实
-  执行训练步(非纯数学单测),总 242 绿。check_cmd 待升队首自然弹出。
-  队列全部可执行项清空,此后心跳=P0-C′ 进度判读循环(seed 边界+
-  全落盘判决),若无产出心跳则按空审计阶梯计数。
-  轮 6(2026-10-01)事故响应+拉式驱动改造(AMM-003):登记 2026-09-28
-  训练腿死亡事故——P0-C′ 18.5h 随关机全损(seed0 深度 1/2/4 各 30k 步
-  完成+深度 8 至 23200 步,jsonl 零落盘=进程退出才批量写;点火链三重
-  死亡=ignite 从未排程+zcode CLI 本机不存在+无人监听,停摆 3.5 天零
-  自愈)。修复三件:P0-2 崩溃安全(reasoning_depth.py 逐深度/逐 seed
-  fsync 增量落盘,partial+canonical 分流,kill 中途保留已完成深度,
-  +2 测试);P0-3 发射卫生(scripts/launch_p0c.sh 逐 seed 幂等重发+
-  caffeinate -is 防睡+pidfile 双开拒,+2 测试);AMM-003 拉式驱动
-  (GOAL-PROMPT-M2 v3.0 Go 轮次制:开场三查+合轮删锁+"绝不中途弃轮"
-  换形"绝不主动结束回合",锁语义=轮内互斥,ignite 降可选后备,不变式
-  测试同步改订;GOALS 细则区轮次化)。RSI 夜账补账轮 2-6。事故判读:
-  死亡训练腿 eval 全部 chance 平台期(M≈0.065-0.069 vs 0.0625,k16=
-  1.000 管道自洽,loss≈2.71≈15/16·ln16),初判 budget_wall 方向,
-  待 transformer 对照终判。待用户裁决二项:①git push 403(AwareLiquid/
-  M2 远端拒绝 AricRedemption 账号,本地 8 提交未推);②P0-C′ 重发方案
-  (chance 平台期早停条款+transformer 对照先行;签收前不动 GPU)。
-  轮 7(2026-10-01)两裁定落地+对照先行发射:①PR 流(AMM-004,ADOPTED):
-  实测主仓 push:false ⇒ fork(AricRedemption/M2)分支 round-6-amm003 +
-  PR AwareLiquid/M2#1,轮 3-6 共 8 提交进入可备份可评审态,merge 待主仓
-  维护者;②P0-C′ 对照先行(prereg v2=p0c_prime.prereg.v2.json:hypothesis/
-  metrics/判据/诊断逐字沿用 v1,执行改 phase1 对照单发→readout→phase2
-  全量重发|phase3 复核→budget_wall;死亡腿 log 降级 exploratory 不入指标;
-  mid-eval 10k/20k 只写 partial 不早停)。设施:reasoning_depth.py
-  +--transformer_only/--mid_eval,launcher +P0C_MODE=control|sweep+
-  P0C_SKIP_TRANSFORMER 省预算旋钮,+5 测试(总 250 绿)。MPS 实测对照
-  300 步/19s ⇒ phase_1 ETA≈30min(6h/depth 为 MT-LNN 腿扫描速度,对照
-  臂成本塌缩,当轮可判读)。对照腿已发射 T1 MPS:launcher pid 96600/
-  训练 pid 96611,tag=p0c_prime_v2_control,caffeinate+pidfile+增量落盘。
-  判读规则(预注册 v2 readout_rule):对照 grok(M≥0.90)⇒ phase_2 全量
-  重发(sweep+skip_transformer,tag=p0c_prime,ETA≈45-66h);对照 chance ⇒
-  phase_3 复核(1 seed×{1,8},ETA≈12h),仍 chance ⇒ budget_wall 判负登记。
-  轮 7 后段(2026-10-01 16:24 接力;前段会话判单 --add 后猝死,锁判读=
-  死轮残留[锁龄 30min49s+锁后零提交+零轮会话写入 31min,仅 detached
-  训练腿],删锁接管):①phase_1 对照判读——transformer 30k 步+grokking
-  卫生配方 M(k1..15)≈0.064=全 chance(<0.90)⇒ 按 readout_rule 机械进
-  phase_3 复核腿(MT-LNN seed0×深度{1,8},tag=p0c_prime_v2_recheck,
-  T1 MPS 发射,≈12h,复核仍 chance ⇒ budget_wall 判负);②AMM-005
-  蒸馏门落地——goal_check v2 每轮全队列达成检测(达成即弹出含深位,
-  首跑弹出滞留 2 轮的 episodic-stream/dpo-grpo-wiring)+current_variable
-  锚点回显+audit 校验+DISTILL.md 四栏经验账本(轮 1-6 补账+轮 7 起按轮
-  记账)+GOAL-PROMPT v3.1(承重句 17→19);③dpo-grpo-wiring check_cmd
-  钉死 .venv/bin/python(系统 python3 无 pytest,原命令在本机永不弹)。
-  前段勘误:叙事"总 250 绿"实为 251。
-  轮 8(2026-10-01)研究登记轮:体系优化校验(GOAL-PROMPT v3.1 承重句
-  19/19 绿+四文档交叉引用齐+RSI 夜账节奏未到期[距上账 1 产出轮])+
-  外部 RSI 体系对标检索(8 体系)→ docs/loop/RSI-HORIZON.md:已具备 5
-  (验证后改/追加账本/评估器门禁/git 存档/负结果+预注册)、缺口 2 ⇒
-  AMM-006(ExpeL 式经验检索-精炼闭环)+AMM-007(宪法变动率仪表)均
-  PROPOSED 待用户点火、条件触发 1(Dream-RSI 重放=进 agent 训练线后)、
-  拒 1(并行变体探索,与单变量收敛冲突);RSI-INDEX 头部补定性/定量
-  账本指针。phase_3 复核在途判读(d1 至 10k 步 mid-eval 全 chance,
-  mid_eval_discipline 禁中途判)。
-  轮 9(2026-10-01)社区蒸馏门落地(AMM-008,ADOPTED;用户规格=问表
-  四栏)+Dream-RSI 深挖:问表协议入 RSI-HORIZON「社区蒸馏门协议」区
-  +测试守护;首批问表条目 #1 Dream-RSI(arXiv 2609.14858:改进在编排
-  层/冻结重放世界/判读问题第一答案在冻结落盘数据上找/探索-评估成本
-  分离——4 启发式采纳为做法层纪律,重放基建=条件触发)+#2 pointer-chase
-  可达性先验(EACL 2026:多跳=固定层数小模型结构性障碍;NeurIPS 2024:
-  隐式多跳仅经 grokking 可达,社区量级 10^5-10^6 步)——#2 直接服务
-  current_variable:phase_3 若 chance ⇒ budget_wall 有文献支撑,下一
-  预注册"加预算"量级参照 10^5-10^6 步而非 2-3×,或走"换任务另立
-  预注册"。phase_3 在途(d1 至 22k 步,mid-eval 禁中途判)。
+  [轮次索引:更早轮单行,全文=git log(AMM-009 瘦身,永不丢)]
+  轮 1(09-27)循环 bootstrap+验收修复(pop_first 隔条删除 bug)。
+  轮 2(09-27)AMM-002 prompt 瘦身 canonical 化+17 条不变式测试。
+  轮 3(09-27)P0-C′ 发射:预注册 v1+fixed sweep(T1 MPS)。
+  轮 4(09-27)episodic-stream 落地(DATA_FORMS §2)。
+  轮 5(09-27)dpo-grpo-wiring 接线(rl 单步路径,默认关)。
+  轮 6(10-01)AMM-003 拉式驱动+09-28 事故响应(fsync 增量+幂等发射)。
+  轮 7(10-01)AMM-004 PR 流(fork+PR#1)+AMM-005 蒸馏门(goal_check
+  全队列+current_variable+DISTILL)+P0-C′ 对照先行(phase_1 chance ⇒
+  phase_3 复核发射;前段会话猝死,锁判读取证后接力收编)。
+  轮 8(10-01)研究登记:RSI-HORIZON 对标 8 体系(已具备 5/缺口 2)。
+  轮 9(10-01)AMM-008 社区蒸馏门(问表四栏)+Dream-RSI 4 启发式+
+  pointer-chase 可达性先验(EACL 2026 结构性障碍+NeurIPS 2024 仅经
+  grokking 可达,量级 10^5-10^6 步)喂 P0-C′ 判读链。
+  轮 10(10-01)AMM-009 大道至简:GOAL-PROMPT v4.0(蒸馏门全量进宪法:
+  读回环=步骤 1/DISTILL 四栏=步骤 3/单变量+问表=铁律;承重句 19→21,
+  原 19 条零语义变化)+程序计数器瘦身(current_action 近 2 轮全文+
+  更早单行,git=全文档案,块高 ≤48 行测试守护)+RSI-INDEX 一行宪法
+  变动率仪表(AMM-007 简化版)+AMM-006 读回环并入采纳(精炼轮暂缓,
+  账本 ≥10 条再议)。phase_3 复核在途:d=1 完成(终评 k1-15 全 chance,
+  partial 已落盘),d=8 训练中(≈6h 后终评;readout_rule:仍 chance ⇒
+  budget_wall 判负,加预算量级参照社区先验 10^5-10^6 步)。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 9 社区蒸馏门 AMM-008 落地+首批 2 问表条目;phase_3 复核在途)
+updated: 2026-10-01 (轮 10 AMM-009 大道至简:蒸馏门全量进宪法 v4.0+程序计数器瘦身;phase_3 d8 在途)
 ```
 
 ```yaml
