@@ -45,16 +45,20 @@ from mt_lnn import MTLNNConfig, MTLNNModel
 from benchmarks.baselines import BaselineConfig, ModernCausalTransformer
 from benchmarks.reasoning_tasks import make_generator, gen_pointer_chase, gen_parity
 
-RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                       "results", "reasoning_depth.jsonl")
+# 轮 20 隔离旋钮:P0C_RESULTS_DIR 重定向账本目录(默认=生产路径不变)。
+# 动机:launcher 控制流测试曾把 canonical jsonl 当沙箱,purge 的读改写
+# 窗口与真实 fsync 追加存在吞行竞争;测试/干跑一律经本旋钮指向沙箱。
+_RESULTS_DIR = (os.environ.get("P0C_RESULTS_DIR")
+                or os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                "results"))
+RESULTS = os.path.join(_RESULTS_DIR, "reasoning_depth.jsonl")
 # Crash-safe partial ledger: one line per completed (seed, depth) run —
 # the 2026-09-28 incident lost 18.5h (3 complete depth-runs' evals) to a
 # process kill because the canonical jsonl flushed only at process exit.
 # Partials are NOT canonical rows (verdict computation reads RESULTS only);
 # they exist so mid-flight rounds can judge progress and a kill loses at
 # most one depth-run of *information*.
-PARTIALS = os.path.join(os.path.dirname(RESULTS),
-                        "reasoning_depth.partial.jsonl")
+PARTIALS = os.path.join(_RESULTS_DIR, "reasoning_depth.partial.jsonl")
 
 
 def _append_jsonl(path, row):

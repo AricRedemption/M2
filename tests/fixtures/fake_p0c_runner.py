@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """tests/fixtures/fake_p0c_runner.py — launch_p0c.sh 控制流测试专用桩。
 
-解析 --seeds/--tag,向 canonical jsonl 追加一行 stub 行后退出 0。
-绝不执行真实训练;tag 由调用方保证为测试专用 tag。
+解析 --seeds/--tag,向结果账本追加一行 stub 行后退出 0。
+绝不执行真实训练;账本目录经 P0C_RESULTS_DIR 沙箱化(轮 20),与真实
+runner 的同一旋钮对齐;未设时回落生产相对路径(干跑兼容)。
 """
 import json
 import os
@@ -20,7 +21,9 @@ for i, a in enumerate(argv):
                "--skip_transformer"):
         flags.append(a)
 
-path = os.path.join("benchmarks", "results", "reasoning_depth.jsonl")
+path = os.path.join(os.environ.get("P0C_RESULTS_DIR",
+                                   os.path.join("benchmarks", "results")),
+                    "reasoning_depth.jsonl")
 os.makedirs(os.path.dirname(path), exist_ok=True)
 with open(path, "a", encoding="utf-8") as f:
     f.write(json.dumps({"mode": "fixed_sweep", "seed": seed, "tag": tag,

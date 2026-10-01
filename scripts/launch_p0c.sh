@@ -21,6 +21,8 @@
 #   P0C_DEVICE=cpu P0C_STEPS=2 P0C_DEPTHS="1 2" P0C_TAG=p0c_smoke_test \
 #     ./scripts/launch_p0c.sh 0
 #   对照先行腿: P0C_MODE=control ./scripts/launch_p0c.sh 0
+#   账本沙箱: P0C_RESULTS_DIR=/tmp/sandbox ./scripts/launch_p0c.sh 0
+#     (轮 20:runner/桩/幂等检查三方同旋钮;测试禁触 canonical 账本)
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
@@ -35,7 +37,7 @@ STEPS=${P0C_STEPS:-30000}
 DEPTHS=${P0C_DEPTHS:-1 2 4 8}
 MID_EVAL=${P0C_MID_EVAL:-10000 20000}
 MODE=${P0C_MODE:-sweep}
-RESULTS=benchmarks/results/reasoning_depth.jsonl
+RESULTS=${P0C_RESULTS_DIR:-benchmarks/results}/reasoning_depth.jsonl
 
 case $MODE in
   sweep)

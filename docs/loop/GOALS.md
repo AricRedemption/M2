@@ -60,7 +60,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 19 在途跟进轮:自家锁判例留痕(guard BUSY=本循环锁);d=8 臂(pid 40268)4400/30000,出数即终判;推送欠账 2 提交(443)
+state: RUNNING            # 轮 20 工程硬化轮:账本写穿隔离修复(P0C_RESULTS_DIR+零接触回归门,269 绿);例外轮连击=1;d=8 臂(pid 40268)4800+/30000;推送欠账 2 提交(443)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
   M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
@@ -105,22 +105,24 @@ current_action: >-
   四因换形;21 fragment 零改动;例外轮连击重置)。
   轮 17(10-01)AMM-010 验收轮(用户点名):全仓一致性扫描修 3 处旧驱动
   模型残留(阶梯⑤/current_goal/HANDOFF);21 fragment 复验绿,交付 v4.1。
-  轮 18(10-01)十轮节拍轮(夜账断喂 11 产出轮):夜账轮 7-17 补账(K=0
-  终判待 d8/T+ +2/A 累计 10/8/坑复发 1 起块缓冲/EXP 23%)+HORIZON
-  复检零陈旧+例行触发推迟检索拒绝留痕+变动率 +4/窗(17→21 实证)≤6 ✓;
-  d=8 臂 3400/30000 禁中途判;推送分支+PR#2 开成,443 抖动差 1 行。
-  非例外轮(节拍=宪法例行义务)。
-  轮 19(10-01)在途跟进轮:guard 撞自家新鲜锁(BUSY),三证据判读
-  (mtime=我方合轮 touch+HEAD=我方提交+腿 pid=我方 pidfile)=本循环
-  锁,轮内继续,判例入 DISTILL;d=8 臂 4400/30000 禁中途判;推送复撞
-  443 失败,欠账=2 提交(轮 18 判单行+轮 19)延续。非例外轮,连击=0。
+  轮 18(10-01)十轮节拍轮:夜账轮 7-17 补账(K=0 待 d8/A 累计 10/8/EXP
+  23%)+复检+例行推迟留痕+变动率 +4≤6 ✓;分支+PR#2 开成。
+  轮 19(10-01)在途跟进轮:guard 撞自家新鲜锁,三证据判读=本循环锁,
+  轮内继续,判例入 DISTILL;d=8 臂 4400/30000 禁中途判;推送 443 欠账
+  =2 提交。
+  轮 20(10-01)工程硬化轮(例外轮,连击=1):三查发现 reasoning_depth
+  jsonl mtime 被测试套件推走(23:06/23:19 实证)→定位 test_launch_p0c
+  写穿规范账本(桩行入真账+purge 读改写撞 fsync 追加=吞行竞争,危及
+  d=8 终评行)→修复=P0C_RESULTS_DIR env 隔离(runner/桩/launcher 幂等
+  三方同旋钮,默认生产路径不变)+零接触回归门;验收=269 绿+canonical
+  size/mtime_ns 前后全等+零桩行;推送 443 三连败欠账延续。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 19 在途跟进:自家锁判例留痕;d=8 4400/30000;推送欠账 2 提交延续)
+updated: 2026-10-01 (轮 20 工程硬化:账本隔离修复验收全等;例外轮连击=1;d=8 在途)
 ```
 
 ```yaml
