@@ -38,6 +38,21 @@ def test_distill_append_only_no_revision_markers():
         "蒸馏账本禁改历史:出现删改痕迹"
 
 
+def test_distill_last_entry_carries_cadence_distance():
+    """AMM-011 节拍距机械计数:轮次 ≥85 的最新条目必带「节拍距」行。
+    读回环(宪法步骤 1 读 DISTILL 尾部 2 条)顺路可见 ⇒ N≥10 当轮节拍,
+    不靠自觉数数(轮 19-83 断喂 65 轮的教训)。历史条目豁免(≤84:
+    84=MODE-OFF 终止轮,死于旧协议):账本追加式禁改历史,本测试只对
+    新条目生效。"""
+    entries = distill_entries()
+    title, body = entries[-1]
+    m = re.search(r"轮 (\d+)", title)
+    if not m:
+        return
+    assert int(m.group(1)) < 85 or "节拍距" in body, \
+        f"DISTILL 末条[{title.strip()}] 轮次 ≥85 而缺节拍距行(AMM-011:把自觉数数变成盘上机械事实)"
+
+
 def test_goals_current_variable_declared_and_atomic():
     src = open(GOALS, encoding="utf-8").read()
     m = re.search(r"(?m)^current_variable:[ \t]*(\S.*?)\s*$", src)

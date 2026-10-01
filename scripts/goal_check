@@ -8,6 +8,11 @@
      队首达成 → VERDICT: ACHIEVED(弹出+深位达成一并弹出,晋升下一位) exit 0
      队首未达 → VERDICT: NOT-Achieved(对队首迭代一步;深位达成仍弹出) exit 1
      队列空   → VERDICT: QUEUE-EMPTY(按 GOALS.md 细则区阶梯取活)     exit 2
+     余条目均人门控 → VERDICT: ALL-BLOCKED(阶梯取活+报告待授权;
+      阶梯全空 ⇒ 置 BLOCKED-HUMAN)                                 exit 6
+     (AMM-011:status=blocked-human 条目=人门控——不计数为有活、路由
+      跳过;其 check_cmd 达成弹出的语义不变。触发谓词=「无可执行项」,
+      非「队列字面为空」——防人门控腿滞留队列期间阶梯成死代码)
   2. 蒸馏锚点回显: 打印 GOALS.md 的 current_variable(单变量收敛纪律,
      例外轮须在 docs/loop/DISTILL.md 显式记账)。
   3. mode: OFF ⇒ 不动作                                           exit 5
@@ -15,7 +20,8 @@
   空/折叠 check_cmd+重复 id+current_variable 缺失+条目回显。
   每轮提交前必跑。                                                0=健康 1=问题
 
-退出码: 0=ACHIEVED 1=NOT-Achieved(或 audit 问题) 2=QUEUE-EMPTY 5=MODE-OFF
+退出码: 0=ACHIEVED 1=NOT-Achieved(或 audit 问题) 2=QUEUE-EMPTY
+        5=MODE-OFF 6=ALL-BLOCKED(无可执行项,余条目均人门控,AMM-011)
 
 轮内互斥信号: 每次运行 touch .loop-lock(供 marathon_guard 新鲜度检查)。
 恢复永远=读盘:本脚本不依赖任何会话记忆,GOALS.md 是唯一输入。
@@ -31,6 +37,9 @@ EXIT_ACHIEVED = 0
 EXIT_NOT_ACHIEVED = 1
 EXIT_QUEUE_EMPTY = 2
 EXIT_MODE_OFF = 5
+EXIT_ALL_BLOCKED = 6
+
+ALLOWED_STATUS = {"todo", "doing", "blocked-human"}
 
 
 def repo_root():
@@ -104,6 +113,11 @@ def audit(src):
             problems.append(f"[{e['id']}] check_cmd 为折叠标量,不可执行")
         if not e["status"]:
             problems.append(f"[{e['id']}] status 缺失")
+        elif e["status"] not in ALLOWED_STATUS:
+            problems.append(
+                f"[{e['id']}] 未知 status: {e['status']!r}"
+                f"(合法={sorted(ALLOWED_STATUS)},AMM-011 人门控语义)"
+            )
     if problems:
         for p in problems:
             print(f"AUDIT: {p}")
@@ -198,30 +212,49 @@ def main():
     # AMM-005 蒸馏门·达成检测: 每轮对全队列跑 check_cmd, 达成即当场弹出
     # (含深位——已完成的条目不再滞留队列排队首)。判定只信退出码,零监听。
     achieved = []
-    head_rc = None
+    rcs = {}
     for e in entries:
         rc = run_check_cmd(e["check_cmd"], root)
+        rcs[e["id"]] = rc
         if rc == 0:
             achieved.append(e["id"])
-        elif e["id"] == entries[0]["id"]:
-            head_rc = rc
     if achieved:
         write_atomic(path, pop_ids(src, span, set(achieved)))
-    remaining = [e["id"] for e in entries if e["id"] not in set(achieved)]
 
     cv = current_variable(src)
     if cv:
         print(f"蒸馏锚点 current_variable: {cv}(本轮工作映射到该变量,或在 DISTILL.md 记例外轮)")
 
+    achieved_set = set(achieved)
+    remaining_entries = [e for e in entries if e["id"] not in achieved_set]
+    blocked = [e for e in remaining_entries if e["status"] == "blocked-human"]
+    executable = [e for e in remaining_entries if e["status"] != "blocked-human"]
+    if blocked:
+        print(f"人门控条目(AMM-011:不计数为有活,路由跳过): {', '.join(e['id'] for e in blocked)}")
+
     head = entries[0]["id"]
     deep = [i for i in achieved if i != head]
     if deep:
         print(f"深位达成同轮弹出: {', '.join(deep)}(AMM-005 全队列达成检测)")
-    if head in achieved:
-        nxt = remaining[0] if remaining else "(空,QUEUE-EMPTY 阶梯)"
+    if head in achieved_set:
+        if executable:
+            nxt = executable[0]["id"]
+        elif blocked:
+            nxt = "(无可执行项:余条目均人门控 ⇒ ALL-BLOCKED 阶梯)"
+        else:
+            nxt = "(空,QUEUE-EMPTY 阶梯)"
         print(f"VERDICT: ACHIEVED — [{head}] 达成弹出,晋升: {nxt}")
         return EXIT_ACHIEVED
-    print(f"VERDICT: NOT-Achieved — [{head}] (check_cmd 退出码 {head_rc}),对当前目标迭代一步")
+    if not executable:
+        if not remaining_entries:
+            print("VERDICT: QUEUE-EMPTY — 按 GOALS.md 细则区阶梯取活(①判读后续池→②停车场→③写作→④硬化→⑤全空=空审计)")
+            return EXIT_QUEUE_EMPTY
+        print("VERDICT: ALL-BLOCKED — 无可执行项(余条目均人门控,AMM-011)")
+        print("  行动: 按 GOALS.md 细则区阶梯取活 + 当轮向用户报告待授权项;")
+        print("  阶梯全空 ⇒ 置 state: BLOCKED-HUMAN 待人裁(不走 PARKED)")
+        return EXIT_ALL_BLOCKED
+    route_head = executable[0]["id"]
+    print(f"VERDICT: NOT-Achieved — [{route_head}] (check_cmd 退出码 {rcs.get(route_head)}),对当前目标迭代一步")
     return EXIT_NOT_ACHIEVED
 
 

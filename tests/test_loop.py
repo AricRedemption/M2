@@ -174,6 +174,38 @@ class TestGoalCheckRouter:
         assert r.returncode == 1
         assert "current_variable" in r.stdout and "test-var" in r.stdout
 
+    def test_all_blocked_routes_exit6(self, tmp_path):
+        """AMM-011:余条目均人门控 ⇒ 无可执行项,exit 6(阶梯取活+
+        报告待授权;阶梯全空置 BLOCKED-HUMAN)——修「队列字面非空
+        但阶梯永远够不着」的谓词死锁(轮 21 自诊未修的复发闭环)。"""
+        root = make_root(tmp_path, entry("a", "false", status="blocked-human"))
+        r = run(GOAL_CHECK, root)
+        assert r.returncode == 6
+        assert "ALL-BLOCKED" in r.stdout
+
+    def test_blocked_head_skipped_for_executable_tail(self, tmp_path):
+        """AMM-011:人门控条目不阻塞深位可执行项的路由——队首
+        blocked-human、深位 todo ⇒ 对深位迭代一步(exit 1 路由 b)。"""
+        root = make_root(tmp_path, entry("a", "false", status="blocked-human") + entry("b", "false"))
+        r = run(GOAL_CHECK, root)
+        assert r.returncode == 1
+        assert "[b]" in r.stdout
+
+    def test_blocked_entry_achieved_still_pops(self, tmp_path):
+        """AMM-011:人门控条目 check_cmd 达成 ⇒ 照常弹出(全队列达成
+        检测语义不变;门控只影响路由计数,不影响达成判定)。"""
+        root = make_root(tmp_path, entry("a", "true", status="blocked-human"))
+        r = run(GOAL_CHECK, root)
+        assert r.returncode == 0
+        assert "- id:" not in read_goals(root)
+
+    def test_audit_flags_unknown_status(self, tmp_path):
+        """AMM-011:status 值拼错 ⇒ --audit FAIL(人门控语义进数数锚)。"""
+        root = make_root(tmp_path, entry("a", "false", status="weird"))
+        r = run(GOAL_CHECK, root, "--audit")
+        assert r.returncode == 1
+        assert "未知 status" in r.stdout
+
     def test_queue_empty(self, tmp_path):
         root = make_root(tmp_path, "")
         r = run(GOAL_CHECK, root)

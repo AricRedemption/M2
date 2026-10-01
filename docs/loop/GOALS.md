@@ -23,14 +23,16 @@
 - **状态机**:RUNNING(默认)/ PARKED(唯一非手动自停态:连续 3 次空审计
   轮触发;处置=RSI 夜账补账+快照进本文件+提交合轮,不删 .loop-lock,
   100min 自过期;重入口=用户 Go 点火:读 PARKED 快照+复述停摆原因进
-  本轮报告+置回 RUNNING)/ BLOCKED-HUMAN(需人决策)。
+  本轮报告+置回 RUNNING)/ BLOCKED-HUMAN(需人决策;含 exit 6 阶梯全空
+  =队列余项待人裁,AMM-011)。
 - **轮次单元(训练腿跨轮)**:≤30min 可出判读的=当轮发起当轮判读;
   训练腿(小时级)=发起后条目 status 置 doing,后续每轮=查进度/判读/
   落盘,训练在途≠阻塞。blocked_on 禁列在途训练项。长训练腿一律走
   scripts/launch_p0c.sh 式幂等发射器(逐 seed 判重+caffeinate 防睡+
   pidfile 双开拒+逐深度增量落盘;2026-09-28 事故教训:18.5h 随关机
   全损,jsonl 零落盘)。
-- **轮次分支阶梯(QUEUE-EMPTY 时依序取活,产出清零空审计计数)**:
+- **轮次分支阶梯(无可执行项时依序取活——exit 2 队列空,或 exit 6
+  余条目均人门控(AMM-011);产出清零空审计计数)**:
   ① 判读后续池迭代(RESULTS/ROADMAP 明示可迭代点;段内同族 ≤2);
   ② 停车场三问解停审计(AMENDMENTS 停车场逐条过"T1/T2 可动?可逆?
      无预注册门槛?",逐项记录依据);
@@ -61,7 +63,7 @@
 
 ```yaml
 state: RUNNING            # 轮 26 在途跟进轮:mid_eval 预测已立待核;d=8 臂(pid 40268)6600/30000,判据预载,出数即终判
-mode: OFF
+mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-011 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
   单目标=队列清空或推进至 BLOCKED-HUMAN(协议/阶梯/纪律唯一源=
@@ -140,8 +142,10 @@ goal_queue:
     goal: 2B 训练下一腿——60K 步(val PPL 2.556)后继续至 120K 步并登记
       val PPL;附上下文平坦 PPL 判读(128:2.72/256:2.72/512:2.68,长上下文
       无增益,判读数据侧 vs 架构侧归因并给出下一腿决策)。
+      [AMM-011:T2 服务器腿,算力四档需用户预授权 ⇒ status=blocked-human
+      人门控:goal_check 路由跳过、不计数为有活;授权后改回 todo 即入队]
     done_condition: docs/RESULTS_2B_120K.md 存在且登记 val PPL + 上下文
       PPL 判读 + 下一腿决策。
     check_cmd: test -f docs/RESULTS_2B_120K.md
-    status: todo
+    status: blocked-human
 ```
