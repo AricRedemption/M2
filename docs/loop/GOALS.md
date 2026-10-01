@@ -58,7 +58,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 13 研究主线推进轮:d=1 判读落盘,d=8 在途(ETA≈10-02 07:00);下轮=d=8 终评判读+readout_rule 终判
+state: RUNNING            # 轮 13 判读+事故响应:d=1 判读落盘;原 d=8 腿死于 20:22 机器重启,已幂等重发(pid 40268);下轮=d=8 终评判读+readout_rule 终判
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
   M2 循环 v1(AMM-003 拉式):训练腿跨轮的 Go 轮次循环(轮次协议/阶梯/
@@ -86,21 +86,24 @@ current_action: >-
   主+机制为辅)不计入连击——轮 7/9 用法先于定义,账本不改;②用户明示
   续作机制工作 ⇒ 重置连击;阈值/后果零改动。BLOCKED-HUMAN→人裁→解除
   全链路实测通过,state 回 RUNNING。
-  轮 13(10-01)研究主线判读轮:phase_3 d=1 终评按预注册口径判读
+  轮 13(10-01)研究主线判读轮+事故响应:phase_3 d=1 终评按预注册口径判读
   M(1,0)=0.066=chance(k1-15 均值;k16=1.000 退化桶仅透明报告;与对照臂
-  phase_1 M=0.0637 同平台,预算内不可达信号加强)。d=8 实测步速
-  0.67 step/s(5min 窗采样;90s 窗撞 stdout 缓冲界会假报零进度)⇒
-  ETA≈10-02 07:00;禁中途判,终判(readout_rule:d8 亦全 chance ⇒
-  budget_wall 判负登记,量级参照社区先验 10^5-10^6 步)归下一轮点火。
-  清工具残留:前会话 watcher 永等已删 control pid 文件(kill -0 0=本进程
-  组恒真),已移除。
+  phase_1 M=0.0637 同平台)。事故:原 d=8 腿(24851,18:31 起)与 20:01 并
+  行腿(来源不明,launcher seed 粒度判重致其重跑 d1)均死于 20:22 机器重启
+  ——d8 至 ~3600 步零落盘;stdout 块缓冲致 log 滞后 ~30min,"loss 0.13@
+  3600"降级为死腿 exploratory 线索不入判读(新腿可复验)。处置:幂等发射器
+  P0C_DEPTHS="8" 单臂重发(tag 不变,d1 已判读省 ~3h;判据 M(1,·) 取 18:31
+  冻结 partial 行,M(8,·) 取新腿终评,来源轮内留痕),pid 40268 在途
+  ETA≈10-02 上午;终判(readout_rule:d8 亦全 chance ⇒ budget_wall 判负)归
+  下轮点火。清前会话 watcher 残留(kill -0 0 永等)。PR 同步遇 github 443
+  不可达,推迟(AMM-004 本仓红线不破:未直推远端 main)。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 13 研究主线判读轮:d=1 终评 chance 判读落盘,d=8 在途 ETA≈10-02 07:00)
+updated: 2026-10-01 (轮 13 判读+d=8 腿重启事故响应;新腿 pid 40268 在途)
 ```
 
 ```yaml
