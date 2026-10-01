@@ -148,13 +148,22 @@ current_action: >-
   记账)+GOAL-PROMPT v3.1(承重句 17→19);③dpo-grpo-wiring check_cmd
   钉死 .venv/bin/python(系统 python3 无 pytest,原命令在本机永不弹)。
   前段勘误:叙事"总 250 绿"实为 251。
+  轮 8(2026-10-01)研究登记轮:体系优化校验(GOAL-PROMPT v3.1 承重句
+  19/19 绿+四文档交叉引用齐+RSI 夜账节奏未到期[距上账 1 产出轮])+
+  外部 RSI 体系对标检索(8 体系)→ docs/loop/RSI-HORIZON.md:已具备 5
+  (验证后改/追加账本/评估器门禁/git 存档/负结果+预注册)、缺口 2 ⇒
+  AMM-006(ExpeL 式经验检索-精炼闭环)+AMM-007(宪法变动率仪表)均
+  PROPOSED 待用户点火、条件触发 1(Dream-RSI 重放=进 agent 训练线后)、
+  拒 1(并行变体探索,与单变量收敛冲突);RSI-INDEX 头部补定性/定量
+  账本指针。phase_3 复核在途判读(d1 至 10k 步 mid-eval 全 chance,
+  mid_eval_discipline 禁中途判)。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
-  docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL}.md
-updated: 2026-10-01 (轮 7 合轮:前段 AMM-004 PR 流+对照先行发射+phase_1 判读;后段接力 AMM-005 蒸馏门+phase_3 复核发射)
+  docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
+updated: 2026-10-01 (轮 8 研究登记:RSI-HORIZON 对标 8 体系+AMM-006/007 PROPOSED;phase_3 复核在途)
 ```
 
 ```yaml
