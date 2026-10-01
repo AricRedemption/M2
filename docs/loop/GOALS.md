@@ -48,6 +48,9 @@
 - **蒸馏门(AMM-005;纪律正文=GOAL-PROMPT v4.0,本区只留 GOALS 特有)**:
   current_variable=当前唯一研究变量(单变量;组合变量须在其预注册原子
   声明);换变量须旧变量判读落盘(或显式弃置+原因)后留痕切换。
+  例外轮计数(轮 12 补):只认全例外(主判定=例外);半例外(推进为主+
+  机制为辅)不断连击;用户明示续作机制工作 ⇒ 重置连击(明示=人裁,
+  留痕于当轮 DISTILL);阈值 2 与后果不动。
 - **社区蒸馏门(AMM-008)**:问表四栏+颗粒度对齐纪律+触发条件(例行=
   十轮节拍③,定义=RSI-INDEX)+入账四分法=RSI-HORIZON.md 协议区,不在
   本区复述;采纳走 AMENDMENTS。
@@ -55,7 +58,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: BLOCKED-HUMAN      # 例外轮连击(轮10+11=2)按铁律转 BLOCKED-HUMAN;解除口=下一轮回研究主线(phase_3 d=8 读数)或用户明示改锚/继续机制工作
+state: RUNNING            # 轮 12 用户问询例外轮机制=明示授权,连击重置(计数语义见细则区蒸馏门 bullet);下轮=phase_3 d=8 读数回研究主线
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
   M2 循环 v1(AMM-003 拉式):训练腿跨轮的 Go 轮次循环(轮次协议/阶梯/
@@ -75,12 +78,8 @@ current_action: >-
   轮 8(10-01)研究登记:RSI-HORIZON 对标 8 体系(已具备 5/缺口 2)。
   轮 9(10-01)AMM-008 社区蒸馏门(问表四栏)+社区先验(多跳结构性
   障碍+grokking 量级 10^5-10^6 步)喂 P0-C′ 判读链。
-  轮 10(10-01)AMM-009 大道至简:GOAL-PROMPT v4.0(蒸馏门全量进宪法:
-  读回环=步骤 1/DISTILL 四栏=步骤 3/单变量+问表=铁律;承重句 19→21,
-  原 19 条零语义变化)+程序计数器瘦身(current_action 近 2 轮全文+
-  更早单行,git=全文档案,块高 ≤48 行测试守护)+RSI-INDEX 一行宪法
-  变动率仪表(AMM-007 简化版)+AMM-006 读回环并入采纳(精炼轮暂缓,
-  账本 ≥10 条再议)。phase_3 复核在途:d=1 完成(终评 k1-15 全 chance,
+  轮 10(10-01)AMM-009 大道至简:GOAL-PROMPT v4.0 蒸馏门全量进宪法
+  (承重句 19→21)+程序计数器瘦身(≤48 行测试守护)+变动率一行仪表。phase_3 复核在途:d=1 完成(终评 k1-15 全 chance,
   partial 已落盘),d=8 训练中(≈6h 后终评;readout_rule:仍 chance ⇒
   budget_wall 判负,加预算量级参照社区先验 10^5-10^6 步)。
   轮 11(10-01)清理轮(审计处方打包,零承重句变动):①十轮节拍四钟
@@ -90,13 +89,18 @@ current_action: >-
   RSI-INDEX 头部去重。**例外轮连击(轮 10+11=2)⇒ 铁律转 BLOCKED-HUMAN**
   (体系正确叫停"连续改体系"):待用户裁决——下一轮回研究主线(phase_3
   d=8 读数,readout_rule 终判)即解除,或明示继续机制工作/改锚。
+  轮 12(10-01)例外轮计数补丁(BLOCKED-HUMAN 下用户问询=明示授权):
+  ①半例外(推进为主+机制为辅,轮 7/9 已用)不计入连击——用法先于
+  定义,账本已记不改;②用户明示续作机制工作 ⇒ 重置连击。补丁 3 行,
+  阈值/后果零改动;state 回 RUNNING,连击归零。phase_3 d=8 在途
+  (2k/30k 步);下轮=d=8 读数(readout_rule 终判)回研究主线。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 11 清理轮:十轮节拍合一+死件归档;例外轮连击 ⇒ BLOCKED-HUMAN,待裁回研究主线;phase_3 d8 在途)
+updated: 2026-10-01 (轮 12 例外轮计数补丁,用户明示授权重置连击,回 RUNNING;phase_3 d8 在途)
 ```
 
 ```yaml
