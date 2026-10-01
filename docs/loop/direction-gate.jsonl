@@ -117,3 +117,4 @@
 {"round": 112, "direction": "数学/代码推理(p0c-prime-depth 在途跟进;零方向漂移)", "evidence": "d=8 臂 18000/30000 chance 平台;欠账 0", "ts": 1790888275}
 {"round": 113, "direction": "数学/代码推理(p0c-prime-depth 在途跟进;零方向漂移)", "evidence": "d=8 臂 18000/30000 chance 平台;节拍四事全执行;D=5 方向动作=prereg 复验+落账路径;欠账 0", "ts": 1790888432}
 {"round": 114, "direction": "数学/代码推理(p0c-prime-depth 在途跟进;零方向漂移)", "evidence": "d=8 臂 18000/30000 chance 平台;欠账 0", "ts": 1790888491}
+{"round": 115, "direction": "数学/代码推理(p0c-prime-depth 在途跟进;零方向漂移)", "evidence": "d=8 臂 18200/30000 chance 平台;114 推送远端实测实落欠账 0", "ts": 1790888717}
