@@ -63,7 +63,7 @@
 
 ```yaml
 state: RUNNING            # 轮 26 在途跟进轮:mid_eval 预测已立待核;d=8 臂(pid 40268)6600/30000,判据预载,出数即终判
-mode: OFF
+mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
   单目标=队列清空或推进至 BLOCKED-HUMAN(协议/阶梯/纪律唯一源=
@@ -121,7 +121,7 @@ current_action: >-
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
-next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
+next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区);AMM-012 已落地(守望段方向距 D≥5+EXP 冻结豁免,详见 AMENDMENTS)——下轮起 DISTILL 必带方向距行;任务细节(closer 白名单/轮 98/99 账实不符)按用户指令留循环自处置(轮 105 已自查登记)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
 updated: 2026-10-02 (轮 27 在途跟进:mid_eval 预测待事件落地核;d=8 在途)

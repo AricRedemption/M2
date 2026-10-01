@@ -53,6 +53,20 @@ def test_distill_last_entry_carries_cadence_distance():
         f"DISTILL 末条[{title.strip()}] 轮次 ≥85 而缺节拍距行(AMM-011:把自觉数数变成盘上机械事实)"
 
 
+def test_distill_last_entry_carries_direction_distance():
+    """AMM-012 方向距机械计数:轮次 ≥106 的最新条目必带「方向距」行。
+    守望段(队首 doing+训练在途)方向动作由 D≥5 独立触发——十轮一度的
+    节拍⑤实测仍方向饥饿(轮 19-105 守望段近乎零方向迭代);非守望轮
+    记 D=— 同样满足本行存在性。历史条目(≤105)豁免:追加式禁改历史。"""
+    entries = distill_entries()
+    title, body = entries[-1]
+    m = re.search(r"轮 (\d+)", title)
+    if not m:
+        return
+    assert int(m.group(1)) < 106 or "方向距" in body, \
+        f"DISTILL 末条[{title.strip()}] 轮次 ≥106 而缺方向距行(AMM-012:守望段方向驱动不靠自觉)"
+
+
 def test_goals_current_variable_declared_and_atomic():
     src = open(GOALS, encoding="utf-8").read()
     m = re.search(r"(?m)^current_variable:[ \t]*(\S.*?)\s*$", src)
