@@ -107,14 +107,13 @@ current_action: >-
   轮 22(10-01)在途跟进:5800+/30000 禁中途判;隔离二次验;清偿后快进首验。
   轮 23(10-01)在途跟进轮:6000/30000 禁中途判;partial 冻结预测验证
   (18:31 未动=未到 mid_eval 旁证,与步速互证 ETA)。非例外轮,连击=0。
-  轮 24(10-02)终判预演轮:prereg v2 判据逐字装填(d8 chance ⇒
-  budget_wall 判负=负结果同等登记,双归因+加预算换算 ⇒ T2/T3 人裁
-  =BLOCKED-HUMAN);确认 M(8,0) 落账路径(depth 完成→partial fsync,
-  单深度腿随即 canonical);ROADMAP §4.5 登记位确认。非例外轮,连击=0。
-  轮 25(10-02)在途跟进轮:6400+/30000 禁中途判;PR #2 实测 MERGEABLE
-  (24 提交对上游零冲突,无 CI 配置)。非例外轮,连击=0。
+  轮 24(10-02)终判预演:prereg v2 判据装填+落账路径+登记位确认(出数即机械核对)。
+  轮 25(10-02)在途跟进:6400+/30000 禁中途判;PR #2 MERGEABLE 实测。
   轮 26(10-02)在途跟进轮:6600/30000 禁中途判;立 mid_eval 预测
   (partial 增 mid_eval_partial 行+mtime 18:31→约 01:53,下轮核对)。
+  非例外轮,连击=0。
+  轮 27(10-02)在途跟进轮:6600/30000;mid_eval 预测前置条件核对成立
+  (未到 10000 步+partial 冻结=预测未到期非落空),核对窗约 01:53。
   非例外轮,连击=0。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
@@ -122,7 +121,7 @@ blocked_on: >-
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 26 在途跟进:mid_eval 预测待核;d=8 在途)
+updated: 2026-10-02 (轮 27 在途跟进:mid_eval 预测待事件落地核;d=8 在途)
 ```
 
 ```yaml
