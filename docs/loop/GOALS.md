@@ -60,7 +60,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 25 在途跟进轮:PR#2 MERGEABLE 实测;d=8 臂(pid 40268)6400+/30000,判据已预载,出数即机械核对终判
+state: RUNNING            # 轮 26 在途跟进轮:mid_eval 预测已立待核;d=8 臂(pid 40268)6600/30000,判据预载,出数即终判
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
   M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
@@ -104,9 +104,7 @@ current_action: >-
   轮 21(10-01)在途跟进:自家锁判例照用;隔离修复轮内首验;推送 force-
   with-lease 清偿欠账归 0(非快进拒=防御正常,先 fetch 再 lease)。
   非例外轮,连击归 0。
-  轮 22(10-01)在途跟进轮:5800+/30000 禁中途判,mid_eval 未到;隔离
-  修复连续第二轮 pytest 零触碰(指纹三次全等);清偿后首次推送=快进。
-  非例外轮,连击=0。
+  轮 22(10-01)在途跟进:5800+/30000 禁中途判;隔离二次验;清偿后快进首验。
   轮 23(10-01)在途跟进轮:6000/30000 禁中途判;partial 冻结预测验证
   (18:31 未动=未到 mid_eval 旁证,与步速互证 ETA)。非例外轮,连击=0。
   轮 24(10-02)终判预演轮:prereg v2 判据逐字装填(d8 chance ⇒
@@ -115,13 +113,16 @@ current_action: >-
   单深度腿随即 canonical);ROADMAP §4.5 登记位确认。非例外轮,连击=0。
   轮 25(10-02)在途跟进轮:6400+/30000 禁中途判;PR #2 实测 MERGEABLE
   (24 提交对上游零冲突,无 CI 配置)。非例外轮,连击=0。
+  轮 26(10-02)在途跟进轮:6600/30000 禁中途判;立 mid_eval 预测
+  (partial 增 mid_eval_partial 行+mtime 18:31→约 01:53,下轮核对)。
+  非例外轮,连击=0。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 25 在途跟进:判据预载待出数;d=8 在途)
+updated: 2026-10-02 (轮 26 在途跟进:mid_eval 预测待核;d=8 在途)
 ```
 
 ```yaml
