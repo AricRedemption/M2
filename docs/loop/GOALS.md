@@ -62,7 +62,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 132 在途跟进:d=8 臂(pid 40268)19200/30000 chance 平台,mid_eval@20000 约 06:15/终评约 09:45 待核,禁中途判
+state: RUNNING            # 轮 133 节拍轮(N=10)+D=5 审计轮:d=8 臂(pid 40268)19200/30000 chance 平台,mid_eval@20000 约 06:15/终评约 09:45 待核,禁中途判
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
@@ -116,7 +116,7 @@ blocked_on: >-
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区);AMM-012 已落地(守望段方向距 D≥5+EXP 冻结豁免,详见 AMENDMENTS)——下轮起 DISTILL 必带方向距行;任务细节(closer 白名单/轮 98/99 账实不符)按用户指令留循环自处置(轮 105 已自查登记);终评判读(约 09:45)按 DISTILL 轮 118+128 预案机械执行(verdict schema 见 128):数据=tag p0c_prime_v2_recheck 行(d=1 取 18:31 冻结 partial 判例)+对照 v2_control,M 口径排除 k=16 桶脚本化计算,单 seed 分支全走 prereg negative_diagnoses,零现场发挥
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 132 在途跟进;d=8 在途 19200/30000)
+updated: 2026-10-02 (轮 133 节拍+停车场复核;d=8 在途 19200/30000)
 ```
 
 ```yaml
