@@ -187,7 +187,7 @@ def main():
         cv = current_variable(src)
         if cv:
             print(f"蒸馏锚点 current_variable: {cv}")
-        print("VERDICT: QUEUE-EMPTY — 按 GOAL-PROMPT-M2 自主工作阶梯取活(①判读后续池→②停车场→③写作→④硬化→⑤挂起)")
+        print("VERDICT: QUEUE-EMPTY — 按 GOALS.md 细则区阶梯取活(①判读后续池→②停车场→③写作→④硬化→⑤全空=空审计)")
         return EXIT_QUEUE_EMPTY
 
     for e in entries:

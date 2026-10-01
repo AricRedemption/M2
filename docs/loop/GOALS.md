@@ -12,8 +12,8 @@
 - **驱动模型(AMM-003,拉式;AMM-004 PR 流)**:用户在 Desktop Go 模式点火,
   一轮自包含:开场三查(状态/进程/增量)→ goal_check 路由 → 门禁全绿 →
   原子提交(+推 fork 分支/PR 同步,禁直推远端 main)→ 删锁合轮。
-  **禁 cron/launchd/定时任务/心跳监听**,调度工具
-  一律不创建;ignite.sh=可选后备(仅用户显式要求时启用)。
+  **禁 cron/launchd/定时任务/心跳监听**,调度工具一律不创建
+  (ignite.sh+agent-cmd.conf 已于轮 11 归档删除,git 可逆)。
 - **锁判读(marathon_guard exit 1 时)**:最后提交晚于锁 mtime(锁后已
   提交=已合轮残留)或 锁龄≥30min+锁后零提交+零活进程(死轮残留)
   ⇒ 删锁接管;锁龄<30min+锁后零提交+有活进程迹象 ⇒ 疑真并行轮,
@@ -48,14 +48,15 @@
 - **蒸馏门(AMM-005;纪律正文=GOAL-PROMPT v4.0,本区只留 GOALS 特有)**:
   current_variable=当前唯一研究变量(单变量;组合变量须在其预注册原子
   声明);换变量须旧变量判读落盘(或显式弃置+原因)后留痕切换。
-- **社区蒸馏门(AMM-008)**:问表四栏+颗粒度对齐纪律+触发条件+入账
-  四分法=RSI-HORIZON.md 协议区,不在本区复述;采纳走 AMENDMENTS。
+- **社区蒸馏门(AMM-008)**:问表四栏+颗粒度对齐纪律+触发条件(例行=
+  十轮节拍③,定义=RSI-INDEX)+入账四分法=RSI-HORIZON.md 协议区,不在
+  本区复述;采纳走 AMENDMENTS。
 - **程序计数器瘦身(AMM-009)**:current_action 仅近 2 轮全文+更早轮
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # RUNNING | PARKED | BLOCKED-HUMAN(PARKED 不删 .loop-lock,100min 自过期)
-mode: ON                  # 循环总开关(OFF ⇒ goal_check/ignite 均不动作)
+state: BLOCKED-HUMAN      # 例外轮连击(轮10+11=2)按铁律转 BLOCKED-HUMAN;解除口=下一轮回研究主线(phase_3 d=8 读数)或用户明示改锚/继续机制工作
+mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
   M2 循环 v1(AMM-003 拉式):训练腿跨轮的 Go 轮次循环(轮次协议/阶梯/
   纪律唯一源=docs/loop/GOAL-PROMPT-M2.md,本文件不复述)。
@@ -72,9 +73,8 @@ current_action: >-
   全队列+current_variable+DISTILL)+P0-C′ 对照先行(phase_1 chance ⇒
   phase_3 复核发射;前段会话猝死,锁判读取证后接力收编)。
   轮 8(10-01)研究登记:RSI-HORIZON 对标 8 体系(已具备 5/缺口 2)。
-  轮 9(10-01)AMM-008 社区蒸馏门(问表四栏)+Dream-RSI 4 启发式+
-  pointer-chase 可达性先验(EACL 2026 结构性障碍+NeurIPS 2024 仅经
-  grokking 可达,量级 10^5-10^6 步)喂 P0-C′ 判读链。
+  轮 9(10-01)AMM-008 社区蒸馏门(问表四栏)+社区先验(多跳结构性
+  障碍+grokking 量级 10^5-10^6 步)喂 P0-C′ 判读链。
   轮 10(10-01)AMM-009 大道至简:GOAL-PROMPT v4.0(蒸馏门全量进宪法:
   读回环=步骤 1/DISTILL 四栏=步骤 3/单变量+问表=铁律;承重句 19→21,
   原 19 条零语义变化)+程序计数器瘦身(current_action 近 2 轮全文+
@@ -83,13 +83,20 @@ current_action: >-
   账本 ≥10 条再议)。phase_3 复核在途:d=1 完成(终评 k1-15 全 chance,
   partial 已落盘),d=8 训练中(≈6h 后终评;readout_rule:仍 chance ⇒
   budget_wall 判负,加预算量级参照社区先验 10^5-10^6 步)。
+  轮 11(10-01)清理轮(审计处方打包,零承重句变动):①十轮节拍四钟
+  合一(夜账/HORIZON 复检/社区例行/变动率窗口→唯一定义处=RSI-INDEX);
+  ②死件归档(ignite.sh+agent-cmd.conf 删除,git 可逆);③HORIZON
+  AMM-006/007 章节各压一行;④goal_check 队列空提示语对齐;⑤DISTILL/
+  RSI-INDEX 头部去重。**例外轮连击(轮 10+11=2)⇒ 铁律转 BLOCKED-HUMAN**
+  (体系正确叫停"连续改体系"):待用户裁决——下一轮回研究主线(phase_3
+  d=8 读数,readout_rule 终判)即解除,或明示继续机制工作/改锚。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 10 AMM-009 大道至简:蒸馏门全量进宪法 v4.0+程序计数器瘦身;phase_3 d8 在途)
+updated: 2026-10-01 (轮 11 清理轮:十轮节拍合一+死件归档;例外轮连击 ⇒ BLOCKED-HUMAN,待裁回研究主线;phase_3 d8 在途)
 ```
 
 ```yaml

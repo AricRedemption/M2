@@ -26,7 +26,7 @@ ARCHIVED = os.path.join(ROOT, "docs", "loop", "GOAL-PROMPT-M2-v1-ARCHIVED.md")
 def text_fence():
     src = open(CANONICAL, encoding="utf-8").read()
     blocks = re.findall(r"```text\n(.*?)```", src, re.S)
-    assert blocks, "canonical prompt 缺少 ```text 围栏(ignite 提取将失败)"
+    assert blocks, "canonical prompt 缺少 ```text 围栏(点火提取将失败)"
     return blocks[0]
 
 

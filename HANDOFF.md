@@ -14,12 +14,14 @@ canonical 化（AMM-002，参照 Physic AMM-037 先例）——v2 精简版（~2
 2026-09-27：新增 [循环体系](docs/loop/GOAL-PROMPT-M2.md) —— 移植
 AwareLiquid-Physic 循环体系（GOAL-PROMPT-v8/AMM-035 语义）：`GOALS.md`
 =程序计数器+goal_queue（4 条初始队列：P0-C′ 深度复测/2B 120K 腿/情节流/
-RL 接线），`scripts/goal_check`=心跳路由器（ACHIEVED 弹出/NOT-Achieved
-迭代/QUEUE-EMPTY 阶梯，`--audit` 数数锚），`scripts/marathon_guard`=锁检，
-`scripts/direction_gate`=提交前判单门（四轴耦合声明），`scripts/ignite.sh`
-=跨 agent cron 点火器，`docs/loop/RSI-INDEX.md`=RSI 指数账本（K/E/T/D/T+
-/A/EXP，T=跨 seed 复现率为核心）。与源版差异：无 PR 层（main 直接提交）、
-训练腿跨心跳（>30min 训练=status doing，心跳=判读落盘）。机制改动只走
+RL 接线），`scripts/goal_check`=轮次路由器（每轮全队列达成检测/深位
+弹出/current_variable 锚点回显，`--audit` 数数锚），`scripts/marathon_guard`
+=锁检，`scripts/direction_gate`=提交前判单门（四轴耦合声明），驱动=用户
+Desktop Go 拉式点火（AMM-003，禁 cron/定时，ignite.sh 已于轮 11 归档），
+同步=PR 流（AMM-004：fork 分支+PR，禁直推远端 main）。账本三件：
+`RSI-INDEX.md`=定量指数+十轮节拍唯一定义处，`DISTILL.md`=四栏经验账本
+（AMM-005 蒸馏门），`RSI-HORIZON.md`=外部对标+社区蒸馏门协议（AMM-008
+问表）。训练腿跨轮（>30min 训练=status doing，轮次=判读落盘）。机制改动只走
 [AMENDMENTS](docs/loop/AMENDMENTS.md) 提案（AMM-001 已采纳）。马拉松重启
 =粘贴 GOAL-PROMPT-M2.md 的 text 围栏。全仓测试 206 passed（185+21）。
 
