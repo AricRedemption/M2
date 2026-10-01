@@ -60,7 +60,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 24 终判预演轮:prereg v2 判据装填+落账路径+登记位确认;d=8 臂(pid 40268)6200+/30000,出数即按预载判据终判
+state: RUNNING            # 轮 25 在途跟进轮:PR#2 MERGEABLE 实测;d=8 臂(pid 40268)6400+/30000,判据已预载,出数即机械核对终判
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
   M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
@@ -99,14 +99,11 @@ current_action: >-
   轮 18(10-01)十轮节拍轮:夜账轮 7-17 补账(K=0 待 d8/A 累计 10/8/EXP 23%)+复检+例行推迟留痕+变动率 +4≤6 ✓;分支+PR#2 开成。
   轮 19(10-01)在途跟进:自家锁三证据判例(mtime/HEAD/腿 pid);推送 443 欠账=2。
   轮 20(10-01)工程硬化轮(例外轮,连击=1):三查发现 jsonl mtime 被测试
-  套件推走(23:06/23:19 实证)→定位 test_launch_p0c 写穿规范账本(purge
-  读改写撞 fsync 追加=吞行竞争)→修复=P0C_RESULTS_DIR env 三方同旋钮
-  +零接触回归门;验收=269 绿+指纹全等+零桩行。
-  轮 21(10-01)在途跟进轮:自家锁判例照用(87s 新鲜=本循环锁);d=8 臂
-  5600/30000 禁中途判,mid_eval 未到;jsonl 自轮 20 隔离修复后全套
-  pytest 零触碰=隔离真实轮内首验;推送第 5 次达远端(网络恢复)被非
-  快进拒(分支挂被 amend 的 54b5fa0=防御正常),fetch 后 force-with-
-  lease 清偿(→5642fe6),欠账归 0,PR #2 跟进。非例外轮,连击归 0。
+  套件推走→定位 test_launch_p0c 写穿规范账本(purge 撞 fsync=吞行竞争)
+  →修复=P0C_RESULTS_DIR env 三方同旋钮+零接触回归门;验收 269 绿全等。
+  轮 21(10-01)在途跟进:自家锁判例照用;隔离修复轮内首验;推送 force-
+  with-lease 清偿欠账归 0(非快进拒=防御正常,先 fetch 再 lease)。
+  非例外轮,连击归 0。
   轮 22(10-01)在途跟进轮:5800+/30000 禁中途判,mid_eval 未到;隔离
   修复连续第二轮 pytest 零触碰(指纹三次全等);清偿后首次推送=快进。
   非例外轮,连击=0。
@@ -116,13 +113,15 @@ current_action: >-
   budget_wall 判负=负结果同等登记,双归因+加预算换算 ⇒ T2/T3 人裁
   =BLOCKED-HUMAN);确认 M(8,0) 落账路径(depth 完成→partial fsync,
   单深度腿随即 canonical);ROADMAP §4.5 登记位确认。非例外轮,连击=0。
+  轮 25(10-02)在途跟进轮:6400+/30000 禁中途判;PR #2 实测 MERGEABLE
+  (24 提交对上游零冲突,无 CI 配置)。非例外轮,连击=0。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 24 终判预演:判据预载,d=8 出数即终判)
+updated: 2026-10-02 (轮 25 在途跟进:判据预载待出数;d=8 在途)
 ```
 
 ```yaml
