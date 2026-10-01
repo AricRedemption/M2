@@ -61,7 +61,7 @@
 
 ```yaml
 state: RUNNING            # 轮 26 在途跟进轮:mid_eval 预测已立待核;d=8 臂(pid 40268)6600/30000,判据预载,出数即终判
-mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
+mode: OFF
 current_goal: >-
   M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
   单目标=队列清空或推进至 BLOCKED-HUMAN(协议/阶梯/纪律唯一源=
