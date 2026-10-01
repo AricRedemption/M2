@@ -2,6 +2,10 @@
 # ignite — 跨 Agent 点火器(v1,移植自 AwareLiquid-Physic AMM-020;Ralph 式,
 # 机器级 cron/launchd 驱动,与具体 Agent 软件解耦)。
 #
+# AMM-003(2026-10-01):本脚本降级为**可选后备**点火器——驱动主路径=
+# 用户 Desktop Go 模式拉式点火(禁 cron/launchd/心跳排程)。仅用户显式
+# 要求时启用;默认不安装任何排程。
+#
 # 语义:锁新鲜(<100min)=马拉松活着 ⇒ 退出;mode=OFF 或 state≠RUNNING ⇒ 退出;
 # 否则用 docs/loop/agent-cmd.conf 配置的命令把 GOAL-PROMPT-M2 正文
 # (```text 围栏)喂给任意 agent CLI。

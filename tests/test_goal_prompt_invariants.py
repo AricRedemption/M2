@@ -6,6 +6,12 @@ AMM-018/AMM-019/AMM-036 lineage; M2 轮 1-2). Any edit to the canonical prompt
 must keep all of them -- this test is the mechanical gate (先例: v4.0 重写删掉
 "中途不停"导致轮 93 停止). Change a law deliberately => change this test in
 the same commit via an AMENDMENTS proposal, never silently.
+
+AMM-003 (2026-10-01): drive model switched to pull-based Go rounds; the
+marathon law "绝不主动结束回合" was reshaped (not deleted) into
+"绝不中途弃轮" — rounds end by design (commit = round closure), but the
+in-round protocol must complete. This is the only fragment ever changed,
+via proposal, with this test updated in the same commit.
 """
 import os
 import re
@@ -40,10 +46,10 @@ IRON_LAWS = [
     ("goal_check", "心跳路由本体"),
     ("--audit", "数数锚:GOALS 被格式化器吞行(Physic 轮 136/138/142)"),
     ("显式", "禁把管道尾巴退出码当门禁(Physic set -e 事故)"),
-    ("绝不主动结束回合", "挂起停摆三因事故(Physic 轮 409/410,AMM-036)"),
+    ("绝不中途弃轮", "Go 轮次合轮纪律(AMM-003 换形):提交即合轮、协议未走完不得停——原'绝不主动结束回合'(Physic 轮 409/410/AMM-036 挂起停摆)的拉式等价物"),
     ("连续 3 次空审计", "PARKED 上限:防空转(AMM-035)"),
     ("快照进", "上下文耗尽/挂起前状态落盘"),
-    (".loop-lock", "PARKED 不删锁;锁=心跳存活信号"),
+    (".loop-lock", "PARKED 不删锁;锁=轮内互斥(AMM-003:合轮删锁)"),
     ("只读盘", "恢复不依赖会话记忆"),
     ("git show", "编辑 GOALS 后落盘验证"),
     ("预注册", "判负标准先行(ROADMAP P0 先例)"),

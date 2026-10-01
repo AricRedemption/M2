@@ -47,6 +47,24 @@ from benchmarks.reasoning_tasks import make_generator, gen_pointer_chase, gen_pa
 
 RESULTS = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                        "results", "reasoning_depth.jsonl")
+# Crash-safe partial ledger: one line per completed (seed, depth) run —
+# the 2026-09-28 incident lost 18.5h (3 complete depth-runs' evals) to a
+# process kill because the canonical jsonl flushed only at process exit.
+# Partials are NOT canonical rows (verdict computation reads RESULTS only);
+# they exist so mid-flight rounds can judge progress and a kill loses at
+# most one depth-run of *information*.
+PARTIALS = os.path.join(os.path.dirname(RESULTS),
+                        "reasoning_depth.partial.jsonl")
+
+
+def _append_jsonl(path, row):
+    """Append ONE row and fsync it — a killed process must leave the line
+    on disk (plain buffered writes can lose even completed appends)."""
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(row) + "\n")
+        f.flush()
+        os.fsync(f.fileno())
 
 
 # ── batches ──────────────────────────────────────────────────────────────────
@@ -363,6 +381,15 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
                                device, fwd_kwargs=fwd_kwargs)
                 print(f"    eval depth {d}: acc {acc:.4f}")
             accs[d] = acc
+            # Incremental flush: this depth-run's result survives a kill.
+            _append_jsonl(PARTIALS, {
+                "kind": "depth_run_partial", "mode": "fixed_sweep",
+                "tag": tag, "task": task, "difficulty": difficulty,
+                "n_values": n_values, "seq_len": seq_len, "seed": seed,
+                "depth": d, "depth_setter": depth_setter, "steps": steps,
+                "mix": mix, "acc": acc,
+                "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            })
             del m
             if device == "cuda":
                 torch.cuda.empty_cache()
@@ -383,6 +410,13 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
                 tr_acc = evaluate(tr, gen, np.random.default_rng(10_000 + seed),
                                   device)
                 print(f"    eval: acc {tr_acc:.4f}")
+            _append_jsonl(PARTIALS, {
+                "kind": "transformer_partial", "mode": "fixed_sweep",
+                "tag": tag, "task": task, "difficulty": difficulty,
+                "n_values": n_values, "seq_len": seq_len, "seed": seed,
+                "steps": steps, "mix": mix, "acc": tr_acc,
+                "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            })
             del tr
             if device == "cuda":
                 torch.cuda.empty_cache()
@@ -410,10 +444,9 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
             "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
         })
 
-    os.makedirs(os.path.dirname(RESULTS), exist_ok=True)
-    with open(RESULTS, "a", encoding="utf-8") as f:
-        for r in rows:
-            f.write(json.dumps(r) + "\n")
+        # Per-seed immediate flush: canonical row lands the moment the seed
+        # completes — a kill during a later seed can no longer destroy it.
+        _append_jsonl(RESULTS, rows[-1])
 
     print("\n== summary (mean over seeds, each depth = fresh fixed-depth model) ==")
     for d in depths:
@@ -507,10 +540,8 @@ def run(task, difficulty, n_values, seeds, steps, batch, lr, max_depth,
             "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
         })
 
-    os.makedirs(os.path.dirname(RESULTS), exist_ok=True)
-    with open(RESULTS, "a", encoding="utf-8") as f:
-        for r in rows:
-            f.write(json.dumps(r) + "\n")
+        # Per-seed immediate flush (same rationale as run_fixed_sweep).
+        _append_jsonl(RESULTS, rows[-1])
 
     # summary across seeds
     print("\n== summary (mean over seeds) ==")

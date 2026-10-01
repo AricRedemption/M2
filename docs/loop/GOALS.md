@@ -7,28 +7,41 @@
 > 编辑前 git diff 查格式化器噪声;提交后 git show 验证落盘;
 > 每轮提交前必跑 ./scripts/goal_check --audit(数数锚:条目数=check_cmd 数)。
 
-## 循环细则(AMM-002 自 prompt 下沉;agent 每段开场读本区,不靠会话记忆)
+## 循环细则(AMM-002 自 prompt 下沉,AMM-003 轮次化改订;agent 每轮开场读本区,不靠会话记忆)
 
+- **驱动模型(AMM-003,拉式)**:用户在 Desktop Go 模式点火,一轮自包含:
+  开场三查(状态/进程/增量)→ goal_check 路由 → 门禁全绿 → 原子提交
+  (+push)→ 删锁合轮。**禁 cron/launchd/定时任务/心跳监听**,调度工具
+  一律不创建;ignite.sh=可选后备(仅用户显式要求时启用)。
+- **锁判读(marathon_guard exit 1 时)**:最后提交晚于锁 mtime(锁后已
+  提交=已合轮残留)或 锁龄≥30min+锁后零提交+零活进程(死轮残留)
+  ⇒ 删锁接管;锁龄<30min+锁后零提交+有活进程迹象 ⇒ 疑真并行轮,
+  停勿双开,报告用户。合轮删锁;PARKED 例外保留(墓碑,100min 自过期)。
 - **状态机**:RUNNING(默认)/ PARKED(唯一非手动自停态:连续 3 次空审计
-  触发;处置=RSI 夜账补账+快照进本文件+终止会话,不删 .loop-lock,100min
-  自过期;重入口=用户指令一句话)/ BLOCKED-HUMAN(需人决策)。
-- **心跳单元(训练腿跨心跳)**:≤30min 可出判读的=当轮发起当轮判读;
-  训练腿(小时级)=发起后条目 status 置 doing,后续心跳=查进度/判读/
-  落盘,训练在途≠阻塞。blocked_on 禁列在途训练项。
-- **心跳分支阶梯(QUEUE-EMPTY 时依序取活,产出清零挂起计数)**:
+  轮触发;处置=RSI 夜账补账+快照进本文件+提交合轮,不删 .loop-lock,
+  100min 自过期;重入口=用户 Go 点火:读 PARKED 快照+复述停摆原因进
+  本轮报告+置回 RUNNING)/ BLOCKED-HUMAN(需人决策)。
+- **轮次单元(训练腿跨轮)**:≤30min 可出判读的=当轮发起当轮判读;
+  训练腿(小时级)=发起后条目 status 置 doing,后续每轮=查进度/判读/
+  落盘,训练在途≠阻塞。blocked_on 禁列在途训练项。长训练腿一律走
+  scripts/launch_p0c.sh 式幂等发射器(逐 seed 判重+caffeinate 防睡+
+  pidfile 双开拒+逐深度增量落盘;2026-09-28 事故教训:18.5h 随关机
+  全损,jsonl 零落盘)。
+- **轮次分支阶梯(QUEUE-EMPTY 时依序取活,产出清零空审计计数)**:
   ① 判读后续池迭代(RESULTS/ROADMAP 明示可迭代点;段内同族 ≤2);
   ② 停车场三问解停审计(AMENDMENTS 停车场逐条过"T1/T2 可动?可逆?
      无预注册门槛?",逐项记录依据);
   ③ 写作登记(RESULTS/ROADMAP/HANDOFF 回填);
   ④ 工程硬化(工具缺口/测试加固/**RSI 夜账到期检查**——累计 ≥10 产出
-     心跳未入账即属此项有活,防夜账断喂式静默失效);
+     轮次未入账即属此项有活,防夜账断喂式静默失效);
   ⑤ 全空 ⇒ **空审计**:四项逐项审计依据写进 current_action 后提交,
-     继续下一心跳(绝不结束回合);连续 3 次 ⇒ PARKED。
-- **算力四档**:T0 本地 CPU / T1 本地 GPU(RTX 5060 8GB) / T2 服务器 /
-  T3 Kaggle;T2/T3 发起需用户预先授权;资源红线=护机优先,异常即中止。
+     合轮等待下次点火;连续 3 次(跨轮)⇒ PARKED。
+- **算力四档**:T0 本地 CPU / T1 本地加速器(本机 MPS / RTX 5060 8GB,
+  视所在机器) / T2 服务器 / T3 Kaggle;T2/T3 发起需用户预先授权;
+  资源红线=护机优先,异常即中止。
 - **结论分级**:[A]构造保证 / [B]本机实测 / [C]终局声明(须 T3 或跨机
   复现);meta 带 exec_tier 与 seed 数。
-- **判单门**:每产出心跳提交前 direction_gate --add --round N
+- **判单门**:每产出轮次提交前 direction_gate --add --round N
   --direction(四轴耦合) --evidence,再 --check-round N;连续 2 条
   DRIFT ⇒ BLOCKED-HUMAN。
 
@@ -36,8 +49,8 @@
 state: RUNNING            # RUNNING | PARKED | BLOCKED-HUMAN(PARKED 不删 .loop-lock,100min 自过期)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check/ignite 均不动作)
 current_goal: >-
-  M2 循环 v1:训练腿跨心跳的马拉松循环(心跳语义/阶梯/纪律唯一源=
-  docs/loop/GOAL-PROMPT-M2.md,本文件不复述)。
+  M2 循环 v1(AMM-003 拉式):训练腿跨轮的 Go 轮次循环(轮次协议/阶梯/
+  纪律唯一源=docs/loop/GOAL-PROMPT-M2.md,本文件不复述)。
 current_action: >-
   轮 1(2026-09-27)循环体系 bootstrap:移植 Physic 循环体系
   (GOAL-PROMPT-v8 语义),落地 goal_check/marathon_guard/direction_gate/
@@ -82,13 +95,29 @@ current_action: >-
   执行训练步(非纯数学单测),总 242 绿。check_cmd 待升队首自然弹出。
   队列全部可执行项清空,此后心跳=P0-C′ 进度判读循环(seed 边界+
   全落盘判决),若无产出心跳则按空审计阶梯计数。
+  轮 6(2026-10-01)事故响应+拉式驱动改造(AMM-003):登记 2026-09-28
+  训练腿死亡事故——P0-C′ 18.5h 随关机全损(seed0 深度 1/2/4 各 30k 步
+  完成+深度 8 至 23200 步,jsonl 零落盘=进程退出才批量写;点火链三重
+  死亡=ignite 从未排程+zcode CLI 本机不存在+无人监听,停摆 3.5 天零
+  自愈)。修复三件:P0-2 崩溃安全(reasoning_depth.py 逐深度/逐 seed
+  fsync 增量落盘,partial+canonical 分流,kill 中途保留已完成深度,
+  +2 测试);P0-3 发射卫生(scripts/launch_p0c.sh 逐 seed 幂等重发+
+  caffeinate -is 防睡+pidfile 双开拒,+2 测试);AMM-003 拉式驱动
+  (GOAL-PROMPT-M2 v3.0 Go 轮次制:开场三查+合轮删锁+"绝不中途弃轮"
+  换形"绝不主动结束回合",锁语义=轮内互斥,ignite 降可选后备,不变式
+  测试同步改订;GOALS 细则区轮次化)。RSI 夜账补账轮 2-6。事故判读:
+  死亡训练腿 eval 全部 chance 平台期(M≈0.065-0.069 vs 0.0625,k16=
+  1.000 管道自洽,loss≈2.71≈15/16·ln16),初判 budget_wall 方向,
+  待 transformer 对照终判。待用户裁决二项:①git push 403(AwareLiquid/
+  M2 远端拒绝 AricRedemption 账号,本地 8 提交未推);②P0-C′ 重发方案
+  (chance 平台期早停条款+transformer 对照先行;签收前不动 GPU)。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX}.md
-updated: 2026-09-27 (轮 5 dpo-grpo 接线;P0-C′ 在途)
+updated: 2026-10-01 (轮 6 AMM-003 拉式驱动改造+2026-09-28 事故登记;P0-C′ 重发待用户签收)
 ```
 
 ```yaml
