@@ -60,7 +60,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 20 工程硬化轮:账本写穿隔离修复(P0C_RESULTS_DIR+零接触回归门,269 绿);例外轮连击=1;d=8 臂(pid 40268)4800+/30000;推送欠账 2 提交(443)
+state: RUNNING            # 轮 21 在途跟进轮:隔离首验过;AMM-004 欠账清偿(fork 分支=5642fe6,PR #2 跟进);d=8 臂 5600+/30000
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
   M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
@@ -93,16 +93,11 @@ current_action: >-
   轮 14(10-01)工程硬化轮:launcher 双开防护扩展同目录全部 *.pid(两次
   真实绕过事故闭环)+PYTHONUNBUFFERED=1(块缓冲假进度),+2 测试;d=8
   复核臂在途未动;上轮并行轮遗留锁=我方残留,证据链接管删除。
-  轮 15(10-01)社区蒸馏门轮(用户点名=触发③):三路检索各 ≥2 独立源
-  入 HORIZON #3——①SSM/线性递归状态追踪表达性下界(arXiv 2404.08819;
-  M2 full_mha+全局头恰是文献解法方向);②looped transformer 算法任务
-  正先验(ICLR 2024+Zhang,附怀疑方复核);③grokking 视界非常数(配方
-  wd=0.01+beta2=0.999+clip=0 已在位)。喂终判分叉:d=8 chance ⇒
-  budget_wall+架构下界双归因;加预算 10^5≈2 天/臂 10^6≈17 天/臂 ⇒ T2/T3
-  议题=人裁;换任务候选=排序类。非例外轮。
-  轮 16(10-01)AMM-010 单目标连续循环 ADOPTED(用户明示点火=修宪授权;
-  v4.0→v4.1 三处改订:点火一次=一循环/goal 校验驱动连续轮次/循环终止
-  四因换形;21 fragment 零改动;例外轮连击重置)。
+  轮 15(10-01)社区蒸馏门轮(用户点名):三路检索入 HORIZON #3(SSM 状态
+  追踪下界/looped 正先验/grokking 视界),喂终判分叉=d8 chance ⇒
+  budget_wall+架构下界双归因,加预算 T2/T3=人裁,换任务=排序类。非例外。
+  轮 16(10-01)AMM-010 单目标连续循环 ADOPTED(用户明示点火=修宪授权,
+  v4.0→v4.1 三处改订;21 fragment 零改动;例外轮连击重置)。
   轮 17(10-01)AMM-010 验收轮(用户点名):全仓一致性扫描修 3 处旧驱动
   模型残留(阶梯⑤/current_goal/HANDOFF);21 fragment 复验绿,交付 v4.1。
   轮 18(10-01)十轮节拍轮:夜账轮 7-17 补账(K=0 待 d8/A 累计 10/8/EXP
@@ -116,13 +111,18 @@ current_action: >-
   d=8 终评行)→修复=P0C_RESULTS_DIR env 隔离(runner/桩/launcher 幂等
   三方同旋钮,默认生产路径不变)+零接触回归门;验收=269 绿+canonical
   size/mtime_ns 前后全等+零桩行;推送 443 三连败欠账延续。
+  轮 21(10-01)在途跟进轮:自家锁判例照用(87s 新鲜=本循环锁);d=8 臂
+  5600/30000 禁中途判,mid_eval 未到;jsonl 自轮 20 隔离修复后全套
+  pytest 零触碰=隔离真实轮内首验;推送第 5 次达远端(网络恢复)被非
+  快进拒(分支挂被 amend 的 54b5fa0=防御正常),fetch 后 force-with-
+  lease 清偿(→5642fe6),欠账归 0,PR #2 跟进。非例外轮,连击归 0。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 20 工程硬化:账本隔离修复验收全等;例外轮连击=1;d=8 在途)
+updated: 2026-10-01 (轮 21 在途跟进:隔离首验过;推送欠账清偿归 0;d=8 在途)
 ```
 
 ```yaml
