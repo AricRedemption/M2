@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
-"""goal_check — M2 循环心跳路由器(v1,移植自 AwareLiquid-Physic wave-10 轮 49/292)
+"""goal_check — M2 循环轮次路由器(v2,AMM-005 蒸馏门;v1 移植自 AwareLiquid-Physic wave-10 轮 49/292)
 
-每轮心跳第一步:
-  1. 读 docs/loop/GOALS.md goal_queue 顶部 → 执行 check_cmd(cwd=仓库根)
-     通过   → VERDICT: ACHIEVED(弹出队首并原子写回,晋升下一位)   exit 0
-     不通过 → VERDICT: NOT-Achieved(对当前目标迭代一步)           exit 1
-     队列空 → VERDICT: QUEUE-EMPTY(按 GOAL-PROMPT-M2 阶梯取活)    exit 2
-  2. mode: OFF ⇒ 不动作                                           exit 5
+每轮 Go 轮次第一步:
+  1. 读 docs/loop/GOALS.md goal_queue → 对**全部**条目执行 check_cmd
+     (cwd=仓库根;AMM-005 全队列达成检测——达成即当场弹出,含深位,
+      不再等条目慢慢冒到队首;判定只信 check_cmd 退出码,零定时任务监听):
+     队首达成 → VERDICT: ACHIEVED(弹出+深位达成一并弹出,晋升下一位) exit 0
+     队首未达 → VERDICT: NOT-Achieved(对队首迭代一步;深位达成仍弹出) exit 1
+     队列空   → VERDICT: QUEUE-EMPTY(按 GOALS.md 细则区阶梯取活)     exit 2
+  2. 蒸馏锚点回显: 打印 GOALS.md 的 current_variable(单变量收敛纪律,
+     例外轮须在 docs/loop/DISTILL.md 显式记账)。
+  3. mode: OFF ⇒ 不动作                                           exit 5
   --audit: 队列完整性审计,只读不路由——数数锚(id 数=check_cmd 数)+
-  空/折叠 check_cmd+重复 id+条目回显。每轮提交前必跑。             0=健康 1=问题
+  空/折叠 check_cmd+重复 id+current_variable 缺失+条目回显。
+  每轮提交前必跑。                                                0=健康 1=问题
 
 退出码: 0=ACHIEVED 1=NOT-Achieved(或 audit 问题) 2=QUEUE-EMPTY 5=MODE-OFF
 
-心跳存活信号: 每次运行 touch .loop-lock(供 marathon_guard 新鲜度检查)。
+轮内互斥信号: 每次运行 touch .loop-lock(供 marathon_guard 新鲜度检查)。
 恢复永远=读盘:本脚本不依赖任何会话记忆,GOALS.md 是唯一输入。
 """
 import os
@@ -69,12 +74,20 @@ def parse_entries(block):
     return entries
 
 
+def current_variable(src):
+    """蒸馏门锚点:GOALS.md meta 区的 current_variable 字段(单行标量)。"""
+    m = re.search(r"(?m)^current_variable:[ \t]*(\S.*?)\s*$", src)
+    return m.group(1) if m else None
+
+
 def audit(src):
     problems = []
     block, _ = queue_block(src)
     if block is None:
         print("AUDIT: 未找到 goal_queue YAML 块")
         return 1
+    if not current_variable(src):
+        problems.append("current_variable 缺失/空(蒸馏门锚点,AMM-005;GOALS.md meta 区单行)")
     entries = parse_entries(block)
     ids = [e["id"] for e in entries]
     cmds = [e["check_cmd"] for e in entries]
@@ -103,15 +116,21 @@ def audit(src):
     return 0
 
 
-def pop_first(src, span):
-    """从队列块中摘除队首条目(从首个 `- id:` 行到下一条目行之前),其余字节保持不变。"""
+def pop_ids(src, span, ids):
+    """从队列块中摘除 id 集合内的条目(各条目从其 `- id:` 行到下一
+    条目行之前),其余字节保持不变(pop_first 隔条删除 bug 的推广版,
+    逐条目 span 删除,不做跨条目偏移)。"""
     block = src[span[0]:span[1]]
-    entries = list(re.finditer(r"(?m)^\s*- id: ", block))
-    if not entries:
-        return src
-    start = entries[0].start()
-    end = entries[1].start() if len(entries) > 1 else len(block)
-    return src[:span[0]] + block[:start] + block[end:] + src[span[1]:]
+    matches = list(re.finditer(r"(?m)^\s*- id: (\S+)", block))
+    drop_spans = []
+    for i, m in enumerate(matches):
+        if m.group(1) in ids:
+            start = m.start()
+            end = matches[i + 1].start() if i + 1 < len(matches) else len(block)
+            drop_spans.append((start, end))
+    for start, end in reversed(drop_spans):
+        block = block[:start] + block[end:]
+    return src[:span[0]] + block + src[span[1]:]
 
 
 def write_atomic(path, content):
@@ -165,20 +184,44 @@ def main():
         return 1
     entries = parse_entries(block)
     if not entries:
+        cv = current_variable(src)
+        if cv:
+            print(f"蒸馏锚点 current_variable: {cv}")
         print("VERDICT: QUEUE-EMPTY — 按 GOAL-PROMPT-M2 自主工作阶梯取活(①判读后续池→②停车场→③写作→④硬化→⑤挂起)")
         return EXIT_QUEUE_EMPTY
 
-    top = entries[0]
-    if not top["check_cmd"]:
-        print(f"goal_check: [{top['id']}] check_cmd 为空 — 先跑 --audit 并修复(禁路由)")
-        return 1
-    rc = run_check_cmd(top["check_cmd"], root)
-    if rc == 0:
-        write_atomic(path, pop_first(src, span))
-        nxt = entries[1]["id"] if len(entries) > 1 else "(空,QUEUE-EMPTY 阶梯)"
-        print(f"VERDICT: ACHIEVED — [{top['id']}] 达成弹出,晋升: {nxt}")
+    for e in entries:
+        if not e["check_cmd"]:
+            print(f"goal_check: [{e['id']}] check_cmd 为空 — 先跑 --audit 并修复(禁路由)")
+            return 1
+
+    # AMM-005 蒸馏门·达成检测: 每轮对全队列跑 check_cmd, 达成即当场弹出
+    # (含深位——已完成的条目不再滞留队列排队首)。判定只信退出码,零监听。
+    achieved = []
+    head_rc = None
+    for e in entries:
+        rc = run_check_cmd(e["check_cmd"], root)
+        if rc == 0:
+            achieved.append(e["id"])
+        elif e["id"] == entries[0]["id"]:
+            head_rc = rc
+    if achieved:
+        write_atomic(path, pop_ids(src, span, set(achieved)))
+    remaining = [e["id"] for e in entries if e["id"] not in set(achieved)]
+
+    cv = current_variable(src)
+    if cv:
+        print(f"蒸馏锚点 current_variable: {cv}(本轮工作映射到该变量,或在 DISTILL.md 记例外轮)")
+
+    head = entries[0]["id"]
+    deep = [i for i in achieved if i != head]
+    if deep:
+        print(f"深位达成同轮弹出: {', '.join(deep)}(AMM-005 全队列达成检测)")
+    if head in achieved:
+        nxt = remaining[0] if remaining else "(空,QUEUE-EMPTY 阶梯)"
+        print(f"VERDICT: ACHIEVED — [{head}] 达成弹出,晋升: {nxt}")
         return EXIT_ACHIEVED
-    print(f"VERDICT: NOT-Achieved — [{top['id']}] (check_cmd 退出码 {rc}),对当前目标迭代一步")
+    print(f"VERDICT: NOT-Achieved — [{head}] (check_cmd 退出码 {head_rc}),对当前目标迭代一步")
     return EXIT_NOT_ACHIEVED
 
 

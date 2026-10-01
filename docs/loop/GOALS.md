@@ -9,9 +9,10 @@
 
 ## 循环细则(AMM-002 自 prompt 下沉,AMM-003 轮次化改订;agent 每轮开场读本区,不靠会话记忆)
 
-- **驱动模型(AMM-003,拉式)**:用户在 Desktop Go 模式点火,一轮自包含:
-  开场三查(状态/进程/增量)→ goal_check 路由 → 门禁全绿 → 原子提交
-  (+push)→ 删锁合轮。**禁 cron/launchd/定时任务/心跳监听**,调度工具
+- **驱动模型(AMM-003,拉式;AMM-004 PR 流)**:用户在 Desktop Go 模式点火,
+  一轮自包含:开场三查(状态/进程/增量)→ goal_check 路由 → 门禁全绿 →
+  原子提交(+推 fork 分支/PR 同步,禁直推远端 main)→ 删锁合轮。
+  **禁 cron/launchd/定时任务/心跳监听**,调度工具
   一律不创建;ignite.sh=可选后备(仅用户显式要求时启用)。
 - **锁判读(marathon_guard exit 1 时)**:最后提交晚于锁 mtime(锁后已
   提交=已合轮残留)或 锁龄≥30min+锁后零提交+零活进程(死轮残留)
@@ -44,6 +45,14 @@
 - **判单门**:每产出轮次提交前 direction_gate --add --round N
   --direction(四轴耦合) --evidence,再 --check-round N;连续 2 条
   DRIFT ⇒ BLOCKED-HUMAN。
+- **蒸馏门(AMM-005)**:GOALS meta 的 current_variable=当前唯一研究
+  变量(单变量;组合变量须在其预注册原子声明,如 γ配额K=2+full_mha
+  修复包);goal_check 每轮**全队列**检测达成(深位达成即弹出,不排
+  队首)+回显锚点+--audit 校验非空;每个产出轮合轮前在
+  docs/loop/DISTILL.md 追加四栏条目(现状/问题/有效经验/变量判定),
+  例外轮显式声明原因,**连续 2 个例外轮 ⇒ BLOCKED-HUMAN**;蒸馏只在
+  轮内发生,禁定时任务写入;换变量须旧变量判读落盘(或显式弃置+原因)
+  后留痕切换。
 
 ```yaml
 state: RUNNING            # RUNNING | PARKED | BLOCKED-HUMAN(PARKED 不删 .loop-lock,100min 自过期)
@@ -51,6 +60,7 @@ mode: ON                  # 循环总开关(OFF ⇒ goal_check/ignite 均不动�
 current_goal: >-
   M2 循环 v1(AMM-003 拉式):训练腿跨轮的 Go 轮次循环(轮次协议/阶梯/
   纪律唯一源=docs/loop/GOAL-PROMPT-M2.md,本文件不复述)。
+current_variable: p0c-prime-depth(思考深度→能力;组合变量=γ配额K=2+full_mha 原子修复包,其余冻结;判据=verdicts/p0c_prime.prereg.v2.json,沿用 v1,no_posthoc_move)
 current_action: >-
   轮 1(2026-09-27)循环体系 bootstrap:移植 Physic 循环体系
   (GOAL-PROMPT-v8 语义),落地 goal_check/marathon_guard/direction_gate/
@@ -111,13 +121,40 @@ current_action: >-
   待 transformer 对照终判。待用户裁决二项:①git push 403(AwareLiquid/
   M2 远端拒绝 AricRedemption 账号,本地 8 提交未推);②P0-C′ 重发方案
   (chance 平台期早停条款+transformer 对照先行;签收前不动 GPU)。
+  轮 7(2026-10-01)两裁定落地+对照先行发射:①PR 流(AMM-004,ADOPTED):
+  实测主仓 push:false ⇒ fork(AricRedemption/M2)分支 round-6-amm003 +
+  PR AwareLiquid/M2#1,轮 3-6 共 8 提交进入可备份可评审态,merge 待主仓
+  维护者;②P0-C′ 对照先行(prereg v2=p0c_prime.prereg.v2.json:hypothesis/
+  metrics/判据/诊断逐字沿用 v1,执行改 phase1 对照单发→readout→phase2
+  全量重发|phase3 复核→budget_wall;死亡腿 log 降级 exploratory 不入指标;
+  mid-eval 10k/20k 只写 partial 不早停)。设施:reasoning_depth.py
+  +--transformer_only/--mid_eval,launcher +P0C_MODE=control|sweep+
+  P0C_SKIP_TRANSFORMER 省预算旋钮,+5 测试(总 250 绿)。MPS 实测对照
+  300 步/19s ⇒ phase_1 ETA≈30min(6h/depth 为 MT-LNN 腿扫描速度,对照
+  臂成本塌缩,当轮可判读)。对照腿已发射 T1 MPS:launcher pid 96600/
+  训练 pid 96611,tag=p0c_prime_v2_control,caffeinate+pidfile+增量落盘。
+  判读规则(预注册 v2 readout_rule):对照 grok(M≥0.90)⇒ phase_2 全量
+  重发(sweep+skip_transformer,tag=p0c_prime,ETA≈45-66h);对照 chance ⇒
+  phase_3 复核(1 seed×{1,8},ETA≈12h),仍 chance ⇒ budget_wall 判负登记。
+  轮 7 后段(2026-10-01 16:24 接力;前段会话判单 --add 后猝死,锁判读=
+  死轮残留[锁龄 30min49s+锁后零提交+零轮会话写入 31min,仅 detached
+  训练腿],删锁接管):①phase_1 对照判读——transformer 30k 步+grokking
+  卫生配方 M(k1..15)≈0.064=全 chance(<0.90)⇒ 按 readout_rule 机械进
+  phase_3 复核腿(MT-LNN seed0×深度{1,8},tag=p0c_prime_v2_recheck,
+  T1 MPS 发射,≈12h,复核仍 chance ⇒ budget_wall 判负);②AMM-005
+  蒸馏门落地——goal_check v2 每轮全队列达成检测(达成即弹出含深位,
+  首跑弹出滞留 2 轮的 episodic-stream/dpo-grpo-wiring)+current_variable
+  锚点回显+audit 校验+DISTILL.md 四栏经验账本(轮 1-6 补账+轮 7 起按轮
+  记账)+GOAL-PROMPT v3.1(承重句 17→19);③dpo-grpo-wiring check_cmd
+  钉死 .venv/bin/python(系统 python3 无 pytest,原命令在本机永不弹)。
+  前段勘误:叙事"总 250 绿"实为 251。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
-  docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX}.md
-updated: 2026-10-01 (轮 6 AMM-003 拉式驱动改造+2026-09-28 事故登记;P0-C′ 重发待用户签收)
+  docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL}.md
+updated: 2026-10-01 (轮 7 合轮:前段 AMM-004 PR 流+对照先行发射+phase_1 判读;后段接力 AMM-005 蒸馏门+phase_3 复核发射)
 ```
 
 ```yaml
@@ -139,21 +176,5 @@ goal_queue:
     done_condition: docs/RESULTS_2B_120K.md 存在且登记 val PPL + 上下文
       PPL 判读 + 下一腿决策。
     check_cmd: test -f docs/RESULTS_2B_120K.md
-    status: todo
-  - id: episodic-stream
-    goal: 世界模型线情节流改造(DATA_FORMS 决议:观测-动作-时间戳情节流,
-      语言主线语料不动)——实现 m2_training/episodic_stream.py(情节流格式
-      转换+SHA-256 身份校验,沿用 text_data.py 的身份检查纪律),带测试。
-    done_condition: m2_training.episodic_stream 可导入且提供
-      to_episode_stream 接口,tests 内有对应测试且全绿。
-    check_cmd: python3 -c "from m2_training.episodic_stream import to_episode_stream"
-    status: todo
-  - id: dpo-grpo-wiring
-    goal: DPO/GRPO 对齐损失接入真实训练(mt_lnn/research/rl/dpo_grpo.py
-      已数学验证未接线)——训练器暴露可选 rl 损失路径(默认关,不接入
-      SFT 主线),最小端到端集成测试(合成数据小模型跑通一步)。
-    done_condition: tests/test_dpo_grpo_wiring.py 存在且 pytest 通过
-      (集成测试真实执行训练步,非纯数学单测)。
-    check_cmd: python3 -m pytest tests/test_dpo_grpo_wiring.py -q
     status: todo
 ```

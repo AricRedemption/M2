@@ -9,15 +9,19 @@ import os
 import sys
 
 seed = tag = None
+flags = []
 argv = sys.argv[1:]
 for i, a in enumerate(argv):
     if a == "--seeds" and i + 1 < len(argv):
         seed = int(argv[i + 1])
     elif a == "--tag" and i + 1 < len(argv):
         tag = argv[i + 1]
+    elif a in ("--transformer_only", "--mid_eval", "--eval_depths",
+               "--skip_transformer"):
+        flags.append(a)
 
 path = os.path.join("benchmarks", "results", "reasoning_depth.jsonl")
 os.makedirs(os.path.dirname(path), exist_ok=True)
 with open(path, "a", encoding="utf-8") as f:
     f.write(json.dumps({"mode": "fixed_sweep", "seed": seed, "tag": tag,
-                        "stub": True}) + "\n")
+                        "stub": True, "flags": flags}) + "\n")

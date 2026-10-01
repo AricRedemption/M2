@@ -26,6 +26,7 @@ GOALS_TEMPLATE = """# GOALS.md — 程序计数器
 state: RUNNING
 mode: {mode}
 current_action: test
+current_variable: test-var(单变量锚点)
 ```
 
 ```yaml
@@ -67,7 +68,9 @@ def entry(id_, check_cmd, status="todo"):
 
 class TestGoalCheckRouter:
     def test_not_achieved_keeps_queue(self, tmp_path):
-        root = make_root(tmp_path, entry("a", "false") + entry("b", "true"))
+        """队首未达 ⇒ 队列条目不因队首未达而被弹出(深位达成的弹出
+        行为由 test_deep_achieved_pops_while_head_stays 专门覆盖)。"""
+        root = make_root(tmp_path, entry("a", "false") + entry("b", "false"))
         r = run(GOAL_CHECK, root)
         assert r.returncode == 1
         assert "NOT-Achieved" in r.stdout
@@ -117,6 +120,60 @@ class TestGoalCheckRouter:
         assert r.returncode == 0
         assert "- id:" not in read_goals(root)
 
+    def test_deep_achieved_pops_while_head_stays(self, tmp_path):
+        """AMM-004/005 蒸馏门核心行为:每轮全队列检测——深位条目达成即
+        当场弹出,不再等它冒到队首;队首未达 ⇒ 仍 NOT-Achieved(exit 1)。
+        """
+        root = make_root(tmp_path, entry("head", "false")
+                         + entry("done-mid", "true")
+                         + entry("tail", "false"))
+        r = run(GOAL_CHECK, root)
+        assert r.returncode == 1
+        assert "NOT-Achieved" in r.stdout
+        assert "深位达成同轮弹出" in r.stdout and "done-mid" in r.stdout
+        ids = re.findall(r"(?m)^\s*- id: (\S+)", read_goals(root))
+        assert ids == ["head", "tail"]
+
+    def test_all_achieved_pops_all(self, tmp_path):
+        root = make_root(tmp_path, entry("a", "true") + entry("b", "true"))
+        r = run(GOAL_CHECK, root)
+        assert r.returncode == 0
+        assert "ACHIEVED" in r.stdout
+        assert "- id:" not in read_goals(root)
+
+    def test_deep_pop_preserves_folded_goal_multiline(self, tmp_path):
+        """pop_ids 回归(承 pop_first 隔条删除 bug 纪律):深位弹出时,
+        相邻条目的多行折行 goal/done_condition 字段逐字节保留。"""
+        head_multiline = (
+            "  - id: head-first\n"
+            "    goal: 折行字段——γ 全局头配额\n"
+            "      + full MHA 修复注意力,\n"
+            "      多 seed 纪律。\n"
+            "    done_condition: 判决文件存在且含\n"
+            "      h_supported 字段。\n"
+            "    check_cmd: false\n"
+            "    status: doing\n"
+        )
+        queue = (head_multiline
+                 + entry("deep-done", "true")
+                 + entry("c-third", "false"))
+        root = make_root(tmp_path, queue)
+        r = run(GOAL_CHECK, root)
+        assert r.returncode == 1
+        body = read_goals(root)
+        assert "goal: 折行字段——γ 全局头配额\n      + full MHA 修复注意力,\n      多 seed 纪律。" in body
+        assert "h_supported 字段" in body
+        ids = re.findall(r"(?m)^\s*- id: (\S+)", body)
+        assert ids == ["head-first", "c-third"]
+
+    def test_current_variable_echoed_on_route(self, tmp_path):
+        """蒸馏锚点回显:路由输出必须带 current_variable(例外轮纪律的
+        可见化,防'每轮合规但合力不指向同一变量')。"""
+        root = make_root(tmp_path, entry("a", "false"))
+        r = run(GOAL_CHECK, root)
+        assert r.returncode == 1
+        assert "current_variable" in r.stdout and "test-var" in r.stdout
+
     def test_queue_empty(self, tmp_path):
         root = make_root(tmp_path, "")
         r = run(GOAL_CHECK, root)
@@ -164,6 +221,20 @@ class TestGoalCheckAudit:
         r = run(GOAL_CHECK, root, "--audit")
         assert r.returncode == 1
         assert "未找到 goal_queue" in r.stdout
+
+    def test_audit_requires_current_variable(self, tmp_path):
+        """蒸馏门锚点进 audit 数数锚:current_variable 缺失=审计不过
+        (AMM-005:变量纪律不靠自觉)。"""
+        root = tmp_path / "repo"
+        loop = root / "docs" / "loop"
+        loop.mkdir(parents=True)
+        (loop / "GOALS.md").write_text(
+            GOALS_TEMPLATE.format(mode="ON", queue=entry("a", "true"))
+            .replace("current_variable: test-var(单变量锚点)\n", ""),
+            encoding="utf-8")
+        r = run(GOAL_CHECK, root, "--audit")
+        assert r.returncode == 1
+        assert "current_variable 缺失" in r.stdout
 
 
 class TestMarathonGuard:

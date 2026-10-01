@@ -102,3 +102,34 @@ def test_refuses_double_launch(tmp_path):
         assert _tag_rows() == [], "拒绝点火时不得写入任何行"
     finally:
         os.remove(pidfile)
+
+
+def test_control_mode_launches_transformer_only(tmp_path):
+    """P0C_MODE=control(对照先行):命令行必须带 --transformer_only、
+    不带 --eval_depths,且幂等/双开纪律与 sweep 模式一致。"""
+    env = {**_env(tmp_path), "P0C_MODE": "control"}
+    r = subprocess.run([LAUNCHER, "0"], env=env,
+                       capture_output=True, text=True, cwd=ROOT)
+    assert r.returncode == 0, r.stderr
+    rows = _tag_rows()
+    assert len(rows) == 1 and rows[0].get("stub")
+    assert "--transformer_only" in rows[0]["flags"]
+    assert "--eval_depths" not in rows[0]["flags"]
+    assert "--mid_eval" in rows[0]["flags"], "对照腿默认带中途可见性 checkpoint"
+    # 幂等:重跑跳过
+    r2 = subprocess.run([LAUNCHER, "0"], env=env,
+                        capture_output=True, text=True, cwd=ROOT)
+    assert r2.returncode == 0, r2.stderr
+    assert len(_tag_rows()) == 1
+
+
+def test_sweep_mode_flags_and_skip_transformer(tmp_path):
+    """sweep 模式默认带 --eval_depths;P0C_SKIP_TRANSFORMER=1(phase 2
+    全量重发省预算旋钮)追加 --skip_transformer,且不误带对照腿开关。"""
+    env = {**_env(tmp_path), "P0C_SKIP_TRANSFORMER": "1"}
+    r = subprocess.run([LAUNCHER, "0"], env=env,
+                       capture_output=True, text=True, cwd=ROOT)
+    assert r.returncode == 0, r.stderr
+    flags = _tag_rows()[0]["flags"]
+    assert "--eval_depths" in flags and "--skip_transformer" in flags
+    assert "--transformer_only" not in flags

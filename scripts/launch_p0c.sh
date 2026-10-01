@@ -1,19 +1,26 @@
 #!/usr/bin/env bash
-# launch_p0c.sh — P0-C′ 训练腿发射器(2026-10-01 轮 6 工程硬化)
+# launch_p0c.sh — P0-C′ 训练腿发射器(2026-10-01 轮 6 工程硬化;轮 7 加对照先行 mode)
 #
 # 背景:2026-09-28 事故——18.5h 训练随机器关机全损,无 checkpoint、无增量
 # 落盘、无点火排程,循环静默停摆 3.5 天。本脚本三重卫生:
 #   1. caffeinate 防睡眠:机器睡眠/关机=进程死,事故根因之一;
 #   2. 每 seed 一次调用:预注册 protocol.runner 本意(单点死亡只损失一条腿,
 #      不再是整个 3-seed sweep);
-#   3. 幂等重入:canonical jsonl 已有 (tag=p0c_prime, seed=S) 行即跳过该
-#      seed——任何中断后直接重跑本脚本即可续跑缺失的腿。
-#   依赖:reasoning_depth.py 增量落盘(每个 depth-run eval 完成即写
-#   partial 台账,死亡最多丢"进行中"的那一个 depth-run)。
+#   3. 幂等重入:canonical jsonl 已有 (tag, seed) 行即跳过该 seed——任何
+#      中断后直接重跑本脚本即可续跑缺失的腿。
+#   依赖:reasoning_depth.py 增量落盘(每个 depth-run/transformer eval 完成
+#   即写 partial 台账;mid-eval checkpoint 亦只写 partial,死亡最多丢一个
+#   进行中的臂)。
+#
+# P0C_MODE(轮 7,对照先行=用户 2026-10-01 批准的执行改订):
+#   sweep   默认 = 预注册原协议: MT-LNN fixed-depth sweep × seeds(tag p0c_prime)
+#   control        = 只训 transformer 对照臂(--transformer_only,任务可达性
+#                    佐证、不入判据;tag p0c_prime_v2_control)
 #
 # 测试/干跑旋钮(默认=预注册协议原样):
 #   P0C_DEVICE=cpu P0C_STEPS=2 P0C_DEPTHS="1 2" P0C_TAG=p0c_smoke_test \
 #     ./scripts/launch_p0c.sh 0
+#   对照先行腿: P0C_MODE=control ./scripts/launch_p0c.sh 0
 set -uo pipefail
 cd "$(dirname "$0")/.."
 
@@ -21,10 +28,26 @@ PY=${P0C_PYTHON:-.venv/bin/python}
 DEVICE=${P0C_DEVICE:-mps}
 STEPS=${P0C_STEPS:-30000}
 DEPTHS=${P0C_DEPTHS:-1 2 4 8}
-TAG=${P0C_TAG:-p0c_prime}
+MID_EVAL=${P0C_MID_EVAL:-10000 20000}
+MODE=${P0C_MODE:-sweep}
 RESULTS=benchmarks/results/reasoning_depth.jsonl
-PIDFILE=${P0C_PIDFILE:-benchmarks/results/p0c_prime_run.pid}
-LOG=${P0C_LOG:-benchmarks/results/p0c_prime_run.log}
+
+case $MODE in
+  sweep)
+    TAG=${P0C_TAG:-p0c_prime}
+    PIDFILE=${P0C_PIDFILE:-benchmarks/results/p0c_prime_run.pid}
+    LOG=${P0C_LOG:-benchmarks/results/p0c_prime_run.log}
+    ;;
+  control)
+    TAG=${P0C_TAG:-p0c_prime_v2_control}
+    PIDFILE=${P0C_PIDFILE:-benchmarks/results/p0c_control_run.pid}
+    LOG=${P0C_LOG:-benchmarks/results/p0c_control_run.log}
+    ;;
+  *)
+    echo "P0C_MODE=$MODE 无效(sweep|control)" >&2
+    exit 2
+    ;;
+esac
 
 # 双开防护:活 pid 不双开(死 pid 视为陈旧,直接接管)
 if [[ -f $PIDFILE ]]; then
@@ -46,27 +69,34 @@ seed_done() {  # seed_done S TAG: canonical jsonl 已有 (TAG, S) 行 ⇒ 退出
     | grep -qF "\"tag\": \"$2\""
 }
 
+build_cmd() {  # build_cmd SEED → 全局数组 CMD(两种 mode 共用主干,协议同 v1)
+  CMD=("$PY" -m benchmarks.reasoning_depth
+       --task pointer_chase --difficulty 16 --n_values 16
+       --mode fixed --seeds "$1" --steps "$STEPS" --mix
+       --full_mha --n_global_heads 2 --beta2 0.999 --clip 0
+       --device "$DEVICE" --tag "$TAG")
+  if [[ $MODE == control ]]; then
+    CMD+=(--transformer_only)
+  else
+    CMD+=(--eval_depths $DEPTHS)
+    # phase 2 全量重发用:任务可达性佐证已由 control 腿承担时省预算
+    [[ ${P0C_SKIP_TRANSFORMER:-} == 1 ]] && CMD+=(--skip_transformer)
+  fi
+  [[ -n $MID_EVAL ]] && CMD+=(--mid_eval $MID_EVAL)
+}
+
+CAFFEINATE=$(command -v caffeinate 2>/dev/null || true)
 for seed in "${seeds[@]}"; do
   if seed_done "$seed" "$TAG"; then
     echo "=== $TAG seed $seed 已有 canonical 行,跳过 ($(date '+%F %T')) ===" | tee -a "$LOG"
     continue
   fi
-  echo "=== $TAG seed $seed start $(date '+%F %T') ===" | tee -a "$LOG"
-  CAFFEINATE=$(command -v caffeinate 2>/dev/null || true)
+  echo "=== $MODE $TAG seed $seed start $(date '+%F %T') ===" | tee -a "$LOG"
+  build_cmd "$seed"
   if [[ -n $CAFFEINATE ]]; then
-    "$CAFFEINATE" -is "$PY" -m benchmarks.reasoning_depth \
-      --task pointer_chase --difficulty 16 --n_values 16 \
-      --mode fixed --seeds "$seed" --steps "$STEPS" \
-      --eval_depths $DEPTHS --mix --full_mha --n_global_heads 2 \
-      --beta2 0.999 --clip 0 --device "$DEVICE" --tag "$TAG" \
-      >> "$LOG" 2>&1 &
+    "$CAFFEINATE" -is "${CMD[@]}" >> "$LOG" 2>&1 &
   else
-    "$PY" -m benchmarks.reasoning_depth \
-      --task pointer_chase --difficulty 16 --n_values 16 \
-      --mode fixed --seeds "$seed" --steps "$STEPS" \
-      --eval_depths $DEPTHS --mix --full_mha --n_global_heads 2 \
-      --beta2 0.999 --clip 0 --device "$DEVICE" --tag "$TAG" \
-      >> "$LOG" 2>&1 &
+    "${CMD[@]}" >> "$LOG" 2>&1 &
   fi
   pid=$!
   echo "$pid" > "$PIDFILE"

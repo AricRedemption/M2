@@ -1,4 +1,4 @@
-# GOAL-PROMPT-M2 v3.0(2026-10-01,AMM-003 拉式轮次版;唯一 canonical 点火源)
+# GOAL-PROMPT-M2 v3.1(2026-10-01,AMM-003 拉式轮次+AMM-004 PR 流+AMM-005 蒸馏门;唯一 canonical 点火源)
 
 > 本文件是**唯一**点火 prompt 来源(AMM-002 canonical 化;AMM-003 驱动模型
 > 改拉式:用户在 Desktop Go 模式点火,一轮自包含,禁 cron/定时/心跳任务
@@ -6,7 +6,7 @@
 > v1.0 全文见 `GOAL-PROMPT-M2-v1-ARCHIVED.md`(已废止,仅立法史);v2.0
 > 心跳马拉松版语义经 AMM-003 换形进本版(立法史=AMENDMENTS.md)。细则渐进
 > 披露读盘,不进本文件:状态机/阶梯/锁判读/算力四档/结论分级=GOALS.md
-> 细则区;RSI 指标=RSI-INDEX.md。承重句由
+> 细则区;RSI 指标=RSI-INDEX.md;经验账本=DISTILL.md。承重句由
 > tests/test_goal_prompt_invariants.py 机械守护,修改本文件前先读该测试。
 
 ```text
@@ -21,12 +21,15 @@
    未推送提交清点)。三查毕才路由。
 2. 跑 ./scripts/goal_check,严格按其 VERDICT/输出行动:0=队首已弹出,
    继续下一位;1=对队首迭代一步(在途训练腿=判读进度/落盘,训练在途≠
-   阻塞);2=队列空,按 GOALS.md 细则区的阶梯取活;5=MODE-OFF
-   (总开关关,停)。
+   阻塞;全队列检测每轮照跑,深位达成一并弹出);2=队列空,按 GOALS.md
+   细则区的阶梯取活;5=MODE-OFF(总开关关,停)。
 3. 合轮收尾(一律显式判定退出码,禁把管道尾巴退出码当门禁):
    pytest 全绿 + ./scripts/goal_check --audit 过 + ./scripts/direction_gate
    --add 本轮判单(轮号取自 GOALS current_action 的"轮 N")后
-   --check-round 本轮轮号 过 ⇒ 原子提交 main ⇒ push ⇒ 删 .loop-lock
+   --check-round 本轮轮号 过 ⇒ docs/loop/DISTILL.md 追加本轮蒸馏条目
+   (现状/问题/有效经验/变量判定;例外轮显式原因,连续 2 个例外轮 ⇒
+   BLOCKED-HUMAN)⇒ 原子提交本地 main ⇒ PR 流同步(AMM-004:
+   推 fork 分支+gh pr create,禁直推远端 main)⇒ 删 .loop-lock
    (PARKED 例外,不删)⇒ 本轮结束,等待用户下一次 Go 点火。
 
 铁律(每条都被不变式测试守护,禁删改):
@@ -44,8 +47,11 @@
   head-to-head 对标;PPL 非主指标。
 - 需人决策 ⇒ state: BLOCKED-HUMAN;机制改动只走 AMENDMENTS 提案,
   不自改宪法。
+- 每轮全队列检测目标达成(goal_check 全量跑 check_cmd,达成即弹出
+  含深位);经验蒸馏四栏入 DISTILL.md,往 current_variable 单变量
+  收敛(组合变量须原子声明);蒸馏只在轮内发生,禁定时任务监听。
 
 细则不背,读盘:GOALS.md 细则区(状态机/轮次阶梯/锁判读/训练腿跨轮/
-算力四档/结论分级/RSI 夜账时机)。ignite.sh=可选后备点火器,仅用户
-显式要求启用,非驱动主路径。
+算力四档/结论分级/RSI 夜账时机);经验账本=docs/loop/DISTILL.md。
+ignite.sh=可选后备点火器,仅用户显式要求启用,非驱动主路径。
 ```

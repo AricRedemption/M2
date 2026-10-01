@@ -59,6 +59,9 @@ IRON_LAWS = [
     ("PPL 非主指标", "四轴对标纪律(ROADMAP §5)"),
     ("BLOCKED-HUMAN", "需人决策即停"),
     ("AMENDMENTS 提案", "机制改动不自改宪法"),
+    # AMM-005 (2026-10-01): distillation gate
+    ("全队列检测", "蒸馏门:每轮全量 check_cmd,深位达成即弹出(轮 4/5 已完成条目滞留队列的教训)"),
+    ("经验蒸馏", "四栏入 DISTILL.md 往 current_variable 单变量收敛(6 轮 K=0 的弥散教训)"),
 ]
 
 

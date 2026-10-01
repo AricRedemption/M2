@@ -200,7 +200,7 @@ def train_model(model, gen, device, steps, batch, lr, seed,
                 depth_choices=None, log_every=200, fwd_kwargs=None,
                 depth_setter="core", beta2=0.95, clip=1.0,
                 depth_sampler="uniform", poisson_lambda=3.0,
-                deep_supervision=False):
+                deep_supervision=False, mid_eval_steps=(), mid_eval_cb=None):
     """depth_choices: list of ints to sample per step (MT-LNN), or None.
     depth_setter: 'core' (LNN sub-layer iteration) or 'stack' (whole-block).
 
@@ -212,7 +212,12 @@ def train_model(model, gen, device, steps, batch, lr, seed,
     large-gradient event -- clip truncates it, and a fast second moment
     (beta2=0.95) adapts to neutralise it. Defaults keep the historical recipe
     so every archived row stays comparable; parity/grokking runs should pass
-    beta2=0.999, clip=0.    """
+    beta2=0.999, clip=0.
+
+    mid_eval_steps/mid_eval_cb: 中途可见性 checkpoint —— optimizer step 数命中
+    mid_eval_steps 时回调 cb(step_n, model)。只增可见性(调用方写 partial 台账),
+    不中断训练、不改 canonical 判据行:'grokking 可晚发、不早停'纪律不受影响。
+    """
     fwd_kwargs = fwd_kwargs or {}
     model.to(device).train()
     opt = torch.optim.AdamW(model.parameters(), lr=lr, betas=(0.9, beta2),
@@ -220,6 +225,7 @@ def train_model(model, gen, device, steps, batch, lr, seed,
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=steps)
     rng = np.random.default_rng(seed)
     depth_rng = np.random.default_rng(seed + 1)
+    mid_set = {int(s) for s in mid_eval_steps}
 
     for step in range(steps):
         if depth_choices is not None:
@@ -246,6 +252,8 @@ def train_model(model, gen, device, steps, batch, lr, seed,
             torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
         opt.step()
         sched.step()
+        if mid_eval_cb is not None and (step + 1) in mid_set:
+            mid_eval_cb(step + 1, model)
         if step % log_every == 0 or step == steps - 1:
             print(f"    step {step:5d}  loss {loss.item():.4f}", flush=True)
     return model
@@ -320,7 +328,8 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
                     depth_setter="core", mix=False, n_global_heads=0,
                     n_heads=None, n_kv_heads=None, signed_decay=False,
                     selective_decay=False, attention_layers=None,
-                    beta2=0.95, clip=1.0, sel_mode="tanh"):
+                    beta2=0.95, clip=1.0, sel_mode="tanh",
+                    transformer_only=False, mid_eval_steps=()):
     """HRM-style claim: train a FRESH model at each fixed depth d, evaluate at
     that same d. Same parameter count across depths (weight-tied iteration) —
     if accuracy climbs with d, extra latent iterations buy real capability.
@@ -342,11 +351,44 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
           f"mix={mix} ==")
 
     fwd_kwargs = {"use_lnn_recurrence": False} if no_scan else None
+
+    if transformer_only and skip_transformer:
+        raise SystemExit("--transformer_only 与 --skip_transformer 互斥(交集为空跑)")
+    mid_set = tuple(int(s) for s in mid_eval_steps)
+
+    def _mid_cb(subject, depth=None):
+        """中途 eval 回调:口径与终评一致(mix→per-k),只写 partial 台账。"""
+        def cb(step_n, model):
+            fk = fwd_kwargs if subject == "mtlnn" else None
+            if mix:
+                a = evaluate_per_k(model, task, difficulty, n_values,
+                                   np.random.default_rng(10_000 + seed),
+                                   device, fwd_kwargs=fk)
+                desc = "  ".join(f"k={k}:{v:.3f}" for k, v in a.items())
+            else:
+                a = evaluate(model, gen, np.random.default_rng(10_000 + seed),
+                             device, fwd_kwargs=fk)
+                desc = f"acc {a:.4f}"
+            print(f"    [mid-eval {subject}"
+                  + (f" d{depth}" if depth is not None else "")
+                  + f" step {step_n}] {desc}", flush=True)
+            _append_jsonl(PARTIALS, {
+                "kind": "mid_eval_partial", "mode": "fixed_sweep",
+                "tag": tag, "task": task, "difficulty": difficulty,
+                "n_values": n_values, "seq_len": seq_len, "seed": seed,
+                "depth": depth, "depth_setter": depth_setter,
+                "subject": subject, "steps": steps, "mid_step": step_n,
+                "mix": mix, "acc": a,
+                "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            })
+        return cb
+
     rows = []
     for seed in seeds:
         t0 = time.time()
         accs = {}
-        for d in depths:
+        n_params = None
+        for d in ([] if transformer_only else depths):
             m = build_mtlnn(vocab, seq_len,
                             2 if depth_setter == "core" else 1,
                             seed, n_layers=n_layers, gamma_init=gamma_init,
@@ -369,7 +411,9 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
                   f"scan={'off' if no_scan else 'on'})")
             train_model(m, gen, device, steps, batch, lr, seed,
                         depth_choices=[d], fwd_kwargs=fwd_kwargs,
-                        depth_setter=depth_setter, beta2=beta2, clip=clip)
+                        depth_setter=depth_setter, beta2=beta2, clip=clip,
+                        mid_eval_steps=mid_set,
+                        mid_eval_cb=_mid_cb("mtlnn", d) if mid_set else None)
             if mix:
                 acc = evaluate_per_k(m, task, difficulty, n_values,
                                      np.random.default_rng(10_000 + seed),
@@ -399,7 +443,10 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
             tr = build_transformer(vocab, seq_len, seed)
             tr_params = tr.get_num_params()
             print(f"  [seed {seed}] transformer {tr_params/1e3:.0f}K params")
-            train_model(tr, gen, device, steps, batch, lr, seed)
+            train_model(tr, gen, device, steps, batch, lr, seed,
+                        beta2=beta2, clip=clip,
+                        mid_eval_steps=mid_set,
+                        mid_eval_cb=_mid_cb("transformer") if mid_set else None)
             if mix:
                 tr_acc = evaluate_per_k(tr, task, difficulty, n_values,
                                         np.random.default_rng(10_000 + seed),
@@ -415,6 +462,7 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
                 "tag": tag, "task": task, "difficulty": difficulty,
                 "n_values": n_values, "seq_len": seq_len, "seed": seed,
                 "steps": steps, "mix": mix, "acc": tr_acc,
+                "beta2": beta2, "clip": clip,
                 "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
             })
             del tr
@@ -438,6 +486,7 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
             "gamma_init": gamma_init, "full_mha": full_mha,
             "depth_setter": depth_setter, "mix": mix,
             "n_global_heads": n_global_heads,
+            "transformer_only": transformer_only,
             "mtlnn_params": n_params, "transformer_params": tr_params,
             "mtlnn_acc_by_depth": accs, "transformer_acc": tr_acc,
             "wall_s": round(time.time() - t0, 1), "tag": tag,
@@ -449,7 +498,7 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
         _append_jsonl(RESULTS, rows[-1])
 
     print("\n== summary (mean over seeds, each depth = fresh fixed-depth model) ==")
-    for d in depths:
+    for d in ([] if transformer_only else depths):
         vals = [r["mtlnn_acc_by_depth"][d] for r in rows]
         if mix:
             ks = sorted(vals[0].keys())
@@ -647,6 +696,12 @@ def main():
                    help="KV heads for GQA; must divide n_heads. Default: "
                         "n_heads/2, or n_heads under --full_mha. Middle "
                         "ratios like 4:1 are the point of the sweep")
+    p.add_argument("--transformer_only", action="store_true",
+                   help="对照先行腿: 只训练/评估 ModernCausalTransformer 对照"
+                        "(任务可达性佐证, 不入判据), 跳过全部 MT-LNN 深度臂")
+    p.add_argument("--mid_eval", type=int, nargs="*", default=[],
+                   help="中途 eval checkpoint(如 --mid_eval 10000 20000): 只写 "
+                        "partial 台账增在途可见性, 不中断训练、不改 canonical 判据")
     args = p.parse_args()
 
     if args.n_values is None:
@@ -681,7 +736,9 @@ def main():
                                            if args.attention_layers is not None
                                            else None),
                          beta2=args.beta2, clip=args.clip,
-                         sel_mode=args.sel_mode)
+                         sel_mode=args.sel_mode,
+                         transformer_only=args.transformer_only,
+                         mid_eval_steps=args.mid_eval)
     else:
         run(args.task, args.difficulty, args.n_values, args.seeds, args.steps,
             args.batch, args.lr, args.max_depth, args.eval_depths, device,
