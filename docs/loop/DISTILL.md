@@ -1342,3 +1342,28 @@
 - 变量判定: 非例外轮(队首在途跟进);连击=0。
 - 节拍距: 距上次十轮节拍(轮 123)已 4 产出轮,N<10 不触发节拍;
   方向距 D=4(守望段),D<5 不触发(下轮 D=5 触发)。
+
+### 轮 128(2026-10-02;在途跟进+方向动作轮(D=5 触发);非例外轮,连击=0)
+- 现状: d=8 臂 40268 存活 19000/30000 chance 平台(loss≈2.74);欠账 0
+  (519cf36 fork 远端实测=本地);下一实质点=mid_eval@20000(约 06:15)
+  +终评(约 09:45)。
+- 问题: 终评准备最后一缺口坐实:两版 prereg 只定义 verdict 文件路径
+  (benchmarks/verdicts/p0c_prime.json),未定义内部 schema,唯一机械
+  约束=check_cmd 的 h_supported 键存在性——不预钉则终评轮现场发明
+  格式(假进度坑家族同源:格式即承诺)。
+- 有效经验: D=5 方向动作=verdict 文件 schema 预钉(判据零改动,
+  no_posthoc_move 不涉;输出格式属判读准备):{id:"p0c-prime-depth-
+  retest", kind:"verdict", prereg:".../p0c_prime.prereg.v2.json",
+  h_supported:<bool|null>(null=单 seed 机械不可判→走 negative_
+  diagnoses), criteria_eval:{A/B/C 逐条:阈值/实测/通过与否},
+  M_table:{M(1,0),M(8,0),gain_s0,k16 排除口径注明}, grok_rates:
+  (分母 3 不满足→透明报 seed 计数 n/1), data_refs:{d1=partial
+  depth_run_partial@18:31:47, d8=canonical 终行 ts, control=v2_
+  control 终行}, negative_diagnosis:<四选一|null>, caveats:[单 seed/
+  复核臂性质], decided_at, round, exec_tier:"T1", seeds:1}——加预算
+  sizing 不另算,HORIZON #3 已备(0.67 step/s:10^5 步≈2 天/臂,
+  10^6≈17 天/臂,超出 T1 合理窗口⇒T2/T3 人裁)。
+- 变量判定: 非例外轮(队首在途跟进+D 触发方向动作=判读准备);连击=0。
+- 节拍距: 距上次十轮节拍(轮 123)已 5 产出轮,N<10 不触发节拍;
+  方向距 D=5(守望段)已触发,当轮方向动作=verdict schema 预钉
+  (上文;准备不发射不切锚,判据零改动)。
