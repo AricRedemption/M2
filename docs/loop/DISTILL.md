@@ -301,3 +301,26 @@
   两件事;mtimes 三件套(log/jsonl/partial)各自节奏不同,合起来就是
   无需侵入的训练状态探针。
 - 变量判定: 非例外轮(队首在途跟进);连击=0。
+
+### 轮 24(2026-10-02;终判预演轮;非例外轮,连击=0)
+- 现状: d=8 臂 6200+/30000;把 prereg v2 的 readout_rule/
+  negative_diagnoses/落账机制逐字装填进本轮记录——终评(约 09:45)出数
+  后的判读轮按预载分支执行,零现场解释空间。预载结论:①M(8,0)<0.90
+  (chance)⇒ phase_3 终局分支"复核仍全 chance ⇒ budget_wall 判负登记"
+  (grok_rate(8)=0 ∧ 对照 grok 率=0 两条均可机械核对:d1=0.066/d8 待出/
+  对照=0.064)⇒ 负结果同等登记 h_supported=false+diagnosis=budget_wall
+  ⇒ 轮 15 双归因(SSM 表达性下界 2404.08819+预算墙)+加预算换算
+  (10^5≈2 天/臂,10^6≈17 天/臂)⇒ T2/T3 授权议题=BLOCKED-HUMAN 人裁
+  =单目标达成(推进至 BLOCKED-HUMAN);②M(8,0)≥0.90(单 seed grok)
+  ⇒ 非 budget_wall,落 bimodal_grokking_zone 诊断(需更多 seeds ⇒
+  亦人裁)。落账路径:depth 完成→partial fsync(含 acc),单深度腿随即
+  canonical 行;ROADMAP §4.5 为登记位。
+- 问题: 判读轮是自由度最大的轮——数据在手时"怎么算/算哪个"的每个
+  现场决定都是 post-hoc 风险敞口;预注册管住了"判据不可改",管不住
+  "现场自由发挥的执行"。
+- 有效经验: 终判预演=把执行也预注册:出数前逐字装填分支条件+落账
+  路径+登记位,判读轮退化成机械核对(可核对项全部二元化:M≥0.90?对照
+  =0?d1=chance?);两次连续命中同一防线(块高守卫先于 pytest 短路,
+  &&链按设计拒跑)——门禁顺序本身就是防线,块高不修 pytest 不该跑。
+- 变量判定: 非例外轮(终判预演=preparing current_variable 判读,映射
+  判读链);连击=0。
