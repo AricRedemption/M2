@@ -58,7 +58,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 14 工程硬化:轮13b 工具缺口候补两项落地(双开防护跨 pidfile+PYTHONUNBUFFERED);d=8 复核臂(pid 40268)在途,下轮=d=8 终评判读+readout_rule 终判
+state: RUNNING            # 轮 15 社区蒸馏门(用户点名):HORIZON #3 三件终判分叉弹药;d=8 复核臂(pid 40268)在途 ETA≈10-02 上午,下轮=readout_rule 终判(chance ⇒ budget_wall+架构下界双归因,加预算/换任务分叉=人裁)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
   M2 循环 v1(AMM-003 拉式):训练腿跨轮的 Go 轮次循环(轮次协议/阶梯/
@@ -83,31 +83,33 @@ current_action: >-
   轮 11(10-01)清理轮(审计处方打包,零承重句变动);例外连击(10+11)
   触发 BLOCKED-HUMAN,轮 12 用户问询=明示授权解除(半例外不计连击+
   明示续作重置连击,阈值/后果零改动)。
-  轮 13(10-01)研究主线判读轮+事故响应:phase_3 d=1 终评按预注册口径判读
-  M(1,0)=0.066=chance(k1-15 均值;k16=1.000 退化桶仅透明报告;与对照臂
-  phase_1 M=0.0637 同平台)。事故:原 d=8 腿(24851,18:31 起)与 20:01 并
-  行腿(来源不明,launcher seed 粒度判重致其重跑 d1)均死于 20:22 机器重启
-  ——d8 至 ~3600 步零落盘;stdout 块缓冲致 log 滞后 ~30min,"loss 0.13@
-  3600"降级为死腿 exploratory 线索不入判读(新腿可复验)。处置:幂等发射器
-  P0C_DEPTHS="8" 单臂重发(tag 不变,d1 已判读省 ~3h;判据 M(1,·) 取 18:31
-  冻结 partial 行,M(8,·) 取新腿终评,来源轮内留痕),pid 40268 在途
-  ETA≈10-02 上午;终判(readout_rule:d8 亦全 chance ⇒ budget_wall 判负)归
-  下轮点火。清前会话 watcher 残留(kill -0 0 永等)。PR 同步遇 github 443
-  不可达,推迟(AMM-004 本仓红线不破:未直推远端 main)。
-  轮 14(10-01)工程硬化轮:轮 13b 工具缺口候补两项落地——①launcher 双开
+  轮 13(10-01)研究主线判读+事故响应:d=1 终评 M(1,0)=0.066=chance;
+  原 d=8 腿与 20:01 并行腿死于 20:22 机器重启(块缓冲假进度;"loss 0.13@
+  3600"降级 exploratory);幂等单臂重发 pid 40268,M(1,·) 取 18:31 冻结
+  partial 行留痕;清 kill -0 0 永等 watcher;github 443 不可达 PR 推迟。
+  轮 14(10-01)工程硬化轮:轮13b 工具缺口候补两项落地——①launcher 双开
   防护扩展到 PIDFILE 同目录全部 *.pid(2026-10-01 两次真实绕过:20:01 死
   轮会话异 pidfile 重复发射;并行轮取证窗口内我方误删其活 pidfile 后自
   绕);②PYTHONUNBUFFERED=1 发射 runner(stdout 块缓冲 log 滞后 ~30min
   致两轮误判零进度);桩 fixture 增环境探针列,+2 测试守护。d=8 复核臂
   (pid 40268)在途未动,终判仍归下轮点火。上轮(并行轮取证退出)遗留
   锁=我方残留,本轮开场按证据链接管删除。
+  轮 15(10-01)社区蒸馏门轮(用户点名=触发③):问表四栏→三路检索各
+  ≥2 独立源,入 HORIZON 条目 #3——①SSM/线性递归状态追踪表达性下界
+  (arXiv 2404.08819:pointer chase 属受阻类;M2 的 full_mha+全局头恰是
+  文献解法方向);②looped transformer 算法任务正先验(ICLR 2024+Zhang,
+  附怀疑方复核留痕);③grokking 视界非常数(wd/数据量/初始化移动它;
+  M2 配方 wd=0.01+beta2=0.999+clip=0 已在位)。喂终判分叉:d=8 chance ⇒
+  budget_wall 判负+架构下界双归因;加预算换算 10^5 步≈2 天/臂,10^6≈17
+  天/臂(T1 实测 0.67 step/s)⇒ T2/T3 议题=BLOCKED-HUMAN 人裁;换任务
+  候选=排序类(奇偶仍归 LNN 参数化线)。无机制改动,非例外轮。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 14 工程硬化:双开防护跨 pidfile+unbuffered 落地;d=8 复核臂 pid 40268 在途,终判归下轮)
+updated: 2026-10-01 (轮 15 社区蒸馏门:HORIZON #3 入账;d=8 复核臂 pid 40268 在途,终判归下轮)
 ```
 
 ```yaml

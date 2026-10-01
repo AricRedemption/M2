@@ -93,6 +93,42 @@
   verdict 诊断的 budget_wall 条目作外部参照。
 - **判定**:已获取(2 源交叉,目标达成);无机制改动。
 
+### #3 终判分叉弹药:架构先验+循环深度正先验+预算校准(轮 15,2026-10-01;用户点名触发③,服务 current_variable)
+- **问表**:现状=P0-C′ phase_3 复核 d=1 终评 chance,d=8 在途(30k 步);
+  若 d=8 亦 chance ⇒ budget_wall 判负,分叉=加预算 vs 换任务(人裁);
+  问题(社区语言)=①线性递归/SSM 做 pointer chasing 类 state tracking
+  是否结构性不可达,迭代深度能否绕过;②looped/depth-recurrent 模型在
+  算法任务上迭代深度有无正先验;③grokking 视界随什么变量移动;
+  目标=给终判分叉备三件弹药(架构归因/任务候选/预算量级),可判定=
+  每件 ≥2 独立源;检索颗粒度=state tracking SSM lower bound / looped
+  transformer algorithmic / grokking onset weight decay。
+- **来源**:①[Illusion of State(arXiv 2404.08819)](https://arxiv.org/abs/2404.08819)
+  +[NYU Data Science 独立解读](https://nyudatascience.medium.com/the-illusion-of-state-uncovering-the-limitations-of-state-space-models-66860837d193);
+  ②[Looped Transformers(ICLR 2024,arXiv 2311.12424)](https://arxiv.org/abs/2311.12424)
+  +[Recurrent Looped Transformer(Zhang)](https://yifanzhang-pro.github.io/recurrent-looped-tranformer/Recurrent_Looped_Transformer.pdf)
+  (附[怀疑方复核](https://flowtivity.ai/blog/recurrent-looped-transformer-debunked));
+  ③[Power et al(arXiv 2201.02177)](https://arxiv.org/abs/2201.02177)
+  +[Michaud 分析](https://ericjmichaud.com/grokking-squared)
+  +[Sakana Unlocking Grokking](https://sakana.ai/assets/ai-scientist/weight_initialization_grokking.pdf)。
+- **先验**:①SSM/线性递归的"状态"是幻觉——非交换非群 monoid 的 state
+  tracking(含 index lookup/pointer chase)有表达性下界,递归形式本身
+  不救;文献解法=加 index-lookup 式机制(M2 的 full_mha+全局头恰属
+  此类,修复方向与文献对齐);②looped transformer 在算法任务有正先验
+  (权重共享循环=有效计算深度;8 层循环模型 256-bit 输入保 100% 准确
+  率),但存在受控复核的怀疑声音(只采正先验入判读链,不采营销口径);
+  ③grokking 视界非常数,weight decay/数据量/初始化都移动它——M2 配方
+  已含 wd=0.01+beta2=0.999+clip=0(runner 224 行实证),配方在位;
+  30k 仍 chance 时"加预算"是文献支持的第一杠杆(量级与 #2 双确认)。
+- **对 M2 判读链的输入(不改判据,只喂分叉决策)**:d=8 chance ⇒
+  budget_wall 判负登记时,诊断可注明"递归状态追踪表达性下界
+  (2404.08819)+预算不足(#2/#3 双确认)";加预算量级换算(T1 MPS
+  0.67 step/s 实测):10^5 步≈2 天/臂,10^6 步≈17 天/臂——超出 T1
+  单机自洽范围,须 T2/T3 授权 ⇒ 届时 BLOCKED-HUMAN 人裁;换任务候选
+  =looped 文献算法任务族(排序类可入;奇偶按 v1 scope_note 仍归 LNN
+  参数化线,不混)。
+- **判定**:已获取(三组主张各 ≥2 源);预算 10^5-10^6=T2/T3 级授权
+  议题,条件触发人裁;无机制改动。
+
 ## 检索源
 
 - DGM:[sakana.ai/dgm](https://sakana.ai/dgm/) · [arXiv 2505.22954](https://arxiv.org/abs/2505.22954)
