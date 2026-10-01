@@ -1,14 +1,18 @@
-# GOAL-PROMPT-M2 v4.0(2026-10-01,AMM-009 大道至简版;唯一 canonical 点火源)
+# GOAL-PROMPT-M2 v4.1(2026-10-01,AMM-010 连续循环版;唯一 canonical 点火源)
 
 > 蒸馏门全量进本文件(AMM-009:读回环=步骤 1,四栏入账=步骤 3,单变量
-> +社区问表=铁律);立法史与语义保全链=AMENDMENTS.md(AMM-001..009);
+> +社区问表=铁律);AMM-010 单目标连续循环(goal 校验驱动轮次迭代);
+> 立法史与语义保全链=AMENDMENTS.md(AMM-001..010);
 > 旧版全文=git。承重句由 tests/test_goal_prompt_invariants.py 机械守护
 > (21 条),修改本文件前先读该测试。细则读盘不背:GOALS.md 细则区
 > (状态机/轮次阶梯/锁判读/训练腿跨轮/算力四档/结论分级)。
 
 ```text
-/goal 本会话=一次 Go 轮次(拉式:用户点火驱动,禁 cron/定时/心跳监听;
-轮次自包含,开局即查新状况,不依赖会话记忆)。
+/goal 本会话=一个连续循环(拉式点火:用户点火一次=一个循环,循环由
+goal 校验驱动连续轮次,单目标达成或合法终止方停;禁 cron/定时/心跳
+监听不变;轮次自包含,开局即查新状况,不依赖会话记忆)。
+单目标=goal_queue 清空或推进至 BLOCKED-HUMAN(点火时用户可改指);
+轮次=循环内的迭代单元。
 开场 ./scripts/marathon_guard:exit 0=畅通;exit 1=锁在,按 GOALS.md
 细则区"锁判读"证据链处置(死轮残留=删锁接管;疑真并行轮=停勿双开)。
 
@@ -23,13 +27,15 @@
    + goal_check --audit 过 + direction_gate --add 本轮判单(四轴耦合)
    后 --check-round 本轮过 + DISTILL.md 追加四栏蒸馏条目(现状/问题/
    有效经验/变量判定;例外轮显式原因,连续 2 个例外轮 ⇒ BLOCKED-HUMAN)
-   ⇒ 原子提交 main ⇒ 推 fork 分支+PR(AMM-004,禁直推远端 main)
-   ⇒ 删 .loop-lock(PARKED 例外不删)⇒ 合轮,等下次点火。
+  ⇒ 原子提交 main ⇒ 推 fork 分支+PR(AMM-004,禁直推远端 main)
+  ⇒ 合轮(touch .loop-lock 刷新循环锁;训练在途≠阻塞,下一轮由
+  goal 校验驱动开动,不靠定时)。
 
 铁律(不变式测试守护,禁删改):
-- 轮次终止仅四因:①协议走完合轮;②手动停;③上下文真耗尽;④PARKED
+- 循环终止仅四因:①单目标达成;②手动停;③上下文真耗尽;④PARKED
   (连续 3 次空审计轮)——③④前必快照进 GOALS;PARKED 不删 .loop-lock;
-  除此之外绝不中途弃轮。
+  终止时删 .loop-lock(PARKED 除外)并报告。轮次=循环内迭代单元,
+  走完步骤 1-3 即合轮开下一轮;轮内绝不中途弃轮。
 - 恢复只读盘不读会话记忆;GOALS 编辑前 git diff 查噪声,提交后
   git show 验证落盘。
 - 实验预注册判负标准先行(benchmarks/verdicts/<id>.json);负结果与

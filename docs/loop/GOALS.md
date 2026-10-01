@@ -9,15 +9,17 @@
 
 ## 循环细则(AMM-002 自 prompt 下沉,AMM-003 轮次化改订;agent 每轮开场读本区,不靠会话记忆)
 
-- **驱动模型(AMM-003,拉式;AMM-004 PR 流)**:用户在 Desktop Go 模式点火,
-  一轮自包含:开场三查(状态/进程/增量)→ goal_check 路由 → 门禁全绿 →
-  原子提交(+推 fork 分支/PR 同步,禁直推远端 main)→ 删锁合轮。
-  **禁 cron/launchd/定时任务/心跳监听**,调度工具一律不创建
-  (ignite.sh+agent-cmd.conf 已于轮 11 归档删除,git 可逆)。
+- **驱动模型(AMM-003 拉式点火;AMM-004 PR 流;AMM-010 连续循环)**:
+  用户点火一次=一个连续循环,循环内由 goal 校验驱动连续轮次(单目标
+  =goal_queue 清空或推进至 BLOCKED-HUMAN,点火时可改指),达成或合法
+  终止方停。**禁 cron/launchd/定时任务/心跳监听**不变,调度工具一律
+  不创建(ignite.sh+agent-cmd.conf 已于轮 11 归档删除,git 可逆);
+  循环锁=.loop-lock 每轮合轮 touch 刷新,循环终止删(PARKED 墓碑例外)。
 - **锁判读(marathon_guard exit 1 时)**:最后提交晚于锁 mtime(锁后已
   提交=已合轮残留)或 锁龄≥30min+锁后零提交+零活进程(死轮残留)
   ⇒ 删锁接管;锁龄<30min+锁后零提交+有活进程迹象 ⇒ 疑真并行轮,
-  停勿双开,报告用户。合轮删锁;PARKED 例外保留(墓碑,100min 自过期)。
+  停勿双开,报告用户。连续循环内:锁 mtime=每轮合轮 touch 刷新,活循环
+  的锁恒新鲜;循环终止删锁;PARKED 例外保留(墓碑,100min 自过期)。
 - **状态机**:RUNNING(默认)/ PARKED(唯一非手动自停态:连续 3 次空审计
   轮触发;处置=RSI 夜账补账+快照进本文件+提交合轮,不删 .loop-lock,
   100min 自过期;重入口=用户 Go 点火:读 PARKED 快照+复述停摆原因进
@@ -58,7 +60,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 15 社区蒸馏门(用户点名):HORIZON #3 三件终判分叉弹药;d=8 复核臂(pid 40268)在途 ETA≈10-02 上午,下轮=readout_rule 终判(chance ⇒ budget_wall+架构下界双归因,加预算/换任务分叉=人裁)
+state: RUNNING            # 轮 16 机制修订:AMM-010 单目标连续循环 ADOPTED(v4.1);下轮起按连续循环驱动(单目标=队列清空或 BLOCKED-HUMAN);d=8 复核臂(pid 40268)在途,出数即终判
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
   M2 循环 v1(AMM-003 拉式):训练腿跨轮的 Go 轮次循环(轮次协议/阶梯/
@@ -87,29 +89,32 @@ current_action: >-
   原 d=8 腿与 20:01 并行腿死于 20:22 机器重启(块缓冲假进度;"loss 0.13@
   3600"降级 exploratory);幂等单臂重发 pid 40268,M(1,·) 取 18:31 冻结
   partial 行留痕;清 kill -0 0 永等 watcher;github 443 不可达 PR 推迟。
-  轮 14(10-01)工程硬化轮:轮13b 工具缺口候补两项落地——①launcher 双开
-  防护扩展到 PIDFILE 同目录全部 *.pid(2026-10-01 两次真实绕过:20:01 死
-  轮会话异 pidfile 重复发射;并行轮取证窗口内我方误删其活 pidfile 后自
-  绕);②PYTHONUNBUFFERED=1 发射 runner(stdout 块缓冲 log 滞后 ~30min
-  致两轮误判零进度);桩 fixture 增环境探针列,+2 测试守护。d=8 复核臂
-  (pid 40268)在途未动,终判仍归下轮点火。上轮(并行轮取证退出)遗留
-  锁=我方残留,本轮开场按证据链接管删除。
-  轮 15(10-01)社区蒸馏门轮(用户点名=触发③):问表四栏→三路检索各
-  ≥2 独立源,入 HORIZON 条目 #3——①SSM/线性递归状态追踪表达性下界
-  (arXiv 2404.08819:pointer chase 属受阻类;M2 的 full_mha+全局头恰是
-  文献解法方向);②looped transformer 算法任务正先验(ICLR 2024+Zhang,
-  附怀疑方复核留痕);③grokking 视界非常数(wd/数据量/初始化移动它;
-  M2 配方 wd=0.01+beta2=0.999+clip=0 已在位)。喂终判分叉:d=8 chance ⇒
-  budget_wall 判负+架构下界双归因;加预算换算 10^5 步≈2 天/臂,10^6≈17
-  天/臂(T1 实测 0.67 step/s)⇒ T2/T3 议题=BLOCKED-HUMAN 人裁;换任务
-  候选=排序类(奇偶仍归 LNN 参数化线)。无机制改动,非例外轮。
+  轮 14(10-01)工程硬化轮:launcher 双开防护扩展同目录全部 *.pid(两次
+  真实绕过事故闭环)+PYTHONUNBUFFERED=1(块缓冲假进度),+2 测试;d=8
+  复核臂在途未动;上轮并行轮遗留锁=我方残留,证据链接管删除。
+  轮 15(10-01)社区蒸馏门轮(用户点名=触发③):三路检索各 ≥2 独立源
+  入 HORIZON #3——①SSM/线性递归状态追踪表达性下界(arXiv 2404.08819;
+  M2 full_mha+全局头恰是文献解法方向);②looped transformer 算法任务
+  正先验(ICLR 2024+Zhang,附怀疑方复核);③grokking 视界非常数(配方
+  wd=0.01+beta2=0.999+clip=0 已在位)。喂终判分叉:d=8 chance ⇒
+  budget_wall+架构下界双归因;加预算 10^5≈2 天/臂 10^6≈17 天/臂 ⇒ T2/T3
+  议题=人裁;换任务候选=排序类。非例外轮。
+  轮 16(10-01)机制修订轮(用户明示点火=修宪授权):AMM-010 单目标连续
+  循环 ADOPTED——GOAL-PROMPT v4.0→v4.1 三处改订:①开篇"一次 Go 轮次"
+  →"一个连续循环"(点火一次=一个循环,goal 校验驱动连续轮次);②步骤
+  3 尾"删锁等点火"→"合轮 touch 刷新循环锁,下一轮由 goal 校验驱动";
+  ③终止铁律换形"轮次终止四因①协议走完"→"循环终止四因①单目标达成"
+  (单目标=goal_queue 清空或推进至 BLOCKED-HUMAN,点火时可改指);
+  "绝不中途弃轮"语义保全(作用域=轮内)。21 承重句 fragment 零改动;
+  空转闸(3 空审计⇒PARKED)=连续循环防呆,原样;禁外部调度不变。
+  例外轮(机制修订,用户明示 ⇒ 连击重置)。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 15 社区蒸馏门:HORIZON #3 入账;d=8 复核臂 pid 40268 在途,终判归下轮)
+updated: 2026-10-01 (轮 16 AMM-010 单目标连续循环 v4.1;d=8 复核臂 pid 40268 在途,出数即终判)
 ```
 
 ```yaml
