@@ -1215,3 +1215,31 @@
 - 变量判定: 非例外轮(队首在途跟进);连击=0。
 - 节拍距: 距上次十轮节拍(轮 113)已 4 产出轮,N<10 不触发节拍;
   方向距 D=4(守望段),D<5 不触发(下轮 D=5 触发)。
+
+### 轮 118(2026-10-02;在途跟进+方向动作轮(D=5 触发);非例外轮,连击=0)
+- 现状: d=8 臂 40268 存活 18200/30000 chance 平台(loss≈2.75);欠账 0
+  (399e3f3 fork 远端实测=本地);下一实质点=mid_eval@20000(约 06:15)
+  +终评(约 09:45)。
+- 问题: 终评判读预备核查揪出三处"判据字面 vs 盘上数据"错配,若留到
+  终评轮现场必致临场发挥:①tag 错配:prereg 判据句字面"tag=p0c_prime"
+  (v1 phase_2 全量重发路径),实际数据 tag=p0c_prime_v2_recheck
+  (v2 自有 readout_rule:对照 chance ⇒ phase_3 复核,复核腿即现役
+  tag)——按 v2 自身执行计划读,判据行=v2_recheck,非 posthoc move;
+  ②数据源:canonical jsonl 无 d=1/d=8 终行,d=1 唯一记录=18:31 冻结
+  partial(轮 13 判例留痕,kind=depth_run_partial);③单 seed:判据
+  grok_rate 分母=/3、σ_paired ddof=1 需 ≥2 seeds,盘上仅 seed 0 ⇒
+  h_supported=true 机械不可判,分支全走 negative_diagnoses。
+- 有效经验: 终评判读预案(轮 24 装填的补全,09:45 照此机械执行):
+  ①M(d,s)=mean_{k∈1..15} acc_k,禁手算必脚本化——本轮实证:快算
+  不排 k=16 桶曾把 chance 读成 0.124(k=16=复制捷径退化桶≈1.0,
+  排除后 M(1,0)=0.0660/d8 mid@10000=0.0632 均 chance,与轮 10/13
+  判例一致);②分支表:M(8,0)≈chance ⇒ gain<0.02 ⇒ h_supported=
+  false ⇒ budget_wall 判负登记(grok_rate(8)=0∧对照率=0 兑现,非
+  thesis 反证,换任务/加预算另立预注册=人裁);M(8,0) 显著>chance
+  ⇒ 单 seed 不可裁决 ⇒ direction_but_underpowered/bimodal ⇒ 升级
+  seeds 需 T2/T3 授权=BLOCKED-HUMAN;③d=8 终行落 canonical 后与
+  18:31 冻结 d=1 行配对计算,数据映射已录入 next_trigger_hint。
+- 变量判定: 非例外轮(队首在途跟进+D 触发方向动作=判读准备);连击=0。
+- 节拍距: 距上次十轮节拍(轮 113)已 5 产出轮,N<10 不触发节拍;
+  方向距 D=5(守望段)已触发,当轮方向动作=终评判读预案(上文;
+  准备不发射不切锚,判据零改动)。
