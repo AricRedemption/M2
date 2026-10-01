@@ -60,7 +60,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 21 在途跟进轮:隔离首验过;AMM-004 欠账清偿(fork 分支=5642fe6,PR #2 跟进);d=8 臂 5600+/30000
+state: RUNNING            # 轮 22 在途跟进轮:隔离二次验+清偿后快进推送;d=8 臂(pid 40268)5800+/30000,mid_eval 约 01:50,终评约 09:45
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作)
 current_goal: >-
   M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
@@ -86,16 +86,12 @@ current_action: >-
   轮 11(10-01)清理轮(审计处方打包,零承重句变动);例外连击(10+11)
   触发 BLOCKED-HUMAN,轮 12 用户问询=明示授权解除(半例外不计连击+
   明示续作重置连击,阈值/后果零改动)。
-  轮 13(10-01)研究主线判读+事故响应:d=1 终评 M(1,0)=0.066=chance;
-  原 d=8 腿与 20:01 并行腿死于 20:22 机器重启(块缓冲假进度;"loss 0.13@
-  3600"降级 exploratory);幂等单臂重发 pid 40268,M(1,·) 取 18:31 冻结
-  partial 行留痕;清 kill -0 0 永等 watcher;github 443 不可达 PR 推迟。
-  轮 14(10-01)工程硬化轮:launcher 双开防护扩展同目录全部 *.pid(两次
-  真实绕过事故闭环)+PYTHONUNBUFFERED=1(块缓冲假进度),+2 测试;d=8
-  复核臂在途未动;上轮并行轮遗留锁=我方残留,证据链接管删除。
-  轮 15(10-01)社区蒸馏门轮(用户点名):三路检索入 HORIZON #3(SSM 状态
-  追踪下界/looped 正先验/grokking 视界),喂终判分叉=d8 chance ⇒
-  budget_wall+架构下界双归因,加预算 T2/T3=人裁,换任务=排序类。非例外。
+  轮 13(10-01)判读+事故响应:d=1 终评 chance;双腿死于 20:22 重启,
+  幂等重发 pid 40268,M(1,·) 取 18:31 冻结 partial 留痕。
+  轮 14(10-01)工程硬化:launcher 双开防护扩同目录 *.pid+UNBUFFERED=1,
+  +2 测试;并行轮遗留锁证据链接管删除。
+  轮 15(10-01)社区蒸馏门(用户点名):三路检索入 HORIZON #3,喂终判
+  分叉(d8 chance⇒双归因,加预算=人裁,换任务=排序类)。非例外。
   轮 16(10-01)AMM-010 单目标连续循环 ADOPTED(用户明示点火=修宪授权,
   v4.0→v4.1 三处改订;21 fragment 零改动;例外轮连击重置)。
   轮 17(10-01)AMM-010 验收轮(用户点名):全仓一致性扫描修 3 处旧驱动
@@ -116,13 +112,16 @@ current_action: >-
   pytest 零触碰=隔离真实轮内首验;推送第 5 次达远端(网络恢复)被非
   快进拒(分支挂被 amend 的 54b5fa0=防御正常),fetch 后 force-with-
   lease 清偿(→5642fe6),欠账归 0,PR #2 跟进。非例外轮,连击归 0。
+  轮 22(10-01)在途跟进轮:5800+/30000 禁中途判,mid_eval 未到;隔离
+  修复连续第二轮 pytest 零触碰(指纹三次全等);清偿后首次推送=快进。
+  非例外轮,连击=0。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-01 (轮 21 在途跟进:隔离首验过;推送欠账清偿归 0;d=8 在途)
+updated: 2026-10-01 (轮 22 在途跟进:欠账清偿态健康;d=8 在途,出数即终判)
 ```
 
 ```yaml
