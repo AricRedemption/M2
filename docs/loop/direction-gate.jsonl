@@ -22,3 +22,4 @@
 {"round": 20, "direction": "数学/代码推理(在途跟进为主)+工程硬化(账本隔离=判读可信度基建,零方向漂移)", "evidence": "复现实锤 mtime 推走(23:06/23:19 两度)→P0C_RESULTS_DIR 三方同旋钮隔离+零接触回归门;验收=269 绿+canonical size/mtime_ns 前后全等+零桩行;d=8 臂 4800+/30000 禁中途判", "ts": 1790869053}
 {"round": 21, "direction": "数学/代码推理(p0c-prime-depth 在途跟进;零方向漂移)", "evidence": "d=8 臂 5600/30000 禁中途判;隔离修复真实轮内首验(pytest 前后 jsonl size/mtime_ns 全等);欠账 3 提交复测 443 四连败", "ts": 1790869700}
 {"round": 22, "direction": "数学/代码推理(p0c-prime-depth 在途跟进;零方向漂移)", "evidence": "d=8 臂 5800+/30000 禁中途判;隔离修复连续第二轮 pytest 零触碰(指纹三次全等);清偿后首次推送快进验证", "ts": 1790870170}
+{"round": 23, "direction": "数学/代码推理(p0c-prime-depth 在途跟进;零方向漂移)", "evidence": "d=8 臂 6000/30000 禁中途判;partial 冻结预测验证=未到 mid_eval 旁证;指纹连续第四轮全等", "ts": 1790870368}
