@@ -62,7 +62,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 26 在途跟进轮:mid_eval 预测已立待核;d=8 臂(pid 40268)6600/30000,判据预载,出数即终判
+state: RUNNING            # 轮 106 在途跟进+硬化轮:新循环点火;d=8 臂(pid 40268)17000/30000 chance 平台,mid_eval@20000 约 06:15/终评约 09:45 待核,禁中途判
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
@@ -71,23 +71,13 @@ current_goal: >-
 current_variable: p0c-prime-depth(思考深度→能力;组合变量=γ配额K=2+full_mha 原子修复包,其余冻结;判据=verdicts/p0c_prime.prereg.v2.json,沿用 v1,no_posthoc_move)
 current_action: >-
   [轮次索引:更早轮单行,全文=git log(AMM-009 瘦身,永不丢)]
-  轮 1(09-27)循环 bootstrap+验收修复(pop_first 隔条删除 bug)。
-  轮 2(09-27)AMM-002 prompt 瘦身 canonical 化+17 条不变式测试。
-  轮 3(09-27)P0-C′ 发射:预注册 v1+fixed sweep(T1 MPS)。
-  轮 4(09-27)episodic-stream 落地(DATA_FORMS §2)。
-  轮 5(09-27)dpo-grpo-wiring 接线(rl 单步路径,默认关)。
-  轮 6(10-01)AMM-003 拉式驱动+09-28 事故响应(fsync 增量+幂等发射)。
-  轮 7(10-01)AMM-004 PR 流(fork+PR#1)+AMM-005 蒸馏门(goal_check
-  全队列+current_variable+DISTILL)+P0-C′ 对照先行(phase_1 chance ⇒
-  phase_3 复核发射;前段会话猝死,锁判读取证后接力收编)。
-  轮 8(10-01)研究登记:RSI-HORIZON 对标 8 体系(已具备 5/缺口 2)。
-  轮 9(10-01)AMM-008 社区蒸馏门(问表四栏)+社区先验(多跳结构性
-  障碍+grokking 量级 10^5-10^6 步)喂 P0-C′ 判读链。
-  轮 10(10-01)AMM-009 大道至简(GOAL-PROMPT v4.0 承重句 19→21+程序计数器
-  瘦身+变动率一行仪表);phase_3 d=1 终评 chance 落盘,d=8 在途。
-  轮 11(10-01)清理轮(审计处方打包,零承重句变动);例外连击(10+11)
-  触发 BLOCKED-HUMAN,轮 12 用户问询=明示授权解除(半例外不计连击+
-  明示续作重置连击,阈值/后果零改动)。
+  轮 1-5(09-27)bootstrap:循环验收修复/AMM-002 瘦身+17 不变式/P0-C′
+  发射预注册 v1+fixed sweep/episodic-stream/dpo-grpo 接线。
+  轮 6-8(10-01)AMM-003 拉式驱动+09-28 事故响应/AMM-004 PR 流+AMM-005
+  蒸馏门+P0-C′ 对照先行/RSI-HORIZON 对标 8 体系。
+  轮 9-12(10-01)AMM-008 社区门+社区先验喂判读链/AMM-009 大道至简+
+  d=1 终评 chance 落盘/清理轮例外连击→轮 12 用户明示解除(阈值/后果
+  零改动)。
   轮 13(10-01)判读+事故响应:d=1 终评 chance;双腿死于 20:22 重启,
   幂等重发 pid 40268,M(1,·) 取 18:31 冻结 partial 留痕。
   轮 14(10-01)工程硬化:launcher 双开防护扩同目录 *.pid+UNBUFFERED=1,
@@ -118,13 +108,15 @@ current_action: >-
   轮 88-92(10-02)在途跟进×5:14600→15200/30000 chance 平台;89/90 推送欠账 2 笔经轮 91 快进清偿归 0(远端实测口径);终评约 09:45。
   轮 93-104(10-02)十轮节拍轮×2(N=10)+在途跟进×9+工程硬化轮:夜账 84-93/94-103 补账(事故 3 起结类)+HORIZON 复检无新增+社区门推迟留痕+变动率 0/窗+2b 人裁弹药;loop_closer.sh 合轮收尾器(门禁红即中止)+2 测试;15400→16600/30000 chance 平台,推送清偿归 0(8e1bc8b)。
   轮 105(10-02)MODE-OFF 终止轮:用户约 04:24 手动停,删锁报告;腿 40268 保留(16600/30000,终评约 09:45);closer+测试补入库(账实不符纠偏);下次点火按轮 24 预载判据终判。
+  轮 106(10-02)新循环点火首轮,在途跟进+closer 账实结类(add -A 全仓
+  +测试,轮 105 登记);腿 17000/30000 禁中途判;AMM-012 首轮 D=3/N=3。
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
 next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区);AMM-012 已落地(守望段方向距 D≥5+EXP 冻结豁免,详见 AMENDMENTS)——下轮起 DISTILL 必带方向距行;任务细节(closer 白名单/轮 98/99 账实不符)按用户指令留循环自处置(轮 105 已自查登记)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 27 在途跟进:mid_eval 预测待事件落地核;d=8 在途)
+updated: 2026-10-02 (轮 106 新循环点火:在途跟进+closer 全仓入库硬化;d=8 在途 17000/30000)
 ```
 
 ```yaml

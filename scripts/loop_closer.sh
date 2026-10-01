@@ -16,7 +16,10 @@ fail() { echo "ABORT: $1(不提交不合轮)"; exit 1; }
 .venv/bin/python -m pytest -q > /tmp/loop_closer_pytest.txt 2>&1 || fail "pytest(见 /tmp/loop_closer_pytest.txt)"
 ./scripts/goal_check --audit >/dev/null 2>&1 || fail "goal_check --audit"
 
-git add docs/loop/DISTILL.md docs/loop/GOALS.md docs/loop/RSI-INDEX.md docs/loop/direction-gate.jsonl || fail "git add"
+git add -A || fail "git add"
+# 轮 106 账实结类(轮 105 登记):窄白名单(docs/loop 四件)漏 scripts/tests
+# 新工具文件(轮 98 实证),也将漏终评判读轮必入库的 benchmarks/verdicts+
+# docs/ROADMAP_M2.md;运行时伪迹已由 .gitignore 划界,全仓 add 是唯一稳态。
 git commit -q -m "$MSG" || fail "git commit"
 git push fork main:loop-rounds-7-18 2>&1 | tail -1
 REMOTE=$(git ls-remote fork refs/heads/loop-rounds-7-18 2>/dev/null | cut -c1-7)
