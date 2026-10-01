@@ -110,3 +110,4 @@
 {"round": 105, "direction": "循环终止响应(MODE-OFF 手动停;无方向漂移)", "evidence": "用户约 04:24 mode ON→OFF;删锁报告;腿 40268 保留 16600/30000 终评约 09:45;closer+测试补入库", "ts": 1790886391}
 {"round": 106, "direction": "数学/代码推理(p0c-prime-depth 在途跟进;零方向漂移)", "evidence": "d=8 臂 17000/30000 chance 平台;closer 全仓入库硬化结类轮 105 账实缺口(+1 测试);推送欠账 0 远端实测", "ts": 1790887384}
 {"round": 107, "direction": "数学/代码推理(p0c-prime-depth 在途跟进;零方向漂移)", "evidence": "d=8 臂 17400/30000 chance 平台;欠账 0;自持锁判据落账", "ts": 1790887567}
+{"round": 108, "direction": "数学/代码推理(p0c-prime-depth 在途跟进;零方向漂移)", "evidence": "d=8 臂 17400/30000 chance 平台;D=5 方向动作=停车场审计 4 条维持;欠账 0", "ts": 1790887682}
