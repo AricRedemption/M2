@@ -44,10 +44,9 @@
      轮次未入账即属此项有活,防夜账断喂式静默失效);
   ⑤ 全空 ⇒ **空审计**:四项逐项审计依据写进 current_action 后提交,
      合轮(连续循环内由 goal 校验驱动下一轮);连续 3 次(跨轮)⇒ PARKED。
-- **算力四档(AMM-014 资源红线具体化)**:T0 本地 CPU / T1 本地加速器
-  (MPS)/ T2 服务器(仍需用户明示提供)/ T3 Kaggle(已预授权);资源
-  红线=本机(T0/T1)仅做探针级训练 ≤30min/腿,>30min 一律走 T3 Kaggle;
-  T3 不可用(配额/认证)且训练必须跑 ⇒ BLOCKED-HUMAN;异常即中止。
+- **算力四档(AMM-017 资源=蒸馏约束,非停车条件)**:本机(T0 CPU/
+  T1 MPS)探针腿 ≤30min/腿=唯一执行档;T2 服务器/T3 Kaggle=外置资源,
+  一律**愿望登记**(非阻塞,到位由用户点火改指入队);异常即中止。
 - **结论分级**:[A]构造保证 / [B]本机实测 / [C]终局声明(须 T3 或跨机
   复现);meta 带 exec_tier 与 seed 数。
 - **判单门**:每产出轮次提交前 direction_gate --add --round N
@@ -61,6 +60,11 @@
   方向距行「距上次十轮节拍已 N 产出轮;守望段方向距 D(非守望记
   D=—)」;例外轮显式原因,连续 2 个例外轮 ⇒ BLOCKED-HUMAN)⇒ 原子
   提交 main ⇒ 推 fork 分支+PR ⇒ touch .loop-lock;红即 ABORT。
+- **续向蒸馏细则(AMM-017)**:推导前提=本机 ≤30min 探针可执行
+  (预算反推进预注册:步数/规模按 30min 实测速度定,等墙钟预算设计);
+  超预算推导(外置资源依赖)→ 愿望登记(blocked_on 区+DISTILL 留痕),
+  不入队不停车;多 seed=每条发射 ≤30min,3 seeds 分三次发射;BLOCKED-
+  HUMAN=仅用户手动停。
 - **蒸馏门(AMM-005;纪律=IRON-LAWS.md,本区只留 GOALS 特有)**:
   current_variable=当前唯一研究变量(单变量;组合变量须在其预注册原子
   声明);换变量须旧变量判读落盘(或显式弃置+原因)后留痕切换。
@@ -74,7 +78,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 348 立法轮(AMM-016 围栏二次去细节 ADOPTED):宪法 v4.7(围栏 16 行,细节全下沉且仍被守护)+点火前全项验收通过;待用户点火(粘贴 v4.7 围栏)
+state: RUNNING            # 轮 349 立法轮(AMM-017 资源=蒸馏约束 ADOPTED):宪法 v4.8(只推导 ≤30min 可执行方向,愿望登记不停车,BLOCKED-HUMAN=仅手动停)+队列=t3-launcher 撤入愿望登记/排序探针 30min 预算版;待点火(v4.8 围栏)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -122,51 +126,41 @@ current_action: >-
   AMM-014 蒸馏续向(v4.5:方向四栏推导人不在方向环/本机训练≤30min
   超时走 T3 Kaggle/relay_tree 废除/2b 迁移登记弹出/队列=t3-kaggle-
   launcher→p0c-sort-relay)/343 排版卫生+蒸馏门核查(未漏)。
-  轮 345-346(10-02)版本一览表(AMENDMENTS 头,v1.0→v4.5)+社区门 #5
-  (用户点名;四源 Voyager/DGM/Reflexion-ExpeL/综述入 HORIZON #5:
-  续向蒸馏同构验证/DGM prompt 自改拒/⇒ AMM-015 候选)。
-  轮 347(10-02)立法 AMM-015(v4.6,用户指令"架构向检索质量靠拢"):
-  铁律 24 条下沉 IRON-LAWS.md+围栏 56→36 行+thin/pointer 守卫+
-  distill_inject.py 注入管道。
-  轮 348(10-02)立法 AMM-016(v4.7,"围栏不暴露细节"):二次去细节
-  36→16 行(细节下沉细则区,显式 ABORT 入铁律)+验收通过;待点火。
+  轮 345-348(10-02)立法+社区链:版本一览表(AMENDMENTS 头)/社区门
+  #5(四源 HORIZON #5:Voyager 同构验证/DGM prompt 自改拒)/AMM-015
+  (v4.6:铁律下沉 IRON-LAWS+distill_inject 注入管道+围栏 36 行)/
+  AMM-016(v4.7:细节下沉细则区围栏 17 行+点火前全项验收)。
+  轮 349(10-02)立法 AMM-017(v4.8,用户指令"没资源给,找别的方向
+  30min 迭代,不要停车索要"):资源=蒸馏约束非停车条件(只推导≤30min
+  可执行方向,超预算愿望登记不入队);BLOCKED-HUMAN=仅手动停;
+  t3-kaggle-launcher 撤队首入愿望登记,排序探针改 30min 预算版。
 blocked_on: >-
-  无人工阻塞(轮 340 菜单已全处置:排序类=队列在案,2b=迁移登记弹出,
-  加预算分支=续向蒸馏按诊断自决);资源红线已具体化=本机训练≤30min,
-  超时走 T3 Kaggle(AMM-014);EXP 窗口重置仍待人裁确认(AMM-012);
-  腿 40268 已 rc=0 收官,无在途训练。
+  愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
+  器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
+  另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
+  无在途训练。
 next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
   t3-kaggle-launcher todo):当轮建 Kaggle 发射器(前置=KAGGLE_API
   凭证,无则 BLOCKED-HUMAN 索要)→ 冒烟端到端 → 弹出 → 续向蒸馏推导
   下一方向(p0c-sort-relay 跑 T3,>30min 红线);EXP 窗口重置待人裁
-  确认(AMM-012);点火=v4.7 围栏
+  确认(AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 348 立法轮:AMM-016 细节全下沉+验收通过,宪法 v4.7,待点火)
+updated: 2026-10-02 (轮 349 立法轮:AMM-017 资源约束进蒸馏,无人资源闭环,宪法 v4.8,待点火)
 ```
 
 ```yaml
 goal_queue:
-  - id: t3-kaggle-launcher
-    goal: T3 Kaggle 发射器(AMM-014 算力红线配套工程,队列首棒)——
-      kaggle CLI kernel 推拉封装:模板化 kernel+credential 校验+幂等
-      提交(判重)+状态轮询+output 取回落盘 benchmarks/results/(fsync
-      增量)+失败重试;验收=sort 探针 kernel 端到端冒烟一次;带测试;
-      本地可建无 GPU 需求;前置=KAGGLE_API 凭证(无 ⇒ BLOCKED-HUMAN
-      索要)。
-    done_condition: scripts/launch_kaggle.sh(或等价 .py)在库+冒烟
-      端到端记录 benchmarks/results/kaggle_smoke.json+测试绿。
-    check_cmd: test -f scripts/launch_kaggle.sh -a -f benchmarks/results/kaggle_smoke.json
-    status: todo
   - id: p0c-sort-relay
-    goal: 排序类 fixed-depth 探针(AMM-013 立项,AMM-014 改跑 T3——
-      >30min 红线)——换任务出 budget_wall 的 pointer_chase d16(parity
-      归 LNN 参数化线,v1 scope_note):MT-LNN γ 配额 K=2+full_mha 修复
-      后,fixed-depth sweep(d=1/8,30k 步,T3 Kaggle,transformer 对照
-      先行),任务=排序类(多步比较链,深度敏感;具体任务定义在预注册
-      时钉死);流程=预注册判负标准先行(benchmarks/verdicts/
-      p0c_sort.prereg.json)⇒ T3 发射 ⇒ 判读登记 ROADMAP §4.5;多 seed
-      纪律(双峰报 grok 率,对外 ≥5 seeds)。
+    goal: 排序类 fixed-depth 探针(AMM-013 立项,AMM-017 预算版:本机
+      ≤30min/腿,等墙钟预算设计)——换任务出 budget_wall 的
+      pointer_chase d16(parity 归 LNN 参数化线,v1 scope_note):MT-LNN
+      γ 配额 K=2+full_mha 修复后,探针级 fixed-depth 对照(d=1 vs d=8,
+      steps 按 30min 实测速度反推,3 seeds 分三次发射各 ≤30min),任务
+      =排序类(多步比较链,深度敏感;具体任务定义在预注册时钉死);
+      流程=预注册判负标准先行(benchmarks/verdicts/p0c_sort.prereg.json,
+      判据=探针级口径)⇒ 逐腿本机发射 ⇒ 判读登记 ROADMAP §4.5;结论
+      分级 [B] 探针级,不虚报终判(30k 步终判=愿望登记挂账)。
     done_condition: 判决文件 benchmarks/verdicts/p0c_sort.json 存在且含
       h_supported 字段(预注册格式),ROADMAP 已登记判决条目。
     check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_sort.json')); assert 'h_supported' in d"

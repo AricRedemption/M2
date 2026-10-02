@@ -351,3 +351,4 @@
 {"round": 346, "direction": "数学/代码推理(社区蒸馏门 #5;服务 AMM-015 裁决;零方向漂移)", "evidence": "四体系四源入 HORIZON #5;AMM-015 两候选获双源支撑;DGM 事故背书修宪门", "ts": 1790978127}
 {"round": 347, "direction": "数学/代码推理(AMM-015 立法;围栏分层+注入管道;零方向漂移)", "evidence": "AMM-015 ADOPTED:宪法 v4.6+IRON-LAWS.md+distill_inject.py+围栏 36 行;pytest 285 绿/audit 2=2", "ts": 1790979018}
 {"round": 348, "direction": "数学/代码推理(AMM-016 立法+验收;零方向漂移)", "evidence": "AMM-016 ADOPTED:宪法 v4.7 围栏 17 行+细节全下沉仍被守护;验收七项全过;pytest 285 绿/audit 2=2", "ts": 1790979628}
+{"round": 349, "direction": "数学/代码推理(AMM-017 立法;资源约束进蒸馏;零方向漂移)", "evidence": "AMM-017 ADOPTED:宪法 v4.8 资源=蒸馏约束/愿望登记不停车/BLOCKED-HUMAN=仅手动停;pytest 285 绿/audit 1=1", "ts": 1790980316}
