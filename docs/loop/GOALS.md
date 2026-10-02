@@ -68,7 +68,7 @@ current_goal: >-
   M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
   单目标=队列清空或推进至 BLOCKED-HUMAN(协议/阶梯/纪律唯一源=
   docs/loop/GOAL-PROMPT-M2.md,本文件不复述)。
-current_variable: p0c-prime-depth(思考深度→能力;组合变量=γ配额K=2+full_mha 原子修复包,其余冻结;判据=verdicts/p0c_prime.prereg.v2.json,沿用 v1,no_posthoc_move)
+current_variable: p0c-prime-depth(思考深度→能力;判读已落盘=判负 budget_wall,verdicts/p0c_prime.json h_supported=false;换向待人裁:加预算/换任务/2b 三选,判据=prereg.v2.json no_posthoc_move)
 current_action: >-
   [轮次索引:更早轮单行,全文=git log(AMM-009 瘦身,永不丢)]
   轮 1-5(09-27)bootstrap:循环验收修复/AMM-002 瘦身+17 不变式/P0-C′
@@ -113,24 +113,14 @@ current_action: >-
 blocked_on: >-
   服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
   非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
-next_trigger_hint: goal_check ⇒ 路由(挂起/阶梯/状态机语义见本文件细则区);AMM-012 已落地(守望段方向距 D≥5+EXP 冻结豁免,详见 AMENDMENTS)——下轮起 DISTILL 必带方向距行;任务细节(closer 白名单/轮 98/99 账实不符)按用户指令留循环自处置(轮 105 已自查登记);终评判读(约 09:45)按 DISTILL 轮 118+128 预案机械执行(verdict schema 见 128):数据=tag p0c_prime_v2_recheck 行(d=1 取 18:31 冻结 partial 判例)+对照 v2_control,M 口径排除 k=16 桶脚本化计算,单 seed 分支全走 prereg negative_diagnoses,零现场发挥;终评后人裁菜单见 DISTILL 轮 138,终行取数路径见 148
+next_trigger_hint: goal_check ⇒ 路由;下轮预期 exit 6(队列=[2b-120k-leg blocked-human]):阶梯取活后向用户报告待授权项菜单=(a) T1 加预算腿 10^5 步≈2 天/臂(新预注册+换变量留痕)(b) T2/T3 加预算(需预授权)(c) 换任务排序类新预注册(T1 可跑)(d) 2b-120k-leg 三选[专荐改判据:用户线 RESULTS_2B_30K.md 已含 200K 收官 PPL 2.4106,详见 DISTILL 轮 158]——菜单裁决权在用户,人裁毕走 AMENDMENTS/队列变更;需人决策 ⇒ BLOCKED-HUMAN(单目标达成=合法终止因①,终止删锁报告);EXP 窗口重置待人裁确认(AMM-012)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 338 D=5 留痕;d=8 在途 29800/30000 终评在即)
+updated: 2026-10-02 (轮 339 终评判读:P0-C′ 判负 budget_wall,队首弹出)
 ```
 
 ```yaml
 goal_queue:
-  - id: p0c-prime-depth-retest
-    goal: P0-C′ 思考深度命题复测(ROADMAP §4 P0-C 结论 3 待办)——γ 全局头配额
-      + full MHA 修复注意力后的 MT-LNN 上做 fixed-depth sweep(深度 1/2/4/8
-      各训全新模型),任务用更难配置(更多跳数/更大图,pointer_chase d16/
-      parity 线);预注册判负标准先行落盘,结果登记 ROADMAP P0 实验日志;
-      多 seed 纪律(双峰任务报 grok 率,禁单 seed 声明)。
-    done_condition: 判决文件 benchmarks/verdicts/p0c_prime.json 存在且含
-      h_supported 字段(预注册格式),ROADMAP 已登记判决条目。
-    check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_prime.json')); assert 'h_supported' in d"
-    status: doing
   - id: 2b-120k-leg
     goal: 2B 训练下一腿——60K 步(val PPL 2.556)后继续至 120K 步并登记
       val PPL;附上下文平坦 PPL 判读(128:2.72/256:2.72/512:2.68,长上下文

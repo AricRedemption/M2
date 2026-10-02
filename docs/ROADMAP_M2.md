@@ -162,8 +162,9 @@ loss 仅在答案位;MT-LNN 训练时每步随机采样深度 1..8,评估深度 
 **P0-C 结论**:
 1. "只循环液体核心 = 思考"被证伪——组合查找的计算在注意力里
 2. 真正的产出是**架构原则 #1(全局头配额)**,一行配置的修复,恢复推理满血
-3. 思考深度命题需要在"注意力已修复"的模型上重新检验(P0-C′,待做):
+3. 思考深度命题需要在"注意力已修复"的模型上重新检验(P0-C′,已做,见下第七轮判决):
    修好注意力后,更难的任务(更多跳数/更大图)上迭代深度是否开始起作用
+   → **判决 h_supported=false(2026-10-02,详见 §4.5 第七轮)**
 
 ### 2026-08-01 · 第六轮:复现危机 — 固定难度探针在 grokking 掷硬币区,单 seed 结论全体作废
 
@@ -182,6 +183,25 @@ loss 仅在答案位;MT-LNN 训练时每步随机采样深度 1..8,评估深度 
 grok 到 loss=0)+ 每配置 ≥3 seeds + per-k 评估。首批:Kaggle kernel
 `m1-gqa-quota-replication-g0`(g0×3 seeds)+ 本地 g2。方法论教训入档:
 **双峰任务上必须报告 grok 率(n seeds 中解出几个),禁止报告单 seed 准确率**。
+
+### 2026-10-02 · 第七轮:P0-C′ 思考深度复测判决(γ+MHA 修复后,pointer_chase d16 fixed-depth)——**判负,诊断 budget_wall**
+
+预注册 `benchmarks/verdicts/p0c_prime.prereg.v2.json`(v2 判据逐字沿用 v1,no_posthoc_move);判决文件 `benchmarks/verdicts/p0c_prime.json`(h_supported=false)。
+
+| 读数(口径=mean over k∈{1..15},排 k=16 复制捷径桶) | M | grok(≥0.90) |
+|---|---|---|
+| d=1(seed 0,18:31 冻结 partial 判例) | 0.0660 = chance | 0/1 |
+| d=8(seed 0,40268 复核臂 30000 步 rc=0) | **0.0656 = chance** | 0/1 |
+| gain_s0 | **−0.0004**(判据 A 需 ≥0.02) | — |
+| transformer 对照(30k 步) | 0.0632 = chance | 0/1 |
+
+mid_eval 三读数一致 chance:mid@10000=0.0632 / mid@20000=0.0658 / final=0.0656。
+
+**判决**:h_supported=false(A 失败;B 单 seed 结构性不可裁决;C 无 grok 可言)。**诊断 budget_wall**(prereg negative_diagnoses 双条件兑现:grok_rate(8)=0 ∧ 对照 grok 率=0)——pointer_chase d16/n16 在 30k 步预算对 MT-LNN(γ 配额 K=2+full_mha 修复后)与 transformer 对照均不可达,深度效应免谈;**非 thesis 反证**。约束:单 seed 探针级([B] 本机实测;grok_rate 分母 3 不满足,双峰任务纪律=n/1 透明计数)。
+
+**后续分叉(另立预注册,不得现场改判据;待人裁)**:①加预算——T1 MPS 实测 0.67 step/s:10^5 步≈2 天/臂、10^6 步≈17 天/臂(RSI-HORIZON #3 sizing:grokking 视界文献先验 10^5-10^6 步,当前预算低一个量级以下);②换任务——排序类(轮 15 检索候选);③2b-120k-leg 三选另案。
+
+
 
 ## 5. 评测纪律 / Evaluation Discipline
 
