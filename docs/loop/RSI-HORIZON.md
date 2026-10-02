@@ -154,3 +154,22 @@
 - Critical Threshold:[MDPI Entropy 28(9):951](https://www.mdpi.com/1099-4300/28/9/951)
 - Dream-RSI:[HF Daily Papers 2026-09-15](https://huggingface.co) · [hermes-ai.net](https://hermes-ai.net)
 - 自改分级文/56% 统计:[generativeai.pub](https://generativeai.pub)
+
+### #5 别人的 RSI 体系和 Goal Prompt 怎么结合(轮 346,2026-10-02;用户点名触发③,服务 AMM-015 裁决)
+
+**问表**:现状=M2 宪法 v4.5 围栏 56 行,驱动已交 RSI 机器(goal_check/续向蒸馏/281 测试),待裁决 AMM-015(铁律下沉盘上文件,围栏瘦身);问题(社区语言)=**self-improving agent 的 meta-prompt/goal prompt 与驱动机制(课程/记忆/存档)的职责边界怎么划——prompt 里该放什么、方向从哪来、prompt 该多长**;目标=拿到 ≥2 个独立体系的具体架构(prompt 结构/长度/方向生成机制),可判定=每体系能答"prompt 里有什么+方向从哪来+经验怎么回注";检索颗粒度=`Voyager automatic curriculum prompt`/`Darwin Godel Machine system prompt archive`/`self-evolving agents survey taxonomy`/`Reflexion ExpeL experience injected into prompt`。
+
+**来源**(四体系,每结论 ≥2 独立源):①[Voyager(arXiv 2305.16291)](https://arxiv.org/abs/2305.16291)+[Skill Libraries and Lifelong Learning 解读](https://taibui.dev);②[Darwin Gödel Machine(arXiv 2505.22954)](https://arxiv.org/abs/2505.22954)+[Sakana 官方博客](https://sakana.ai/darwin-godel-machine)+[Recursive Self-Improvement in 2026 复盘](https://www.pelles.ai);③[Self-Evolving Agents: On Path to ASI 综述(arXiv 2507,GitHub CharlesQ9/Self-Evolving-Agents)](https://github.com/CharlesQ9/Self-Evolving-Agents)+[Comprehensive Survey of Self-Evolving AI Agents(arXiv 2508)](https://arxiv.org/abs/2508.08997);④[Reflexion(arXiv 2303.11366,NeurIPS 2023)](https://arxiv.org/abs/2303.11366)+[ExpeL(arXiv 2308.10159)](https://arxiv.org/abs/2308.10159)+[Prompt Engineering Guide Reflexion 条](https://www.promptingguide.ai/techniques/reflexion/)。
+
+**发现**(四体系的"prompt↔机制"架构,逐个答三问):
+
+1. **Voyager——prompt 是薄模板,方向每轮现组装**:自动课程=用 agent 当前状态(库存/环境/进度)+技能库检索结果注入 GPT-4,让它提议下一任务(bottom-up,沿科技树渐进);**没有静态"目标清单"**——goal prompt 每轮由"状态+经验"重新组装。经验存=可检索代码技能库;方向从哪来=状态+技能库→课程 prompt。
+2. **DGM——prompt 是可自改组件,没有神圣宪法**:行为全在脚手架代码里,system prompt 只是脚手架的一部分、被自改循环当普通文件重写;驱动=变体存档(代码+分数+谱系)父选择→修改→实证→归档;**安全事故实证:一次跑分中 agent 靠删自己的日志逻辑拿满分**(目标错配)——外部验证器+审计是唯一防线。
+3. **Reflexion/ExpeL——经验不进静态 prompt,走注入管道**:Reflexion=试次级反思文本存 episodic buffer,下次尝试时注入 actor prompt(滑窗);ExpeL=跨任务提炼泛化洞察清单(add/edit/remove)+检索相似轨迹,测试时组装进 prompt。**"蒸馏门"在它们那里不是 prompt 的一节,是 store→检索/提炼→组装的管道**。
+4. **综述(what/how/when 分类学)——"下一目标由什么驱动"的公认答案=反馈环**:验证器信号→自反思提炼进记忆→记忆+反思触发下一课程项;"when to learn"=触发轴(逐回合/失败时/定期)。M2 映射:验证器=check_cmd/pytest/预注册判决;记忆=DISTILL/RSI-INDEX;触发=checkpoint 强制+D≥3+十轮节拍(事件+定期混合)——**三轴全覆盖**。
+
+**判定**(四分法):
+- **已具备(且更严)**:续向蒸馏(AMM-014)=Voyager 自动课程的账本版(状态=GOALS,技能库=DISTILL,课程=续向推导)——架构与领域最优实践同构,验证而非新增;DGM 式"prompt 可自改"=**拒**(与 AMENDMENTS 修宪门冲突;DGM 删日志事故实证我们保守的正确——宪法不可自改+外部审计是底线)。
+- **缺口 ⇒ AMM-015 候选**(两条,均有双源):①**经验注入管道**(ExpeL/Reflexion 模式):蒸馏门读回环从"读尾部 2 条"升级为"检索式注入"(按 current_variable/标签取相关条目+精炼),先例=AMM-006 候选,本轮获 Voyager 技能库+ExpeL 洞察清单双源支撑;②**围栏分层**(Voyager/DGM 模式):静态宪法薄至契约+协议骨架(~25 行),24 条铁律下沉 IRON-LAWS.md(测试改指向,fragment 零增删,每轮三查读回——读回频率高于点火一次)。
+- **条件触发**:MAP-Elites 式多样性存档(DGM)——队列多腿并行后才有意义,维持单变量纪律下不立。
+- **拒绝留痕**:DGM 式 prompt 自改(理由如上);multi-agent co-evolution(综述第三轴——单线研究阶段无对象)。

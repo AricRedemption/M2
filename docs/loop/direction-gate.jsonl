@@ -348,3 +348,4 @@
 {"round": 343, "direction": "数学/代码推理(排版卫生+蒸馏门完整性核查;零方向漂移)", "evidence": "v4.4 重排两长行零语义;蒸馏门五组件行号在案未漏", "ts": 1790965325}
 {"round": 344, "direction": "数学/代码推理(AMM-014 立法;蒸馏续向+T3 发射器首棒;零方向漂移)", "evidence": "AMM-014 ADOPTED:宪法 v4.5+30min 红线/T3+relay_tree 废除+队列两棒;pytest 281 绿/audit 2=2", "ts": 1790967035}
 {"round": 345, "direction": "数学/代码推理(治理可读性;零方向漂移)", "evidence": "版本一览表落 AMENDMENTS 头部;蒸馏门/驱动语义零变更", "ts": 1790977366}
+{"round": 346, "direction": "数学/代码推理(社区蒸馏门 #5;服务 AMM-015 裁决;零方向漂移)", "evidence": "四体系四源入 HORIZON #5;AMM-015 两候选获双源支撑;DGM 事故背书修宪门", "ts": 1790978127}
