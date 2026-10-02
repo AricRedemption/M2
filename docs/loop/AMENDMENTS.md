@@ -22,11 +22,30 @@
 | v4.4 | 013 | 预授权接力链(relay_tree)/BLOCKED-HUMAN 收窄 | 队列自决续填(短命,被 014 取代) |
 | v4.5 | 014 | **蒸馏续向**:方向由四栏蒸馏推导,人不在方向环;算力红线=本机训练 ≤30min 超时走 T3 Kaggle | **连续迭代结构性成立**:停点仅剩资源红线不可解+手动停 |
 | v4.6 | 015 | 围栏分层(铁律 24 条下沉 IRON-LAWS.md,围栏 56→34 行)+蒸馏注入管道(distill_inject 检索式读回环) | 点火文本大道至简;经验按变量检索注入,读回环每轮化(ExpeL 模式) |
+| v4.7 | 016 | 围栏二次去细节(VERDICT/门禁链/四栏格式下沉 GOALS 细则区;显式 ABORT 入铁律;围栏 36→16 行)+点火前全项验收 | 点火文本=纯契约+协议+指针;细节全数住盘上且仍被守护 |
 
 > 取任意历史版本:`git show <commit>:docs/loop/GOAL-PROMPT-M2.md`;取
 > 某次变更差异:`git log -p -- docs/loop/GOAL-PROMPT-M2.md`。盘上只有
 > 一份 current=防点火拿错版本(AMM-002 canonical 纪律,勿放多版本)。
 
+
+### AMM-016 围栏二次去细节(契约+指针化)— ADOPTED(2026-10-02)
+- 提案:GOAL-PROMPT v4.6→**v4.7**,兑现用户原则"Goal Prompt 不应该
+  暴露细节"(AMM-015 只做了分层,VERDICT 语义/门禁链/四栏格式仍在
+  围栏协议段)。
+- 修法:①围栏 36→16 行——步骤 2/3 收敛为"按 VERDICT 行动/loop_closer
+  合轮"一句话+指针;VERDICT 退出码语义、合轮门禁链、DISTILL 四栏+
+  节拍距/方向距行格式、例外轮连击 ⇒ GOALS.md 细则区新条目"合轮收尾
+  与 VERDICT 语义"(机械化本体=goal_check/loop_closer 脚本,散文只是
+  文档);②"显式判定退出码,红即 ABORT"入 IRON-LAWS.md(法条,原属
+  协议段);③守卫升级:thin≤38→**≤24**;fragment 判定并集扩为
+  围栏∪IRON-LAWS∪GOALS(细节住哪都被守护)。
+- 验收(点火前全项,轮 348):pytest 285 绿;goal_check VERDICT=1
+  (队首 t3-kaggle-launcher)+audit 2=2;remote=local(7f7840a);注入
+  管道实战命中(347/346/344);铁律 29 测试绿;Kaggle 凭证缺失=已告知
+  用户(唯一预期停车点)。
+- 语义保全:承重句 24 条 fragment 零增删(仅再分布);DGM 式 prompt
+  自改维持拒。
 
 ### AMM-015 围栏分层+蒸馏注入管道(向领域共识对齐)— ADOPTED(2026-10-02)
 - 提案:GOAL-PROMPT v4.5→**v4.6**,修"围栏过长/蒸馏门只记账不通方向"

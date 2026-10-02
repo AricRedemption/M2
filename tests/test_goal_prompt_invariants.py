@@ -23,6 +23,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CANONICAL = os.path.join(ROOT, "docs", "loop", "GOAL-PROMPT-M2.md")
 ARCHIVED = os.path.join(ROOT, "docs", "loop", "GOAL-PROMPT-M2-v1-ARCHIVED.md")
 IRON_LAWS_FILE = os.path.join(ROOT, "docs", "loop", "IRON-LAWS.md")
+GOALS = os.path.join(ROOT, "docs", "loop", "GOALS.md")
 
 
 def text_fence():
@@ -51,7 +52,7 @@ def test_fence_is_thin():
     行——领域共识(HORIZON #5:Voyager/DGM/ExpeL)=prompt 薄机制厚;
     铁律住 IRON-LAWS.md 逐条测试守护,围栏回胖 ⇒ 本测试红。"""
     n = len(text_fence().strip().splitlines())
-    assert n <= 38, f"围栏 {n} 行 >38(AMM-015 大道至简,法律与细则住盘上)"
+    assert n <= 24, f"围栏 {n} 行 >24(AMM-016 细节全下沉,围栏=契约+协议+指针)"
 
 
 def test_fence_points_to_iron_laws():
@@ -94,9 +95,9 @@ IRON_LAWS = [
 
 @pytest.mark.parametrize("fragment,reason", IRON_LAWS)
 def test_iron_law_present(fragment, reason):
-    # AMM-015 分层后:法律住 IRON-LAWS.md,机制名类 fragment(marathon_guard/
-    # goal_check/--audit/显式)住围栏协议段——任一被守护处存在即绿。
-    everywhere = iron_laws_text() + text_fence()
+    # AMM-015/016 分层后:法律住 IRON-LAWS.md,机制名与操作细节 fragment
+    # 住围栏协议段或 GOALS 细则区——任一被守护处存在即绿。
+    everywhere = iron_laws_text() + text_fence() + open(GOALS, encoding="utf-8").read()
     assert fragment in everywhere, f"承重铁律丢失: {fragment!r}({reason})"
 
 

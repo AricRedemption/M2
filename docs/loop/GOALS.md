@@ -53,7 +53,15 @@
 - **判单门**:每产出轮次提交前 direction_gate --add --round N
   --direction(四轴耦合) --evidence,再 --check-round N;连续 2 条
   DRIFT ⇒ BLOCKED-HUMAN。
-- **蒸馏门(AMM-005;纪律正文=GOAL-PROMPT v4.0,本区只留 GOALS 特有)**:
+- **合轮收尾与 VERDICT 语义(AMM-016 自围栏下沉;机械化=scripts 头注)**:
+  VERDICT 退出码=scripts/goal_check 头注(0=队首弹出续位/1=对队首迭代
+  一步/2=队列空/6=无可执行项走阶梯①续向蒸馏/5=MODE-OFF);合轮门禁链
+  =pytest 全绿+goal_check --audit 过+direction_gate --add --check-round
+  本轮过+DISTILL.md 四栏(现状/问题/有效经验/变量判定,另带节拍距/
+  方向距行「距上次十轮节拍已 N 产出轮;守望段方向距 D(非守望记
+  D=—)」;例外轮显式原因,连续 2 个例外轮 ⇒ BLOCKED-HUMAN)⇒ 原子
+  提交 main ⇒ 推 fork 分支+PR ⇒ touch .loop-lock;红即 ABORT。
+- **蒸馏门(AMM-005;纪律=IRON-LAWS.md,本区只留 GOALS 特有)**:
   current_variable=当前唯一研究变量(单变量;组合变量须在其预注册原子
   声明);换变量须旧变量判读落盘(或显式弃置+原因)后留痕切换。
   例外轮计数(轮 12 补):只认全例外(主判定=例外);半例外(推进为主+
@@ -66,7 +74,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 347 立法轮(AMM-015 围栏分层+注入管道 ADOPTED):宪法 v4.6+IRON-LAWS.md 下沉+distill_inject;待用户点火(粘贴 v4.6 围栏)
+state: RUNNING            # 轮 348 立法轮(AMM-016 围栏二次去细节 ADOPTED):宪法 v4.7(围栏 16 行,细节全下沉且仍被守护)+点火前全项验收通过;待用户点火(粘贴 v4.7 围栏)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -114,14 +122,14 @@ current_action: >-
   AMM-014 蒸馏续向(v4.5:方向四栏推导人不在方向环/本机训练≤30min
   超时走 T3 Kaggle/relay_tree 废除/2b 迁移登记弹出/队列=t3-kaggle-
   launcher→p0c-sort-relay)/343 排版卫生+蒸馏门核查(未漏)。
-  轮 345(10-02)AMENDMENTS 版本一览表(v1.0→v4.5 十行+取历史 git 指引)。
-  轮 346(10-02)社区门 #5(用户点名;四源:Voyager/DGM/Reflexion-
-  ExpeL/综述,HORIZON #5):续向蒸馏同构验证;DGM prompt 自改拒;
-  ⇒ AMM-015 两候选(注入管道+围栏分层)。
-  轮 347(10-02)立法轮(AMM-015 围栏分层+注入管道 ADOPTED,用户指令
-  "架构向检索质量靠拢"):宪法 v4.6(铁律 24 条零改动下沉 IRON-LAWS.md
-  测试改指向/围栏 56→36 行+thin/pointer 守卫/distill_inject.py 检索式
-  读回环+测试);待点火(v4.6 围栏)。
+  轮 345-346(10-02)版本一览表(AMENDMENTS 头,v1.0→v4.5)+社区门 #5
+  (用户点名;四源 Voyager/DGM/Reflexion-ExpeL/综述入 HORIZON #5:
+  续向蒸馏同构验证/DGM prompt 自改拒/⇒ AMM-015 候选)。
+  轮 347(10-02)立法 AMM-015(v4.6,用户指令"架构向检索质量靠拢"):
+  铁律 24 条下沉 IRON-LAWS.md+围栏 56→36 行+thin/pointer 守卫+
+  distill_inject.py 注入管道。
+  轮 348(10-02)立法 AMM-016(v4.7,"围栏不暴露细节"):二次去细节
+  36→16 行(细节下沉细则区,显式 ABORT 入铁律)+验收通过;待点火。
 blocked_on: >-
   无人工阻塞(轮 340 菜单已全处置:排序类=队列在案,2b=迁移登记弹出,
   加预算分支=续向蒸馏按诊断自决);资源红线已具体化=本机训练≤30min,
@@ -131,10 +139,10 @@ next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
   t3-kaggle-launcher todo):当轮建 Kaggle 发射器(前置=KAGGLE_API
   凭证,无则 BLOCKED-HUMAN 索要)→ 冒烟端到端 → 弹出 → 续向蒸馏推导
   下一方向(p0c-sort-relay 跑 T3,>30min 红线);EXP 窗口重置待人裁
-  确认(AMM-012);点火=v4.6 围栏
+  确认(AMM-012);点火=v4.7 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 347 立法轮:AMM-015 围栏分层+蒸馏注入管道,宪法 v4.6,待点火)
+updated: 2026-10-02 (轮 348 立法轮:AMM-016 细节全下沉+验收通过,宪法 v4.7,待点火)
 ```
 
 ```yaml
