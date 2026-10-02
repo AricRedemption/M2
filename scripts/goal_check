@@ -126,7 +126,10 @@ def audit(src):
     print(f"AUDIT: {len(entries)} 条目全部健康(数数锚 {len(ids)}={len(cmds)})")
     for e in entries:
         print(f"  - {e['id']} [{e['status']}]")
-    print(f"  尾条 id: {ids[-1]}")
+    if ids:
+        print(f"  尾条 id: {ids[-1]}")
+    else:
+        print("  尾条 id: (空队列——relay_tree 续填,AMM-013)")
     return 0
 
 

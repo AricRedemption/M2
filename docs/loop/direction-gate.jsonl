@@ -344,3 +344,4 @@
 {"round": 339, "direction": "数学/代码推理(p0c-prime-depth 终评判读;负结果入 K,零方向漂移)", "evidence": "P0-C′ h_supported=false 诊断 budget_wall;verdict+ROADMAP+夜账 K+1 落盘;队首弹出", "ts": 1790906799}
 {"round": 340, "direction": "数学/代码推理(p0c-prime-depth 判负收官;零方向漂移)", "evidence": "ALL-BLOCKED 阶梯走查空审计置 BLOCKED-HUMAN;菜单四选报告;欠账 0", "ts": 1790906957}
 {"round": 341, "direction": "数学/代码推理(终止后账实纠偏;零方向漂移)", "evidence": "程序计数器链断 235 轮结类:current_action 全量重建+state 补写;循环保持终态 BLOCKED-HUMAN", "ts": 1790907438}
+{"round": 342, "direction": "数学/代码推理(AMM-013 立法;接力链武装排序类首棒;零方向漂移)", "evidence": "AMM-013 ADOPTED:宪法 v4.4+relay_tree v1+2b 迁移登记弹出+队列播种;pytest 281 绿/audit 1=1", "ts": 1790964929}

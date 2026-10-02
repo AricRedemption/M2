@@ -9,10 +9,12 @@
 
 ## 循环细则(AMM-002 自 prompt 下沉,AMM-003 轮次化改订;agent 每轮开场读本区,不靠会话记忆)
 
-- **驱动模型(AMM-003 拉式点火;AMM-004 PR 流;AMM-010 连续循环)**:
-  用户点火一次=一个连续循环,循环内由 goal 校验驱动连续轮次(单目标
-  =goal_queue 清空或推进至 BLOCKED-HUMAN,点火时可改指),达成或合法
-  终止方停。**禁 cron/launchd/定时任务/心跳监听**不变,调度工具一律
+- **驱动模型(AMM-003 拉式点火;AMM-004 PR 流;AMM-010 连续循环;
+  AMM-013 预授权接力链)**:用户点火一次=一个连续循环,循环内由 goal
+  校验驱动连续轮次(单目标=goal_queue 清空=relay_tree 耗尽且队列空,
+  点火时可改指),达成或合法终止方停。队首弹出后按 relay_tree 自动
+  续填下一条目(树内自决:自行立新预注册+发射,换变量留痕切换);
+  树外分叉/资源红线/手动停 ⇒ BLOCKED-HUMAN。**禁 cron/launchd/定时任务/心跳监听**不变,调度工具一律
   不创建(ignite.sh+agent-cmd.conf 已于轮 11 归档删除,git 可逆);
   循环锁=.loop-lock 每轮合轮 touch 刷新,循环终止删(PARKED 墓碑例外)。
 - **锁判读(marathon_guard exit 1 时)**:最后提交晚于锁 mtime(锁后已
@@ -23,8 +25,8 @@
 - **状态机**:RUNNING(默认)/ PARKED(唯一非手动自停态:连续 3 次空审计
   轮触发;处置=RSI 夜账补账+快照进本文件+提交合轮,不删 .loop-lock,
   100min 自过期;重入口=用户 Go 点火:读 PARKED 快照+复述停摆原因进
-  本轮报告+置回 RUNNING)/ BLOCKED-HUMAN(需人决策;含 exit 6 阶梯全空
-  =队列余项待人裁,AMM-011)。
+  本轮报告+置回 RUNNING)/ BLOCKED-HUMAN(树外人决策/资源红线/手动停;exit 6 且 relay_tree
+  无武装分叉 ⇒ 队列余项待人裁,AMM-011/013)。
 - **轮次单元(训练腿跨轮)**:≤30min 可出判读的=当轮发起当轮判读;
   训练腿(小时级)=发起后条目 status 置 doing,后续每轮=查进度/判读/
   落盘,训练在途≠阻塞。blocked_on 禁列在途训练项。长训练腿一律走
@@ -33,7 +35,8 @@
   全损,jsonl 零落盘)。
 - **轮次分支阶梯(无可执行项时依序取活——exit 2 队列空,或 exit 6
   余条目均人门控(AMM-011);产出清零空审计计数)**:
-  ① 判读后续池迭代(RESULTS/ROADMAP 明示可迭代点;段内同族 ≤2);
+  ① relay_tree 续填(AMM-013:树内武装分叉 ⇒ 立新预注册+发射新腿,
+     换变量留痕切换;次选 RESULTS/ROADMAP 明示可迭代点;段内同族 ≤2);
   ② 停车场三问解停审计(AMENDMENTS 停车场逐条过"T1/T2 可动?可逆?
      无预注册门槛?",逐项记录依据);
   ③ 写作登记(RESULTS/ROADMAP/HANDOFF 回填);
@@ -62,13 +65,13 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: BLOCKED-HUMAN       # 轮 340 置入(轮 341 纠偏补写):exit 6 阶梯全空,待授权项菜单四选已报;循环已合法终止(单目标达成,锁已删)
+state: RUNNING            # 轮 342 立法轮(AMM-013 预授权接力链 ADOPTED):宪法 v4.4+relay_tree v1+2b 迁移登记弹出+队列播种 p0c-sort-relay;待用户点火(粘贴 v4.4 围栏)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
-  M2 循环 v2(AMM-010 单目标连续循环):goal 校验驱动的连续轮次循环,
-  单目标=队列清空或推进至 BLOCKED-HUMAN(协议/阶梯/纪律唯一源=
-  docs/loop/GOAL-PROMPT-M2.md,本文件不复述)。
-current_variable: p0c-prime-depth(思考深度→能力;判读已落盘=判负 budget_wall,verdicts/p0c_prime.json h_supported=false;换向待人裁:加预算/换任务/2b 三选,判据=prereg.v2.json no_posthoc_move)
+  M2 循环 v2(AMM-010/013 预授权接力连续循环):goal 校验驱动的连续
+  轮次循环,单目标=队列清空(队列由 relay_tree 续填,树内自决;协议/
+  阶梯/纪律唯一源=docs/loop/GOAL-PROMPT-M2.md v4.4,本文件不复述)。
+current_variable: p0c-prime-depth(思考深度→能力;判读已落盘=判负 budget_wall,verdicts/p0c_prime.json h_supported=false;换向已由 relay_tree 武装:下一条目=p0c-sort-relay,树内自决留痕切换,AMM-013)
 current_action: >-
   [轮次索引:更早轮单行,全文=git log(AMM-009 瘦身,永不丢)]
   轮 1-105(09-27~10-02)前循环:bootstrap/AMM-002~010 修宪链/P0-C′
@@ -106,30 +109,52 @@ current_action: >-
   old_string 跨行拼接错配静默 no-op,235 轮继承),本块全量重建
   (107-341 单行索引,全文=git log/DISTILL/gate jsonl 无损);state 行
   补写 BLOCKED-HUMAN;循环保持终止。
+  轮 342(10-02)立法轮(AMM-013 预授权接力链 ADOPTED,用户指令"一直
+  迭代下去"):宪法 v4.4(单目标收窄为队列清空=树耗尽/BLOCKED-HUMAN
+  收窄树外/D≥3 草案产物);relay_tree 默认树 v1(判负⇒排序类 T1 武装,
+  加预算/T2T3 默认树外);2b 迁移登记弹出(用户线 200K 收官照实迁移);
+  队列播种 p0c-sort-relay;blocked_on 重复行折叠;待点火(v4.4 围栏)。
 blocked_on: >-
-blocked_on: >-
-  【待人裁菜单(轮 340 报告,裁决权在用户)】(a) d8 fork·加预算:T1 腿
-  10^5 步≈2 天/臂(新预注册+换变量留痕;HORIZON #3 sizing);(b) d8
-  fork·加预算 T2/T3(需预授权);(c) d8 fork·换任务排序类(T1 可跑,
-  新预注册);(d) 2b-120k-leg 三选[专荐改判据:用户线 RESULTS_2B_30K.md
-  已含 200K 收官 PPL 2.4106 收敛饱和,见 DISTILL 轮 158];另:EXP 窗口
-  重置待人裁确认(AMM-012);腿 40268 已 rc=0 收官,无在途训练。
-next_trigger_hint: goal_check ⇒ 路由;下轮预期 exit 6(队列=[2b-120k-leg blocked-human]):阶梯取活后向用户报告待授权项菜单=(a) T1 加预算腿 10^5 步≈2 天/臂(新预注册+换变量留痕)(b) T2/T3 加预算(需预授权)(c) 换任务排序类新预注册(T1 可跑)(d) 2b-120k-leg 三选[专荐改判据:用户线 RESULTS_2B_30K.md 已含 200K 收官 PPL 2.4106,详见 DISTILL 轮 158]——菜单裁决权在用户,人裁毕走 AMENDMENTS/队列变更;需人决策 ⇒ BLOCKED-HUMAN(单目标达成=合法终止因①,终止删锁报告);EXP 窗口重置待人裁确认(AMM-012)
+  无人工阻塞(轮 340 菜单已由 AMM-013 处置:(c) 武装为 relay_tree 首
+  棒播种队列,(d) 2b 迁移登记弹出,(a)/(b) 加预算分支默认树外——若要
+  点亮改 relay_tree status=armed 即可);EXP 窗口重置仍待人裁确认
+  (AMM-012);腿 40268 已 rc=0 收官,无在途训练。
+next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
+  p0c-sort-relay todo):当轮立预注册(benchmarks/verdicts/p0c_sort
+  .prereg.json,判负标准先行)并发射排序类 fixed-depth 探针(T1 MPS),
+  之后在途跟进→判读→弹出→relay_tree 续填(AMM-013);树外分叉才
+  BLOCKED-HUMAN;EXP 窗口重置待人裁确认(AMM-012);点火=v4.4 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 341 终止后纠偏:程序计数器链断结类全量重建+state 补写;循环保持终止)
+updated: 2026-10-02 (轮 342 立法轮:AMM-013 预授权接力链落地,队列播种 p0c-sort-relay,待点火)
 ```
 
 ```yaml
 goal_queue:
-  - id: 2b-120k-leg
-    goal: 2B 训练下一腿——60K 步(val PPL 2.556)后继续至 120K 步并登记
-      val PPL;附上下文平坦 PPL 判读(128:2.72/256:2.72/512:2.68,长上下文
-      无增益,判读数据侧 vs 架构侧归因并给出下一腿决策)。
-      [AMM-011:T2 服务器腿,算力四档需用户预授权 ⇒ status=blocked-human
-      人门控:goal_check 路由跳过、不计数为有活;授权后改回 todo 即入队]
-    done_condition: docs/RESULTS_2B_120K.md 存在且登记 val PPL + 上下文
-      PPL 判读 + 下一腿决策。
-    check_cmd: test -f docs/RESULTS_2B_120K.md
-    status: blocked-human
+  - id: p0c-sort-relay
+    goal: 排序类 fixed-depth 探针(AMM-013 relay_tree 首棒,v1 武装)——
+      换任务出 budget_wall 的 pointer_chase d16(parity 归 LNN 参数化线,
+      v1 scope_note):MT-LNN γ 配额 K=2+full_mha 修复后,fixed-depth
+      sweep(d=1/8,30k 步,T1 MPS,transformer 对照先行),任务=排序类
+      (多步比较链,深度敏感;具体任务定义在预注册时钉死);流程=
+      预注册判负标准先行(benchmarks/verdicts/p0c_sort.prereg.json)
+      ⇒ 发射(launch_p0c.sh 式幂等发射器)⇒ 判读登记 ROADMAP §4.5;
+      多 seed 纪律(双峰报 grok 率,对外 ≥5 seeds)。
+    done_condition: 判决文件 benchmarks/verdicts/p0c_sort.json 存在且含
+      h_supported 字段(预注册格式),ROADMAP 已登记判决条目。
+    check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_sort.json')); assert 'h_supported' in d"
+    status: todo
+```
+```yaml
+relay_tree:
+  # 预授权决策树(AMM-013;用户可随时增删/点亮;树内分叉循环自决,预注册留痕)
+  - when: "p0c-prime-depth 判负(budget_wall,轮 339 已兑现)"
+    then: "p0c-sort-relay(排序类 fixed-depth 探针,T1 MPS 30k 步,新预注册)"
+    status: armed
+  - when: "p0c-sort-relay 判负且诊断指向预算不足"
+    then: "加预算腿(10^5 步≈2 天/臂 T1,或 T2/T3 多 seed)——默认树外,待人点亮"
+    status: unarmed
+  - when: "任意判读后 ROADMAP P1/P2 优先级迭代(μP/2B 配比/GRPO 等)"
+    then: "需云预算或融资——树外,维持停车场"
+    status: unarmed
 ```
