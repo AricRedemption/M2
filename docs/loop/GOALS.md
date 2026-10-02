@@ -66,7 +66,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 344 立法轮(AMM-014 蒸馏续向 ADOPTED):宪法 v4.5+算力红线 30min/T3+relay_tree 废除+队列插 t3-kaggle-launcher 首棒;待用户点火(粘贴 v4.5 围栏)
+state: RUNNING            # 轮 347 立法轮(AMM-015 围栏分层+注入管道 ADOPTED):宪法 v4.6+IRON-LAWS.md 下沉+distill_inject;待用户点火(粘贴 v4.6 围栏)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -110,18 +110,18 @@ current_action: >-
   old_string 跨行拼接错配静默 no-op,235 轮继承),本块全量重建
   (107-341 单行索引,全文=git log/DISTILL/gate jsonl 无损);state 行
   补写 BLOCKED-HUMAN;循环保持终止。
-  轮 342(10-02)立法轮(AMM-013 预授权接力链 ADOPTED,用户指令"一直
-  迭代下去"):宪法 v4.4(单目标收窄为队列清空=树耗尽/BLOCKED-HUMAN
-  收窄树外/D≥3 草案产物);relay_tree 默认树 v1(判负⇒排序类 T1 武装,
-  加预算/T2T3 默认树外);2b 迁移登记弹出(用户线 200K 收官照实迁移);
-  队列播种 p0c-sort-relay;blocked_on 重复行折叠;待点火(v4.4 围栏)。
-  轮 343(10-02)宪法排版卫生(两长行重排零语义)+蒸馏门完整性核查
-  (未漏,五组件行号在案)。
-  轮 344(10-02)立法轮(AMM-014 蒸馏续向 ADOPTED,用户指令"方向由
-  蒸馏推导人不参与/本机探针≤30min 超时走 Kaggle"):宪法 v4.5(方向
-  由四栏蒸馏推导人不在方向环/资源红线=本机训练≤30min 超时走 T3/
-  BLOCKED-HUMAN 终收窄=红线不可解+手动停);relay_tree 废除;队列插
-  t3-kaggle-launcher 首棒;待点火(v4.5 围栏)。
+  轮 342-344(10-02)立法链:AMM-013 接力链(v4.4,短命被 014 取代)/
+  AMM-014 蒸馏续向(v4.5:方向四栏推导人不在方向环/本机训练≤30min
+  超时走 T3 Kaggle/relay_tree 废除/2b 迁移登记弹出/队列=t3-kaggle-
+  launcher→p0c-sort-relay)/343 排版卫生+蒸馏门核查(未漏)。
+  轮 345(10-02)AMENDMENTS 版本一览表(v1.0→v4.5 十行+取历史 git 指引)。
+  轮 346(10-02)社区门 #5(用户点名;四源:Voyager/DGM/Reflexion-
+  ExpeL/综述,HORIZON #5):续向蒸馏同构验证;DGM prompt 自改拒;
+  ⇒ AMM-015 两候选(注入管道+围栏分层)。
+  轮 347(10-02)立法轮(AMM-015 围栏分层+注入管道 ADOPTED,用户指令
+  "架构向检索质量靠拢"):宪法 v4.6(铁律 24 条零改动下沉 IRON-LAWS.md
+  测试改指向/围栏 56→36 行+thin/pointer 守卫/distill_inject.py 检索式
+  读回环+测试);待点火(v4.6 围栏)。
 blocked_on: >-
   无人工阻塞(轮 340 菜单已全处置:排序类=队列在案,2b=迁移登记弹出,
   加预算分支=续向蒸馏按诊断自决);资源红线已具体化=本机训练≤30min,
@@ -131,10 +131,10 @@ next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
   t3-kaggle-launcher todo):当轮建 Kaggle 发射器(前置=KAGGLE_API
   凭证,无则 BLOCKED-HUMAN 索要)→ 冒烟端到端 → 弹出 → 续向蒸馏推导
   下一方向(p0c-sort-relay 跑 T3,>30min 红线);EXP 窗口重置待人裁
-  确认(AMM-012);点火=v4.5 围栏
+  确认(AMM-012);点火=v4.6 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 344 立法轮:AMM-014 蒸馏续向+算力红线 30min/T3,队列首棒 t3-kaggle-launcher,待点火)
+updated: 2026-10-02 (轮 347 立法轮:AMM-015 围栏分层+蒸馏注入管道,宪法 v4.6,待点火)
 ```
 
 ```yaml

@@ -1,7 +1,8 @@
 """tests/test_goal_prompt_invariants.py -- load-bearing iron laws of the canonical prompt.
 
-Every iron law in docs/loop/GOAL-PROMPT-M2.md's ```` ```text ```` fence is a
-sentence whose deletion has caused a real incident somewhere (source: Physic
+Every iron law lives in docs/loop/IRON-LAWS.md (AMM-015 围栏分层:原文自
+v4.5 围栏零改动下沉,守护强度不变) -- each is a sentence whose deletion
+has caused a real incident somewhere (source: Physic
 AMM-018/AMM-019/AMM-036 lineage; M2 轮 1-2). Any edit to the canonical prompt
 must keep all of them -- this test is the mechanical gate (先例: v4.0 重写删掉
 "中途不停"导致轮 93 停止). Change a law deliberately => change this test in
@@ -21,6 +22,7 @@ import pytest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CANONICAL = os.path.join(ROOT, "docs", "loop", "GOAL-PROMPT-M2.md")
 ARCHIVED = os.path.join(ROOT, "docs", "loop", "GOAL-PROMPT-M2-v1-ARCHIVED.md")
+IRON_LAWS_FILE = os.path.join(ROOT, "docs", "loop", "IRON-LAWS.md")
 
 
 def text_fence():
@@ -30,6 +32,11 @@ def text_fence():
     return blocks[0]
 
 
+def iron_laws_text():
+    assert os.path.exists(IRON_LAWS_FILE), "IRON-LAWS.md 缺席(AMM-015 分层后铁律住这里)"
+    return open(IRON_LAWS_FILE, encoding="utf-8").read()
+
+
 def test_single_text_fence():
     src = open(CANONICAL, encoding="utf-8").read()
     assert len(re.findall(r"```text", src)) == 1, "canonical 只允许一个 text 围栏"
@@ -37,6 +44,18 @@ def test_single_text_fence():
 
 def test_fence_is_substantial():
     assert len(text_fence().strip().splitlines()) >= 15, "prompt 被过度削减"
+
+
+def test_fence_is_thin():
+    """AMM-015 大道至简守卫:围栏=火花塞(契约+协议骨架+指针),上限 38
+    行——领域共识(HORIZON #5:Voyager/DGM/ExpeL)=prompt 薄机制厚;
+    铁律住 IRON-LAWS.md 逐条测试守护,围栏回胖 ⇒ 本测试红。"""
+    n = len(text_fence().strip().splitlines())
+    assert n <= 38, f"围栏 {n} 行 >38(AMM-015 大道至简,法律与细则住盘上)"
+
+
+def test_fence_points_to_iron_laws():
+    assert "IRON-LAWS.md" in text_fence(), "围栏缺铁律指针(点火会话不知道法律住哪)"
 
 
 # 承重铁律:每条的删除都对应一次真实事故
@@ -75,7 +94,10 @@ IRON_LAWS = [
 
 @pytest.mark.parametrize("fragment,reason", IRON_LAWS)
 def test_iron_law_present(fragment, reason):
-    assert fragment in text_fence(), f"承重铁律丢失: {fragment!r}({reason})"
+    # AMM-015 分层后:法律住 IRON-LAWS.md,机制名类 fragment(marathon_guard/
+    # goal_check/--audit/显式)住围栏协议段——任一被守护处存在即绿。
+    everywhere = iron_laws_text() + text_fence()
+    assert fragment in everywhere, f"承重铁律丢失: {fragment!r}({reason})"
 
 
 def test_archive_marked_deprecated():

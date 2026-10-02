@@ -505,3 +505,14 @@
 - D: 立法依门禁(全量 pytest+audit+gate);str.replace 断言式教训
   持续兑现(NameError/锚串折行两处响停零静默)
 - 其余维度不动(K/T+/EXP/T 沿用轮 339 终账口径)
+
+### 2026-10-02 · AMM-015 采纳(终止后立法,轮 347 执行;循环间无竞争窗第五次使用)
+- A: 1 提案 / 1 采纳(AMM-015 围栏分层+蒸馏注入管道;累计 15/13)——
+  先验=HORIZON #5 四源(Voyager/DGM/Reflexion+ExpeL/综述);承重句
+  24 条 fragment 零增删(存放层迁移,变动率 24→24=0/窗 ✓);新增
+  围栏守卫 thin≤38+pointer
+- T+: +1(scripts/distill_inject.py 检索式注入+2 测试;读回环从
+  "尾部 2 条"升级为"尾部+变量检索 top3",ExpeL 模式最小实现)
+- D: 立法依门禁(全量 pytest+audit+gate);程序计数器 345/346 缺行
+  自查补账(断链教训变体,当轮结);fragment 分层判定=围栏∪法律文件
+- 其余维度不动(K/T+/EXP/T 沿用轮 339 终账口径)
