@@ -111,12 +111,16 @@ current_action: >-
   轮 106(10-02)新循环点火首轮,在途跟进+closer 账实结类(add -A 全仓
   +测试,轮 105 登记);腿 17000/30000 禁中途判;AMM-012 首轮 D=3/N=3。
 blocked_on: >-
-  服务器后台训练(nchain 完整 5 seeds/genreplay)=队列执行段在途,
-  非人工阻塞(blocked_on 禁列在途训练项);无其他人工阻塞。
+  【待人裁菜单(轮 340 报告,裁决权在用户)】(a) d8 fork·加预算:T1 腿
+  10^5 步≈2 天/臂(新预注册+换变量留痕;HORIZON #3 sizing);(b) d8
+  fork·加预算 T2/T3(需预授权);(c) d8 fork·换任务排序类(T1 可跑,
+  新预注册);(d) 2b-120k-leg 三选[专荐改判据:用户线 RESULTS_2B_30K.md
+  已含 200K 收官 PPL 2.4106 收敛饱和,见 DISTILL 轮 158];另:EXP 窗口
+  重置待人裁确认(AMM-012);腿 40268 已 rc=0 收官,无在途训练。
 next_trigger_hint: goal_check ⇒ 路由;下轮预期 exit 6(队列=[2b-120k-leg blocked-human]):阶梯取活后向用户报告待授权项菜单=(a) T1 加预算腿 10^5 步≈2 天/臂(新预注册+换变量留痕)(b) T2/T3 加预算(需预授权)(c) 换任务排序类新预注册(T1 可跑)(d) 2b-120k-leg 三选[专荐改判据:用户线 RESULTS_2B_30K.md 已含 200K 收官 PPL 2.4106,详见 DISTILL 轮 158]——菜单裁决权在用户,人裁毕走 AMENDMENTS/队列变更;需人决策 ⇒ BLOCKED-HUMAN(单目标达成=合法终止因①,终止删锁报告);EXP 窗口重置待人裁确认(AMM-012)
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 339 终评判读:P0-C′ 判负 budget_wall,队首弹出)
+updated: 2026-10-02 (轮 340 置 BLOCKED-HUMAN:菜单四选待人裁,单目标达成)
 ```
 
 ```yaml
