@@ -43,7 +43,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from mt_lnn import MTLNNConfig, MTLNNModel
 from benchmarks.baselines import BaselineConfig, ModernCausalTransformer
-from benchmarks.reasoning_tasks import make_generator, gen_pointer_chase, gen_parity
+from benchmarks.reasoning_tasks import (
+    make_generator, gen_pointer_chase, gen_parity, gen_bubble_trace)
 
 # 轮 20 隔离旋钮:P0C_RESULTS_DIR 重定向账本目录(默认=生产路径不变)。
 # 动机:launcher 控制流测试曾把 canonical jsonl 当沙箱,purge 的读改写
@@ -271,6 +272,10 @@ def _mix_gen_for(task, n_values):
         return lambda batch, k, rng: gen_pointer_chase(batch, n_values, k, rng)
     if task == "parity":
         return lambda batch, k, rng: gen_parity(batch, k, rng)
+    if task == "bubble_trace":
+        # difficulty axis = bubble pass count j; array length k fixed
+        # (T constant → batches homogeneous), contested zone needs k >= 2j+1
+        return lambda batch, j, rng: gen_bubble_trace(batch, n_values, j, rng)
     raise ValueError(f"--mix does not support task {task}")
 
 
@@ -610,7 +615,8 @@ def run(task, difficulty, n_values, seeds, steps, batch, lr, max_depth,
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--task",
-                   choices=["pointer_chase", "mod_chain", "parity", "s5_word"],
+                   choices=["pointer_chase", "mod_chain", "parity", "s5_word",
+                            "bubble_trace"],
                    default="pointer_chase")
     p.add_argument("--difficulty", type=int, default=4,
                    help="k_hops (pointer_chase) or k_terms (mod_chain)")
@@ -710,7 +716,8 @@ def main():
 
     if args.n_values is None:
         args.n_values = {"pointer_chase": 16, "mod_chain": 10,
-                         "parity": 2, "s5_word": 120}[args.task]
+                         "parity": 2, "s5_word": 120,
+                         "bubble_trace": 8}[args.task]
 
     if args.device == "auto":
         device = ("cuda" if torch.cuda.is_available()

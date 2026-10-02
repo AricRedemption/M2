@@ -37,6 +37,13 @@ STEPS=${P0C_STEPS:-30000}
 DEPTHS=${P0C_DEPTHS:-1 2 4 8}
 MID_EVAL=${P0C_MID_EVAL:-10000 20000}
 MODE=${P0C_MODE:-sweep}
+# 任务参数化(轮 350,p0c-sort 探针):默认值=历史 pointer_chase d16 协议,
+# 不设环境变量时 build_cmd 逐字节不变。P0C_MIX=0 关课程混合(固定任务)。
+TASK=${P0C_TASK:-pointer_chase}
+DIFF=${P0C_DIFFICULTY:-16}
+NVAL=${P0C_N_VALUES:-16}
+MIXARGS=(--mix)
+[[ ${P0C_MIX:-1} == 0 ]] && MIXARGS=()
 RESULTS=${P0C_RESULTS_DIR:-benchmarks/results}/reasoning_depth.jsonl
 
 case $MODE in
@@ -85,8 +92,8 @@ seed_done() {  # seed_done S TAG: canonical jsonl 已有 (TAG, S) 行 ⇒ 退出
 
 build_cmd() {  # build_cmd SEED → 全局数组 CMD(两种 mode 共用主干,协议同 v1)
   CMD=("$PY" -m benchmarks.reasoning_depth
-       --task pointer_chase --difficulty 16 --n_values 16
-       --mode fixed --seeds "$1" --steps "$STEPS" --mix
+       --task "$TASK" --difficulty "$DIFF" --n_values "$NVAL"
+       --mode fixed --seeds "$1" --steps "$STEPS" ${MIXARGS[@]+"${MIXARGS[@]}"}
        --full_mha --n_global_heads 2 --beta2 0.999 --clip 0
        --device "$DEVICE" --tag "$TAG")
   if [[ $MODE == control ]]; then
