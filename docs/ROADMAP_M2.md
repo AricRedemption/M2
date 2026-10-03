@@ -297,6 +297,20 @@ mid_eval 三读数一致 chance:mid@10000=0.0632 / mid@20000=0.0658 / final=0.06
 
 **端侧延迟描述性证据(两轮一致)**:同宽下 mtlnn 绝对延迟比 transformer 慢 ~8×,延迟长度比均超线性(mtlnn 15.4×/transformer 16.4×)——**MT-LNN 的 O(1) 主张只覆盖液体子层,混合架构含注意力层**;端侧延迟轴候选探针=纯液体核(attention_layers=())延迟平坦性,可推导。
 
+### 2026-10-04 · 第十五轮:p0c-latency 端侧延迟探针判决(纯液体核 vs hybrid vs transformer,零训练 T 扫描)——**h_supported=true(循环首个正判决:O(1) 主张在液体子层独立成立)**
+
+预注册 `benchmarks/verdicts/p0c_latency.prereg.json`(换轴第三轴首探针;零训练纯推理,单扫描 median-of-3 无训练随机性如实声明;判据先行 3f65436,amendment 1 数据前 113d81b);判决文件 `benchmarks/verdicts/p0c_latency.json`。
+
+| 前向延迟 batch=1(s) | T=512 | T=2048 | T=8192 | T=16384 | G=L(16384)/L(512) |
+|---|---|---|---|---|---|
+| **纯液体核**(关注意力+关 global_coherence) | 0.0170 | 0.0457 | 0.1840 | **0.4314** | **25.4×(≈线性)** |
+| hybrid(默认注意力) | 0.0223 | 0.1015 | 1.0169 | **OOM** | — |
+| transformer | 0.0064 | 0.0133 | 0.2025 | 6.7345 | **1052.9×(二次)** |
+
+**判决**:h_supported=**true**(A/B/C 全过:pure 4/4 点完成;25.4 ≤ 0.5×1052.9;25.4 ≤ 32 线性带)。**O(1) 端侧主张在液体子层独立成立**——16384 长流 0.43s/请求、272MB 状态;transformer 同扫描 1053× 增长已入二次段。事故留痕:首扫 pure_liquid 16384 OOM=use_global_coherence 默认开(global_coherence topk T×T 4GB)——infra_oom 预注册诊断兑现,数据前修复(113d81b)重跑,行留账本。
+
+**架构诚实边界(三轴探针链的共同产出)**:①O(1) 只覆盖液体子层——hybrid/transformer 的注意力与 global_coherence 均为 T×T 二次,端侧部署须限制注意力层或换稀疏/线性注意力;②小 T 段纯液体核绝对延迟慢于 transformer ~3×(逐 token 循环开销),O(1) 优势只在长流兑现;③流式记忆轴的学习瓶颈(第十四轮)与延迟轴的正判决相互独立——能力与延迟是两个待分别论证的主张。
+
 
 
 ## 5. 评测纪律 / Evaluation Discipline

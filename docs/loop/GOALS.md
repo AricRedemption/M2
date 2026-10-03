@@ -78,7 +78,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 363 判决轮(e8 判决+弹出):8 事实仍不可学(mtlnn 0.224/transformer 0.339<0.8)⇒ h_supported=false 诊断 still_unreachable(与第一轮+第十三轮三连证据=in-context 查表学习速度是数量级级瓶颈,流式轴探针级预算墙成立;加步数愿望登记,同族≤2 上限不再降事实数);verdicts/p0c_stream_len_e8.json+ROADMAP §4.5 第十四轮;弹出队列空;阶梯①换轴推导=端侧延迟轴纯液体核延迟平坦性探针候选(两轮描述性证据:同宽 mtlnn 慢 8×/延迟比均超线性,O(1) 主张只覆盖液体子层;纯推理可推导),下轮执行
+state: RUNNING            # 轮 364 判决轮(端侧延迟探针):**h_supported=true 循环首个正判决**——纯液体核(关注意力+关 coherence)延迟线性 G=25.4×(16384/512,4/4 点完成)vs transformer 1052.9×(二次),16384 长流 0.43s/272MB=O(1) 主张在液体子层独立成立;hybrid 16384 OOM=注意力+coherence 二次墙(端侧须限制注意力层);infra 事故=use_global_coherence 默认开数据前修复;判决完整但 AMM-014 入队步漏记(阶梯①直执行),记账补正;弹出队列空;下轮推导=端侧轴第二探针候选(限制注意力的混合配置延迟-能力权衡)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -107,45 +107,42 @@ current_action: >-
   S5 正先验角落(判据先行 5dd6e2f+vocab 回归数据前修复 a618425)两臂
   全 chance ⇒ **budget_wall_s5**(第十二轮=深度命题六连负全路径收官,
   升级预算=愿望登记);弹出队列空。
-  轮 361(10-03)换轴推导轮:阶梯①四栏推导——盘点 EXPERIMENT_PLAN
-  (09-09 A100 时代历史登记:PC 防遗忘 nchain worst-task 稳定性+genreplay
-  重放消除遗忘为正信号,但 harness 在 A100 线,本机不可直接复用)+
-  ROADMAP 指针(RESEARCH_PLAN.md 不在本仓检出);推导出换轴方向=
-  **长流式记忆轴-长度外推探针**(四栏:现状=深度轴六连负收官,
-  M2 架构原则#1 为已验证正面产出,长流式记忆轴无本机最小证据;
-  问题=MT-LNN O(1) 状态在长流上的外推与延迟平坦性无对照数据,
-  transformer O(T²) 在长流的延迟/显存曲线未测;目标=短训 L=512
-  长测 L∈{1k,4k,16k} 外推+延迟曲线,假设=液体核外推保持+延迟平坦;
-  训练结论=零新机制,harness=流式任务生成+评估环 ~100 行,单腿
-  训练+外推评估 ≤30min 可推导);harness 待建,入队 todo。
-  轮 362(10-03)流式探针判决轮:harness=streaming_recall.py 建成
-  (自测黄金回放)+预注册先行 a4f4847+6 腿;OOM 事故(4096 eval 4GB)
-  自适应 batch 修复重发零污染;两模型训练长度即不可学 ⇒ **task_
-  unreachable**(32 事实 2000 步太难,§4.5 第十三轮);延迟描述性=
-  均超线性(O(1) 主张只覆盖液体子层);弹出;e8 易变体入队。
-  轮 363(10-03)e8 判决轮:--n_facts 全链接线(自测绿)+预注册先行
-  2ac2ff1+6 腿全 rc=0;判据计算 8 事实仍不可学(mtlnn 0.224/
-  transformer 0.339<0.8)⇒ A 失败 h_supported=false,
-  **still_unreachable**(三连证据=查表学习速度数量级级瓶颈,流式轴
-  预算墙;加步数愿望登记,同族≤2 上限);延迟描述性两轮一致(同宽
-  mtlnn 慢 8×,超线性比 15.4×/16.4×);verdicts/p0c_stream_len_e8.
-  json+ROADMAP §4.5 第十四轮;弹出队列空;阶梯①换轴推导=端侧延迟
-  轴纯液体核延迟平坦性探针候选(两轮描述性证据在案,纯推理可推导),
-  下轮四栏+执行。
+  轮 361-362(10-03)换轴+流式判决:四栏推导落地长流式记忆轴-长度
+  外推探针(盘点 EXPERIMENT_PLAN=PC 线正信号但 harness 不可本机复用
+  留停车场);harness=streaming_recall.py 建成+预注册先行 a4f4847+
+  6 腿;两模型训练长度即不可学 ⇒ **task_unreachable**(32 事实 2000
+  步太难,§4.5 第十三轮);OOM 事故自适应 batch 修复零污染;延迟
+  描述性=均超线性(O(1) 只覆盖液体子层);弹出;e8 入队。
+  轮 363(10-03)e8 判决轮:--n_facts 接线+预注册先行 2ac2ff1+6 腿;
+  8 事实仍不可学(0.224/0.339<0.8)⇒ **still_unreachable**(三连
+  证据=查表学习速度数量级级瓶颈,流式轴预算墙;加步数愿望登记,
+  同族≤2 上限);§4.5 第十四轮;弹出队列空;换轴推导=端侧延迟轴
+  候选。
+  轮 364(10-04)端侧延迟判决轮(循环首个正判决):零训练纯推理
+  三配置同宽 T 扫描(判据先行 3f65436);首扫 pure_liquid 16384 OOM
+  =use_global_coherence 默认开(topk T×T 4GB),infra_oom 预注册诊断
+  兑现=数据前修复 113d81b 重跑 r2;判决:纯液体核 G=25.4× 线性带
+  4/4 点完成 vs transformer G=1052.9× 二次 vs hybrid 16384 OOM ⇒
+  A/B/C 全过 h_supported=true——O(1) 主张在液体子层独立成立
+  (verdicts/p0c_latency.json+ROADMAP §4.5 第十五轮);绝对延迟小 T
+  段 pure 慢 transformer ~3×(诚实边界);流程 slip=AMM-014 入队步
+  漏记(阶梯①直执行,判决完整),记账补正;队列空;下轮推导=端侧
+  轴第二探针候选(限制注意力的混合配置延迟-能力权衡)。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
-next_trigger_hint: goal_check ⇒ 路由;队列空 ⇒ exit 2 阶梯:①换轴
-  续向蒸馏(流式轴收官:预算墙愿望登记+同族≤2;候选=端侧延迟轴纯
-  液体核延迟平坦性探针[attention_layers=() 纯推理,两轮描述性证据
-  在案]做四栏推导;可推导⇒入队+预注册+发射;持续学习轴 PC 线=
-  停车场候选;推导不出且②③④全空⇒空审计,连续 3 次⇒PARKED);
-  EXP 窗口重置待人裁确认(AMM-012);点火=v4.8 围栏
+next_trigger_hint: goal_check ⇒ 路由;队列空 ⇒ exit 2 阶梯:①续向
+  蒸馏(端侧延迟轴正判决后的自然后续=限制注意力的混合配置延迟-
+  能力权衡探针[attention_layers={0} 单注意力层,训练+推理双测];
+  或流式轴加步数愿望登记已挂账不动;持续学习轴 PC 线=停车场候选;
+  可推导⇒入队+预注册+发射,入队步不可漏[轮 364 slip];推导不出且
+  ②③④全空⇒空审计,连续 3 次⇒PARKED);EXP 窗口重置待人裁确认
+  (AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-04 (轮 363 e8 判决:流式轴预算墙收官,端侧延迟轴推导待下轮)
+updated: 2026-10-04 (轮 364 端侧延迟判决:h_supported=true 循环首个正判决,O(1) 液体子层独立成立)
 ```
 
 ```yaml
