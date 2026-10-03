@@ -38,7 +38,8 @@ def build(kind: str, vocab: int, seq_len: int, device):
                           d_model=D_MODEL, n_layers=2, n_heads=4,
                           n_kv_heads=4, d_head=26, dropout=0.0,
                           attention_dropout=0.0, gwtb_n_heads=1,
-                          core_iterations=2, attention_layers=())
+                          core_iterations=2, attention_layers=(),
+                          use_global_coherence=False)
         m = MTLNNModel(cfg)
     elif kind == "hybrid":
         cfg = MTLNNConfig(vocab_size=vocab, max_seq_len=seq_len,

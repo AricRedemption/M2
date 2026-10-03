@@ -12,7 +12,7 @@
     "configs": ["pure_liquid(attention_layers=())", "hybrid(默认注意力)", "transformer"],
     "model": "同宽 d_model=104(与深度/流式探针同族);max_seq_len=T 逐点构建",
     "sweep": "T∈{512, 2048, 8192, 16384},batch=1(端侧单请求);每点预热 1+测 3 取中位;MPS",
-    "runner": ".venv/bin/python -m benchmarks.latency_probe --lengths 512 2048 8192 16384 --device mps --tag p0c_latency(benchmarks/latency_probe.py,轮 364 新增,自测)",
+    "runner": ".venv/bin/python -m benchmarks.latency_probe --lengths 512 2048 8192 16384 --device mps --tag p0c_latency_r2(benchmarks/latency_probe.py,轮 364 新增,自测;amendment 1 数据前:首扫 pure_liquid 16384 OOM 崩因=use_global_coherence 默认开[global_coherence topk T×T 4GB]——'纯液体核'配置须显式关闭,修复后单点验证 0.43s/272MB,重跑 tag=p0c_latency_r2,首扫行留账本作废记录)",
     "seeds_note": "零训练纯推理,无训练随机性:单次扫描+每点 median-of-3(模型固定 seed 0);3-seed 纪律不适用于无训练探针,如实声明",
     "exec_tier": "T1 (MPS, Apple Silicon 本地);全程预计 <10min"
   },
