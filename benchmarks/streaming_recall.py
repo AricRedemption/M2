@@ -54,28 +54,31 @@ def _fillers(rng: np.random.Generator, n: int) -> np.ndarray:
     return NOISE_BASE + rng.integers(0, N_NOISE, size=n)
 
 
-def gen_stream(batch: int, T: int, rng: np.random.Generator):
+def gen_stream(batch: int, T: int, rng: np.random.Generator,
+               n_facts: int = N_FACTS):
     """Returns (tokens (B,T) int64, answer (B,) value ids, ans_pos).
 
     布局: [BOS] {[K k][V v] filler*}* [Q k_q] ANS
-    键互异(32 条事实全部在流中);查询键必在流内。
+    键互异(n_facts 条事实全部在流中);查询键必在流内。
+    e8 易变体(轮 363): n_facts=8(回忆容量降,距离测试保留)。
     """
     pair_tok = 4            # [K k][V v] = 4 token
     budget = T - 1 - 3      # 减 BOS(1) 和 [Q k_q](2)([ANS] 占 T-1 位)
-    assert budget >= N_FACTS * pair_tok, f"T={T} 装不下 {N_FACTS} 条事实"
-    slack = budget - N_FACTS * pair_tok          # 全部分配给填充
-    gaps = N_FACTS + 1                           # 每事实后一个 gap + 末尾一个
+    assert budget >= n_facts * pair_tok, f"T={T} 装不下 {n_facts} 条事实"
+    assert n_facts <= N_KEYS, f"n_facts {n_facts} > 键池 {N_KEYS}"
+    slack = budget - n_facts * pair_tok          # 全部分配给填充
+    gaps = n_facts + 1                           # 每事实后一个 gap + 末尾一个
     per = rng.integers(0, slack // gaps + 1, size=gaps)
     per[-1] += slack - per.sum()                 # 余数全给最后一个 gap(长流=长尾填充)
 
     toks = np.full((batch, T), PAD := 0, dtype=np.int64)
     ans = np.zeros(batch, dtype=np.int64)
     for b in range(batch):
-        keys = rng.permutation(N_KEYS)[:N_FACTS]
-        vals = rng.integers(0, N_VALS, size=N_FACTS)
-        q = int(rng.integers(0, N_FACTS))         # 查询第 q 条事实
+        keys = rng.permutation(N_KEYS)[:n_facts]
+        vals = rng.integers(0, N_VALS, size=n_facts)
+        q = int(rng.integers(0, n_facts))         # 查询第 q 条事实
         row = [BOS]
-        for i in range(N_FACTS):
+        for i in range(n_facts):
             row += [K_MARK, KEY_BASE + int(keys[i]),
                     V_MARK, VAL_BASE + int(vals[i])]
             row += _fillers(rng, int(per[i])).tolist()
@@ -97,7 +100,8 @@ def make_batch(tokens, answer, ans_pos, device):
 
 
 @torch.no_grad()
-def eval_len(model, T, device, rng, batches=4, batch=16, timed=False):
+def eval_len(model, T, device, rng, batches=4, batch=16, timed=False,
+             n_facts=N_FACTS):
     """准确率 + (可选) 前向墙钟(描述性)。
 
     轮 362 教训: T=4096 时 global_coherence 稀疏分数张量 MPS OOM
@@ -111,7 +115,7 @@ def eval_len(model, T, device, rng, batches=4, batch=16, timed=False):
     correct = total = 0
     wall = 0.0
     for _ in range(batches):
-        toks, ans, pos = gen_stream(batch, T, rng)
+        toks, ans, pos = gen_stream(batch, T, rng, n_facts=n_facts)
         ids, labels, ans_pos = make_batch(toks, ans, pos, device)
         if device.type == "mps":
             torch.mps.synchronize()
@@ -145,14 +149,15 @@ def build(model_kind, vocab, seq_len, seed, device):
 
 
 def run(model_kind, seeds, steps, train_len, eval_lens, device,
-        tag, results_path):
+        tag, results_path, n_facts=N_FACTS):
     from types import SimpleNamespace
     vocab, seq_cap = VOCAB, max(eval_lens)
     print(f"== streaming_recall {model_kind} train_len={train_len} "
-          f"eval={eval_lens} device={device} ==", flush=True)
+          f"n_facts={n_facts} eval={eval_lens} device={device} ==",
+          flush=True)
 
     def gen_train(b, r):
-        toks, ans, pos = gen_stream(b, train_len, r)
+        toks, ans, pos = gen_stream(b, train_len, r, n_facts=n_facts)
         return SimpleNamespace(tokens=toks, answer=ans, ans_pos=pos)
 
     for seed in seeds:
@@ -163,13 +168,14 @@ def run(model_kind, seeds, steps, train_len, eval_lens, device,
         acc, lat = {}, {}
         for T in eval_lens:
             a, w = eval_len(m, T, device, np.random.default_rng(10_000 + seed),
-                            timed=True)
+                            timed=True, n_facts=n_facts)
             acc[T], lat[T] = round(a, 4), round(w, 4)
             print(f"  [seed {seed}] T={T}: acc={a:.4f} fwd={w:.3f}s",
                   flush=True)
         _append_jsonl(results_path, {
             "mode": "stream_len", "model": model_kind, "seed": seed,
-            "steps": steps, "train_len": train_len, "eval_lens": eval_lens,
+            "steps": steps, "train_len": train_len, "n_facts": n_facts,
+            "eval_lens": eval_lens,
             "acc_by_len": acc, "fwd_s_by_len": lat,
             "params": m.get_num_params(),
             "wall_s": round(time.time() - t0, 1), "tag": tag,
@@ -222,6 +228,7 @@ def main():
     p.add_argument("--tag", default="p0c_stream_len")
     p.add_argument("--selftest", action="store_true")
     p.add_argument("--results_dir", default=None)
+    p.add_argument("--n_facts", type=int, default=N_FACTS)
     args = p.parse_args()
     if args.selftest:
         _selftest()
@@ -234,7 +241,7 @@ def main():
     rd = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results")
     results = os.path.join(args.results_dir or rd, "streaming_recall.jsonl")
     run(args.model, args.seeds, args.steps, args.train_len,
-        args.eval_lens, device, args.tag, results)
+        args.eval_lens, device, args.tag, results, n_facts=args.n_facts)
 
 
 if __name__ == "__main__":
