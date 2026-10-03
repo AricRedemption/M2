@@ -233,6 +233,21 @@ mid_eval 三读数一致 chance:mid@10000=0.0632 / mid@20000=0.0658 / final=0.06
 
 **后续分叉(愿望登记不停车,AMM-017)**:①深监督变体探针(HRM 式逐迭代 CE,库内 train_model 已有机制,直接攻"深堆叠不训练",≤30min 可推导);②30k 步级终判预算(愿望登记既有挂账);③S5 词问题任务族(NC¹ 分离,理论 shortcut 最硬)。
 
+### 2026-10-03 · 第十轮:p0c-sort-stack-ds 深监督变体判决(stack d8+逐迭代 CE,阶段 1 可达性门)——**h_supported=false,诊断 direction_but_underpowered(部分救活)**
+
+预注册 `benchmarks/verdicts/p0c_sort_stack_ds.prereg.json`(单变量=deep_supervision 开;对照臂复用在盘第九轮 d8 行不新发腿;仅 d8 单臂 S=2000;判据先行 9d897be);判决文件 `benchmarks/verdicts/p0c_sort_stack_ds.json`。
+
+机制假设(第九轮判负归因):深堆叠缺可学习梯度通路;deep_supervision(HRM 式逐迭代 CE)给每个 stack 迭代直接监督。
+
+| 读数(口径同前:mean over j∈{1..7}) | M(8)+ds(per seed) | 对照 M(8) 无 ds |
+|---|---|---|
+| seed 0 / 1 / 2 | 0.1423 / 0.1254 / 0.1070(逐 j 单调爬升,j7=0.15-0.24) | 0.0887 / 0.0584 / 0.0984(chance 带,loss 平台) |
+| **3-seed 均值** | **0.1249**(3/3 > chance 线 0.09) | **0.0818** |
+
+**判决**:h_supported=false(A 失败:0.1249<0.30;B/C 过:效应量 +0.0431≥0.02 且 3/3 seed 一致超 chance)。**诊断 direction_but_underpowered**(prereg 明文)——deep_supervision 使深堆叠从**完全不训练**变为**稳定部分训练**(梯度通路假设方向性兑现),但 S=2000 内量级远低于 d1 可学水平 0.64;剩余差距=预算/量级问题而非有无问题。
+
+**阶段 2(另立预注册)**:深度对照 d1+ds vs d8+ds(对照臂复用本轮在盘行,只发 d1+ds 3 腿,短腿)——在"ds 都起飞"的新平面上裁决深度信号方向。
+
 
 
 ## 5. 评测纪律 / Evaluation Discipline
