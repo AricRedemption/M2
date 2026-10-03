@@ -78,7 +78,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 350 产出轮(p0c-sort-relay 首腿):bubble_trace 排序任务实现+预注册先行中程提交(0c7fbf1,判据先于数据 git 可考)+seed 0 canonical 腿当轮判读(M(1)=0.7506/M(8)=0.7443/gain=−0.0056,d1 追平,双臂≫chance 0.09);队列 p0c-sort-relay doing,seed 1/2 分次发射待跑(轮 351/352),3 seeds 齐按 prereg 判据出 verdict
+state: RUNNING            # 轮 351 产出轮(p0c-sort-relay 第 2 腿):seed 1 rc=0 墙钟 26.1min,gain_s1=+0.0183(与 seed 0 反号,噪声带);seeds 增益 [−0.0056,+0.0183] 均值 +0.006;seed 2 待发射(轮 352),3 seeds 齐按 prereg 判据出 verdict(预期 A 失败 flat_iterations)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -122,33 +122,32 @@ current_action: >-
   轮 349(10-02)立法 AMM-017(v4.8):资源=蒸馏约束非停车条件(只推导
   ≤30min 可执行方向,超预算愿望登记);launcher 撤入愿望登记,排序探针
   改 30min 预算版;BLOCKED-HUMAN=仅手动停。
-  轮 350(10-03)产出轮 p0c-sort-relay 首腿:bubble_trace 排序任务
-  实现(冒泡 j 轮比较链后查争议区位置值;标签 32 池无放回抽取杀边际
-  捷径,per-j floor 0.035..0.083 实测钉死)+预注册先行中程提交(0c7fbf1,
-  判据 A/B/C+负诊断四选一 no_posthoc_move)+设计探索披露(定 j≤3
-  d1≈d8≈0.82 沙箱实证 ⇒ 换课程混合 j~U{1..7} k=16)+launcher env
-  参数化(默认逐字节不变,干跑验幂等);S=2200 等步数配对(r1=0.0831/
-  r8=0.5835 s/step 反推,seed 墙钟 26.0min≤30);seed 0 判读:M(1)=
-  0.7506/M(8)=0.7443/gain_s0=−0.0056(d1 慢热但 2200 步追平,标定
-  截断 d1 预算造出的优势是假信号;双臂≫chance 线 0.09,任务可学)。
-  经验:标定须按判读协议完整预算做双臂,截断预算对比假造方向;边际
-  均匀直觉会输给海龟/兔子偏斜,基线实测钉死。seed 1/2 分次发射待跑。
+  轮 350(10-03)产出轮 p0c-sort-relay 首腿:bubble_trace 排序任务实现
+  (冒泡 j 轮比较链查争议区位置值;32 池标签杀边际捷径,floor 0.055 钉死)
+  +预注册先行中程提交 0c7fbf1(判据 A/B/C+负诊断,no_posthoc_move)+
+  设计探索披露(定 j≤3 d1≈d8⇒换课程混合 j~U{1..7} k=16)+launcher env
+  参数化;S=2200 等步数配对;seed 0:M(1)=0.7506/M(8)=0.7443/gain=
+  −0.0056(d1 满预算追平,标定截断 d1=假信号教训)。
+  轮 351(10-03)产出轮:seed 1 canonical 腿 rc=0 墙钟 26.1min≤30,
+  M(1)=0.6652/M(8)=0.6835/gain_s1=+0.0183/highj=+0.0133(与 seed 0
+  反号,量级同噪声);seeds 增益 [−0.0056,+0.0183] 均值 +0.006,预期
+  走向=A 失败 flat_iterations(3 seeds 齐后判);经验:单 seed 方向
+  翻转即双峰警示,判据只认 3-seed 配对统计(禁单 seed 声明铁律兑现)。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
 next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
-  p0c-sort-relay doing):发射 seed 1 canonical 腿(同一 launcher 命令,
-  末参改 1;幂等判重保 seed 0 行)→ 当轮判读 gain_s1;seed 2 同型
-  (轮 352);3 seeds 齐后按 p0c_sort.prereg.json 判据 A/B/C 计算 →
-  写 verdicts/p0c_sort.json+ROADMAP §4.5 第八轮登记 → 队首机械弹出
-  → 续向蒸馏推导下一方向(预期 flat_iterations 诊断时:深度信号在
-  本机探针预算内不可得的实证,升级 j/k 预算=愿望登记既有挂账);
-  EXP 窗口重置待人裁确认(AMM-012);点火=v4.8 围栏
+  p0c-sort-relay doing):发射 seed 2 canonical 腿(末参改 2,幂等判重
+  保 seed 0/1 行)→ 当轮判读 gain_s2 → 3 seeds 齐 ⇒ 按
+  p0c_sort.prereg.json 判据 A/B/C 计算并写 verdicts/p0c_sort.json+
+  ROADMAP §4.5 第八轮登记 → 队首机械弹出 → 续向蒸馏推导下一方向
+  (预期 flat_iterations:升级 j/k 预算=愿望登记既有挂账);EXP 窗口
+  重置待人裁确认(AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-03 (轮 350 产出轮:p0c-sort-relay 首腿 seed 0 判读 gain≈0,预注册先行 0c7fbf1,队列 doing)
+updated: 2026-10-03 (轮 351 产出轮:seed 1 gain=+0.0183 反号噪声带,seed 2 待发射)
 ```
 
 ```yaml
