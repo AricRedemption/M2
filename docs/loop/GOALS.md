@@ -78,7 +78,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 356 产出轮(ds 探针首腿):预注册先行 9d897be(阶段 1 可达性门=ds 能否救活 d8,对照复用在盘 p0c_sort_stack 行)+接线(run_fixed_sweep deep_supervision+launcher P0C_DS)+seed 0 判读 M(8)_ds=0.1423>chance 线 0.09>对照 0.0818,逐 j 单调爬升(j7=0.239)=深监督部分救活深堆叠(训练发生了);未到 A 线 0.30,seed 1/2 定走向(一致~0.14⇒direction_but_underpowered⇒阶段 2 深度对照可推导);墙钟 22.4min≤30
+state: RUNNING            # 轮 357 产出轮(ds 第 2 腿):seed 1 M(8)_ds=0.1254,与 seed 0(0.1423)一致——两 seed 均>chance 线 0.09、均<0.30,逐 j 单调复现=ds 部分救活稳定;墙钟 21.8min≤30;seed 2 待发射,3 seeds 预期走向=direction_but_underpowered(阶段 2 深度对照 d1+ds 可推导)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -122,34 +122,33 @@ current_action: >-
   **flat_iterations_ignored**(任务可学迭代被无视,机制=core 不重复
   注意力,verdicts/p0c_sort.json+§4.5 第八轮);stack seeds M(8)=
   {0.0887,0.0584} 均 chance=深堆叠不训练;裸 & 腿中断受管重发恢复;
-  节拍四事(N=10)。
-  轮 355(10-03)判决轮:3 seeds M(1)=0.6419 可学/M(8)=0.0818 三 seed
-  chance 带 ⇒ A/B/C 全败,**budget_wall=深堆叠优化失败**(seed 2 超
-  条款线 0.0084 字面偏离如实登记,判据未动);verdicts/p0c_sort_stack.
-  json+§4.5 第九轮=深度命题探针级总结论(三重错配:预算墙/迭代无视/
-  可训练性墙);弹出队列空;阶梯①推导=ds 变体探针。
-  轮 356(10-03)ds 探针首腿:预注册先行 9d897be(阶段 1 可达性门,
-  对照复用在盘 d8 行)+接线(run_fixed_sweep deep_supervision+launcher
-  P0C_DS)+seed 0 判读 M(8)_ds=0.1423>chance 0.09>对照 0.0818,逐 j
-  单调(j7=0.239)=**深监督部分救活深堆叠**(训练发生;无 ds 时 loss
-  平台 3.2 不训练);墙钟 22.4min≤30;seed 1/2 待发射。
+  节拍四事(N=10);墙钟热节流超线记账 1 次。
+  轮 355-356(10-03)stack 判决+ds 立项首腿:3 seeds M(1)=0.6419 可学
+  /M(8)=0.0818 chance 带 ⇒ **budget_wall=深堆叠优化失败**(seed 2 超
+  条款线 0.0084 字面偏离如实登记);verdicts/p0c_sort_stack.json+
+  §4.5 第九轮=深度命题三重错配总结论;弹出;ds 变体预注册先行
+  9d897be(阶段 1 可达性门,对照复用在盘 d8 行)+接线(deep_
+  supervision 进 fixed 模式+P0C_DS)+seed 0 M(8)_ds=0.1423>chance
+  0.09>对照=**深监督部分救活深堆叠**(墙钟 22.4min)。
+  轮 357(10-03)ds 第 2 腿:seed 1 M(8)_ds=0.1254 与 seed 0 一致
+  (两 seed 均>chance 线<0.30,逐 j 单调复现,墙钟 21.8min≤30);
+  3 seeds 预期=direction_but_underpowered(阶段 2 深度对照可推导);
+  经验=两腿定性兑现后仍守 3-seed 判据(单 seed 一致≠统计一致)。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
-next_trigger_hint: goal_check ⇒ 路由;队列空 ⇒ exit 2 阶梯:①续向
-  蒸馏 ds 探针已在队列前已推导(执行序=轮 356 已发 seed 0):下轮
-  发射 seed 1 ds 腿(受管通道,同 launcher 命令末参 1)→ 判读;
-  seed 2 同型;3 seeds 齐按 p0c_sort_stack_ds.prereg.json 判据
-  (A≥0.30/B≥2/3>0.09/C vs 对照≥0.02)计算 → verdicts/
-  p0c_sort_stack_ds.json+ROADMAP §4.5 第十轮 → 弹出 → 续向蒸馏
-  (若 direction_but_underpowered:阶段 2 深度对照 d1+ds 可推导;
-  若 ds_rescue_failed:深度命题探针级穷尽评估=单目标达成候选);
-  EXP 窗口重置待人裁确认(AMM-012);点火=v4.8 围栏
+next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
+  p0c-sort-stack-ds doing):发射 seed 2 ds 腿(受管通道,末参 2)→
+  判读 → 3 seeds 齐按 p0c_sort_stack_ds.prereg.json 判据(A≥0.30/
+  B≥2/3>0.09/C vs 对照≥0.02)计算 → verdicts/p0c_sort_stack_ds.json
+  +ROADMAP §4.5 第十轮 → 弹出 → 续向蒸馏(预期 direction_but_
+  underpowered:阶段 2 深度对照 d1+ds 另立预注册可推导);EXP 窗口
+  重置待人裁确认(AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-03 (轮 356 ds 首腿:M(8)_ds=0.1423 部分救活,seed 1/2 待发射)
+updated: 2026-10-03 (轮 357 ds 第 2 腿:M(8)_ds=0.1254 与 seed 0 一致,seed 2 待发射)
 ```
 
 ```yaml
