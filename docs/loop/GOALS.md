@@ -78,13 +78,13 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 359 判决轮(阶段 2 判决+弹出):3 seeds M(1)_ds=0.6421(=d1 无 ds 水平,ds 无害性✓)vs M(8)_ds=0.1249,gain=−0.5172±0.0229 三 seed 全负 ⇒ h_supported=false 诊断 depth_hurts(预判如实兑现);verdicts/p0c_sort_ds_depth.json+ROADMAP §4.5 第十一轮=深度命题探针级五连负收官;弹出队列空;阶梯①推导=S5 词问题探针(NC¹ 完全分离+looped 文献正先验=深度链唯一剩余正先验角落)入队 todo
+state: RUNNING            # 轮 360 判决轮(S5 判决+弹出):3 seeds 两臂全 chance(M(1)=0.0079/M(8)=0.0076≈1/120)⇒ h_supported=false 诊断 budget_wall_s5(预判如实兑现,NC¹ 任务探针预算不可达);verdicts/p0c_s5_depth.json+ROADMAP §4.5 第十二轮=深度命题探针级六连负全路径收官;事故留痕=首发两腿崩(轮 350 vocab 回归,数据前修复 a618425+守卫,零污染)+裸 & 重发当轮自查纠正;弹出队列空;阶梯①推导=深度变量无可推导增量,换轴推导待下轮(盘点 EXPERIMENT_PLAN 四轴候选)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
   轮次循环,单目标=队列清空(队列由续向蒸馏续填,人不在方向环;协议/
   阶梯/纪律唯一源=docs/loop/GOAL-PROMPT-M2.md v4.5,本文件不复述)。
-current_variable: p0c-sort-depth(排序类多步比较链上思考深度→能力;判读落盘=verdicts/p0c_sort_ds_depth.json h_supported=false 诊断 depth_hurts,轮 359——ds 平面上深度单调伤,探针级五连负收官;换向推导=S5 词问题探针(正先验角落),预注册时留痕切换或延续)
+current_variable: p0c-sort-depth(思考深度→能力;判读落盘=verdicts/p0c_s5_depth.json h_supported=false 诊断 budget_wall_s5,轮 360——深度命题探针级六连负全路径收官 §4.5 第七-十二轮;换向推导=换轴候选盘点待下轮,旧变量判读已全落盘)
 current_action: >-
   [轮次索引:更早轮单行,全文=git log(AMM-009 瘦身,永不丢)]
   轮 1-105(09-27~10-02)前循环:bootstrap/AMM-002~010 修宪链/P0-C′
@@ -124,40 +124,32 @@ current_action: >-
   wall=深堆叠不训练**(第九轮)/ds 变体 3 seeds 判负 **direction_
   but_underpowered=部分救活**(第十轮,ds 使深堆叠从不训练变部分
   训练);裸 & 腿中断受管重发恢复;节拍四事(N=10)。
-  轮 359(10-03)阶段 2 判决轮:d1+ds 三短腿(3min/腿,判据先行
+  轮 359-360(10-03)阶段 2 判决+S5 收官:359=d1+ds 三短腿(判据先行
   3f88b4a)M(1)_ds=0.6421(=d1 无 ds 水平,ds 无害性✓)/M(8)_ds=
-  0.1249 在盘,gain=−0.5172±0.0229 三 seed 全负 ⇒ A/B/C 全败
-  h_supported=false,**depth_hurts**(轮 358 预判如实兑现);
-  verdicts/p0c_sort_ds_depth.json+§4.5 第十一轮=深度命题探针级
-  五连负收官(全路径无非 thesis 终局反证,升级预算=愿望登记);
-  弹出队列空;阶梯①推导=S5 词问题探针(NC¹ 分离+looped 正先验=
-  深度链唯一剩余正先验角落)入队 todo。
+  0.1249,gain=−0.5172 三 seed 全负 ⇒ **depth_hurts**(预判兑现,
+  §4.5 第十一轮);360=S5 词问题探针(预注册先行 5dd6e2f+首发两腿崩
+  =轮 350 vocab 回归数据前修复 a618425+守卫+裸 & 自查纠正)3 seeds
+  两臂全 chance(M≈1/120)⇒ **budget_wall_s5**(预判兑现);§4.5
+  第十二轮=深度命题探针级六连负全路径收官(pointer 预算墙/core 迭代
+  无视/stack 深堆叠不训练/ds 部分救活/ds 深度单调伤/S5 正先验预算墙,
+  升级预算=愿望登记);弹出队列空;阶梯①判定=深度变量无可推导增量,
+  换轴推导待下轮(盘点 EXPERIMENT_PLAN 四轴候选)。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
-next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
-  p0c-s5-depth todo):S5 预注册先行(p0c_s5_depth.prereg.json:任务
-  =gen_s5_word 现成 NC¹ 完全分离,k=8 固定(T=11 极短,腿~3min),
-  stack+ds d={1,8} 同腿配对 3 seeds;判据=深度方向 A/B/C+负诊断
-  三选一,正先验=HORIZON #3 looped 文献)→中程提交→发射;判决后
-  续向蒸馏:若 s5 亦负=深度链全路径收官,换轴推导或单目标达成候选;
-  EXP 窗口重置待人裁确认(AMM-012);点火=v4.8 围栏
+next_trigger_hint: goal_check ⇒ 路由;队列空 ⇒ exit 2 阶梯:①换轴
+  续向蒸馏(深度变量六连负收官无可推导增量;盘点 docs/EXPERIMENT_
+  PLAN.md+docs/ROADMAP_M2.md 其余三轴候选[长流式记忆/持续学习/端侧
+  延迟]做四栏推导,只推导本机 ≤30min 可执行方向;可推导⇒入队+预注册
+  +发射;推导不出且②停车场③写作④硬化全空⇒空审计,连续 3 次⇒
+  PARKED);EXP 窗口重置待人裁确认(AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-03 (轮 359 阶段 2 判决:depth_hurts 五连负收官,S5 正先验角落推导入队)
+updated: 2026-10-03 (轮 360 S5 判决:深度命题六连负收官,换轴推导待下轮)
 ```
 
 ```yaml
 goal_queue:
-  - id: p0c-s5-depth
-    goal: S5 词问题深度探针(轮 359 立项,深度链最后一条可推导路径)
-      ——gen_s5_word 现成(NC¹ 完全分离,Barrington:固定浅层必败,
-      权重共享迭代可解;looped 文献正先验=HORIZON #3),k=8 固定
-      T=11,stack+ds,d={1,8} 同腿配对 ×3 seeds;单变量=深度。
-    done_condition: 判决文件 benchmarks/verdicts/p0c_s5_depth.json
-      存在且含 h_supported 字段,ROADMAP §4.5 已登记第十二轮判决条目。
-    check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_s5_depth.json')); assert 'h_supported' in d"
-    status: todo
 ```

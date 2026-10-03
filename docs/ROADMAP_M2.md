@@ -261,6 +261,19 @@ mid_eval 三读数一致 chance:mid@10000=0.0632 / mid@20000=0.0658 / final=0.06
 
 **深度命题探针级链条收官(§4.5 第七-十一轮,五连负全路径)**:①pointer_chase d16(core)=budget_wall;②bubble_trace(core)=flat_iterations_ignored;③bubble_trace(stack)=深堆叠不训练;④stack+ds 阶段 1=direction_but_underpowered(部分救活);⑤ds 深度对照阶段 2=depth_hurts。**本机 30min 探针预算内深度增益全路径未显形且方向为负;非 thesis 终局反证**(升级预算 30k/10^5 步级=愿望登记挂账;S5 词问题 NC¹ 完全分离+looped 文献正先验=唯一剩余正先验角落,可推导性待四栏蒸馏裁决)。
 
+### 2026-10-03 · 第十二轮:p0c-s5-depth S5 词问题深度探针判决(NC¹ 正先验角落)——**h_supported=false,诊断 budget_wall_s5(深度链全路径收官)**
+
+预注册 `benchmarks/verdicts/p0c_s5_depth.prereg.json`(唯一变量=深度,stack+ds d={1,8} 同腿配对 ×3 seeds,S=2000,判据先行 5dd6e2f);判决文件 `benchmarks/verdicts/p0c_s5_depth.json`。
+
+| 读数(chance=1/120≈0.0083,线 0.02) | M(1) per seed | M(8) per seed |
+|---|---|---|
+| seed 0 / 1 / 2 | 0.0076 / 0.0090 / 0.0072 | 0.0076 / 0.0080 / 0.0070 |
+| **3-seed 均值** | **0.0079 = chance** | **0.0076 = chance** |
+
+**判决**:h_supported=false(A/B/C 全败,mean_gain=−0.0004≈0)。**诊断 budget_wall_s5**(prereg 明文,honest_prediction 如实兑现)——NC¹ 完全分离任务在探针预算不可达:文献 looped 正先验的配方域(长训练+特定课程)远超本机 30min 预算。事故留痕:首发两腿 rc=1 崩=轮 350 make_generator vocab 回归(数据前修复 a618425+自测 vocab 覆盖守卫,canonical 零污染)。
+
+**深度命题探针级总结论(§4.5 第七-十二轮,六连负全路径)**:pointer_chase 预算墙 → bubble_trace core 迭代无视 → stack 深堆叠不训练 → ds 部分救活 → ds 平面深度单调伤 → S5 正先验角落预算墙。**本机 30min 探针预算内,思考深度→能力命题在全部可推导路径(2 任务族×2 旋钮×2 监督制+理论最强任务)上均为负;非 thesis 终局反证**——探针预算(2k 步)与文献配方域(30k-10^5+ 步)差 1-2 个量级,升级预算=愿望登记挂账(30k 步级排序腿+10^5 步级 S5,凭证/资源到位由用户点火改指)。
+
 
 
 ## 5. 评测纪律 / Evaluation Discipline
