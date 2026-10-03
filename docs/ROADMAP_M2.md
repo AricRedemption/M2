@@ -248,6 +248,19 @@ mid_eval 三读数一致 chance:mid@10000=0.0632 / mid@20000=0.0658 / final=0.06
 
 **阶段 2(另立预注册)**:深度对照 d1+ds vs d8+ds(对照臂复用本轮在盘行,只发 d1+ds 3 腿,短腿)——在"ds 都起飞"的新平面上裁决深度信号方向。
 
+### 2026-10-03 · 第十一轮:p0c-sort-ds-depth 阶段 2 深度对照判决(d1+ds vs d8+ds)——**h_supported=false,诊断 depth_hurts(深度单调伤)**
+
+预注册 `benchmarks/verdicts/p0c_sort_ds_depth.prereg.json`(单变量=深度 d8→d1,两臂均 ds 开;对照臂复用第十轮 d8+ds 在盘行;新发 d1+ds 3 短腿 S=2000;判据先行 3f88b4a);判决文件 `benchmarks/verdicts/p0c_sort_ds_depth.json`。
+
+| 读数(口径同前:mean over j∈{1..7}) | M(1)+ds(per seed) | M(8)+ds(在盘) | gain(per seed) |
+|---|---|---|---|
+| seed 0 / 1 / 2 | 0.6332 / 0.6557 / 0.6375 | 0.1423 / 0.1254 / 0.1070 | −0.491 / −0.530 / −0.531 |
+| **3-seed 均值** | **0.6421** | **0.1249** | **−0.5172**(σ=0.0229,3/3 全负) |
+
+**判决**:h_supported=false(A/B/C 全败)。**诊断 depth_hurts**(prereg 明文)——ds 平面上深度单调伤:d1+ds 学到 0.6421(与 d1 无 ds 同水平=**ds 无害性成立**,预注册 honest_prediction 两结论之一),d8+ds 仅 0.1249;深度信号在本探针预算内不但不存在而且方向为负。honest_prediction(轮 358 预判)如实兑现。
+
+**深度命题探针级链条收官(§4.5 第七-十一轮,五连负全路径)**:①pointer_chase d16(core)=budget_wall;②bubble_trace(core)=flat_iterations_ignored;③bubble_trace(stack)=深堆叠不训练;④stack+ds 阶段 1=direction_but_underpowered(部分救活);⑤ds 深度对照阶段 2=depth_hurts。**本机 30min 探针预算内深度增益全路径未显形且方向为负;非 thesis 终局反证**(升级预算 30k/10^5 步级=愿望登记挂账;S5 词问题 NC¹ 完全分离+looped 文献正先验=唯一剩余正先验角落,可推导性待四栏蒸馏裁决)。
+
 
 
 ## 5. 评测纪律 / Evaluation Discipline
