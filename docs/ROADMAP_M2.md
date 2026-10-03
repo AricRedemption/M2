@@ -284,6 +284,19 @@ mid_eval 三读数一致 chance:mid@10000=0.0632 / mid@20000=0.0658 / final=0.06
 
 **长流式记忆轴现状**:探针基础设施已建(streaming_recall.py+自测黄金回放),任务参数量级是当前瓶颈(32 事实×2000 步太难);易变体(N_FACTS=8)已入队。
 
+### 2026-10-04 · 第十四轮:p0c-stream-len-e8 易变体判决(N_FACTS=8)——**h_supported=false,诊断 still_unreachable(流式轴探针级预算墙,收官)**
+
+预注册 `benchmarks/verdicts/p0c_stream_len_e8.prereg.json`(单变量=事实数 32→8,余逐字沿用;判据先行 2ac2ff1);判决文件 `benchmarks/verdicts/p0c_stream_len_e8.json`。
+
+| 读数(chance=0.0625) | M(1) per seed | acc(256) 3-seed 均值 | R(1024/256 保持率) |
+|---|---|---|---|
+| mtlnn | 0.141 / 0.25 / 0.281 | **0.2239**(< 0.8 门) | 0.313 |
+| transformer | 0.312 / 0.344 / 0.359 | **0.3386**(< 0.8 门) | 0.671 |
+
+**判决**:h_supported=false(A 再次失败)。**诊断 still_unreachable**(prereg 明文)——8 事实(容量降 4×)在 2000 步仍不可学,与第一轮(k=1 查表 6000 步)+第十三轮(32 事实)构成三连证据:**in-context 查表类任务在本架构/本预算下学习速度是数量级级瓶颈,流式轴探针级预算墙成立**。加步数(8000 步 mtlnn 腿≈35min 超红线)=愿望登记挂账;流式轴段内同族迭代已达上限 2(32/8),进一步降事实数不再推导。
+
+**端侧延迟描述性证据(两轮一致)**:同宽下 mtlnn 绝对延迟比 transformer 慢 ~8×,延迟长度比均超线性(mtlnn 15.4×/transformer 16.4×)——**MT-LNN 的 O(1) 主张只覆盖液体子层,混合架构含注意力层**;端侧延迟轴候选探针=纯液体核(attention_layers=())延迟平坦性,可推导。
+
 
 
 ## 5. 评测纪律 / Evaluation Discipline

@@ -78,7 +78,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 362 判决轮(流式探针判决+弹出):3 seeds 两模型训练长度即不可学(mtlnn 0.0625=chance/transformer 0.156<0.8)⇒ h_supported=false 诊断 task_unreachable(32 事实 KV 回忆 2000 步太难,外推未触及;与第一轮查表同现象族);verdicts/p0c_stream_len.json+ROADMAP §4.5 第十三轮;OOM 事故(4096 eval 4GB 峰值)自适应 batch 修复零污染;延迟描述性=两模型均超线性(O(1) 主张只覆盖液体子层);弹出队列空;阶梯①推导=N_FACTS=8 易变体入队 todo
+state: RUNNING            # 轮 363 判决轮(e8 判决+弹出):8 事实仍不可学(mtlnn 0.224/transformer 0.339<0.8)⇒ h_supported=false 诊断 still_unreachable(与第一轮+第十三轮三连证据=in-context 查表学习速度是数量级级瓶颈,流式轴探针级预算墙成立;加步数愿望登记,同族≤2 上限不再降事实数);verdicts/p0c_stream_len_e8.json+ROADMAP §4.5 第十四轮;弹出队列空;阶梯①换轴推导=端侧延迟轴纯液体核延迟平坦性探针候选(两轮描述性证据:同宽 mtlnn 慢 8×/延迟比均超线性,O(1) 主张只覆盖液体子层;纯推理可推导),下轮执行
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -100,17 +100,12 @@ current_action: >-
   播种 p0c-sort-relay)/015(铁律下沉+注入管道)/016(围栏 17 行)/
   017(资源=蒸馏约束 v4.8)+社区门#5+版本表。
   轮 350-358(10-03)深度链前段:bubble_trace+三预注册先行(0c7fbf1/
-  fefc67b/9d897be)+launcher 参数化;core 判负 flat_iterations(第八轮)
-  /stack 判负深堆叠不训练(第九轮)/ds 判负部分救活(第十轮);
-  裸 & 中断受管恢复;节拍四事(N=10)。
-  轮 359-360(10-03)阶段 2 判决+S5 收官:359=d1+ds 三短腿(判据先行
-  3f88b4a)M(1)_ds=0.6421(=d1 无 ds 水平,ds 无害性✓)/M(8)_ds=
-  0.1249,gain=−0.5172 三 seed 全负 ⇒ **depth_hurts**(预判兑现,
-  §4.5 第十一轮);360=S5 词问题探针(预注册先行 5dd6e2f+首发两腿崩
-  =轮 350 vocab 回归数据前修复 a618425+守卫+裸 & 自查纠正)3 seeds
-  两臂全 chance(M≈1/120)⇒ **budget_wall_s5**(预判兑现);§4.5
-  第十二轮=深度命题探针级六连负全路径收官(pointer 预算墙/core 迭代
-  无视/stack 深堆叠不训练/ds 部分救活/ds 深度单调伤/S5 正先验预算墙,
+  fefc67b/9d897be)+launcher 参数化;core/stack/ds 三判负(flat/
+  深堆叠不训练/部分救活,第八-十轮);裸 & 中断受管恢复;节拍四事。
+  轮 359-360(10-03)阶段 2+S5 收官:359=d1+ds 三短腿 M(1)_ds=0.6421
+  (ds 无害性✓)/M(8)_ds=0.1249 ⇒ **depth_hurts**(第十一轮);360=
+  S5 正先验角落(判据先行 5dd6e2f+vocab 回归数据前修复 a618425)两臂
+  全 chance ⇒ **budget_wall_s5**(第十二轮=深度命题六连负全路径收官,
   升级预算=愿望登记);弹出队列空。
   轮 361(10-03)换轴推导轮:阶梯①四栏推导——盘点 EXPERIMENT_PLAN
   (09-09 A100 时代历史登记:PC 防遗忘 nchain worst-task 稳定性+genreplay
@@ -124,41 +119,35 @@ current_action: >-
   训练结论=零新机制,harness=流式任务生成+评估环 ~100 行,单腿
   训练+外推评估 ≤30min 可推导);harness 待建,入队 todo。
   轮 362(10-03)流式探针判决轮:harness=streaming_recall.py 建成
-  (自测黄金回放;布局数学两击修正)+预注册先行 a4f4847+6 腿(两模型
-  ×3 seeds,受管串行);OOM 事故(mtlnn T=4096 eval 4GB 峰值)自适应
-  batch 修复 seed 0/1 重发零污染;判据计算:两模型训练长度即不可学
-  (mtlnn 0.0625=chance/transformer 0.156)⇒ A 失败 h_supported=
-  false,**task_unreachable**(32 事实 2000 步太难,外推未触及,与
-  第一轮查表现象族同);延迟描述性=两模型均超线性(O(1) 主张只覆盖
-  液体子层,架构诚实边界自证);verdicts/p0c_stream_len.json+ROADMAP
-  §4.5 第十三轮;弹出队列空;阶梯①推导=N_FACTS=8 易变体入队 todo
-  (明文处置,同一 harness 单参数,腿 3-9min)。
+  (自测黄金回放)+预注册先行 a4f4847+6 腿;OOM 事故(4096 eval 4GB)
+  自适应 batch 修复重发零污染;两模型训练长度即不可学 ⇒ **task_
+  unreachable**(32 事实 2000 步太难,§4.5 第十三轮);延迟描述性=
+  均超线性(O(1) 主张只覆盖液体子层);弹出;e8 易变体入队。
+  轮 363(10-03)e8 判决轮:--n_facts 全链接线(自测绿)+预注册先行
+  2ac2ff1+6 腿全 rc=0;判据计算 8 事实仍不可学(mtlnn 0.224/
+  transformer 0.339<0.8)⇒ A 失败 h_supported=false,
+  **still_unreachable**(三连证据=查表学习速度数量级级瓶颈,流式轴
+  预算墙;加步数愿望登记,同族≤2 上限);延迟描述性两轮一致(同宽
+  mtlnn 慢 8×,超线性比 15.4×/16.4×);verdicts/p0c_stream_len_e8.
+  json+ROADMAP §4.5 第十四轮;弹出队列空;阶梯①换轴推导=端侧延迟
+  轴纯液体核延迟平坦性探针候选(两轮描述性证据在案,纯推理可推导),
+  下轮四栏+执行。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
-next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
-  p0c-stream-len-e8 todo):易变体预注册先行(p0c_stream_len_e8.
-  prereg.json:同一 harness 仅 N_FACTS=8,回忆容量降/距离测试保留,
-  判据形状沿用 A/B/C+负诊断,no_posthoc_move)→中程提交→发射 6 腿
-  →判决;若易变体仍不可学=流式轴探针级预算墙(加步数愿望登记),
-  换轴再推导或阶梯走空;EXP 窗口重置待人裁确认(AMM-012);点火=v4.8
-  围栏
+next_trigger_hint: goal_check ⇒ 路由;队列空 ⇒ exit 2 阶梯:①换轴
+  续向蒸馏(流式轴收官:预算墙愿望登记+同族≤2;候选=端侧延迟轴纯
+  液体核延迟平坦性探针[attention_layers=() 纯推理,两轮描述性证据
+  在案]做四栏推导;可推导⇒入队+预注册+发射;持续学习轴 PC 线=
+  停车场候选;推导不出且②③④全空⇒空审计,连续 3 次⇒PARKED);
+  EXP 窗口重置待人裁确认(AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-03 (轮 362 流式判决:task_unreachable,易变体入队)
+updated: 2026-10-04 (轮 363 e8 判决:流式轴预算墙收官,端侧延迟轴推导待下轮)
 ```
 
 ```yaml
 goal_queue:
-  - id: p0c-stream-len-e8
-    goal: 流式 KV 回忆易变体(轮 362 task_unreachable 明文处置)——
-      同一 harness 仅 N_FACTS=8(回忆容量 32→8,距离测试保留),两
-      模型 ×3 seeds 同预算 S=2000;假设=容量降后任务可达,外推保持
-      问题才可被触及。
-    done_condition: 判决文件 benchmarks/verdicts/p0c_stream_len_e8.json
-      存在且含 h_supported 字段,ROADMAP §4.5 已登记第十四轮判决条目。
-    check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_stream_len_e8.json')); assert 'h_supported' in d"
-    status: todo
 ```
