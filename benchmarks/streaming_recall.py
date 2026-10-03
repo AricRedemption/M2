@@ -98,7 +98,15 @@ def make_batch(tokens, answer, ans_pos, device):
 
 @torch.no_grad()
 def eval_len(model, T, device, rng, batches=4, batch=16, timed=False):
-    """准确率 + (可选) 前向墙钟(描述性)。"""
+    """准确率 + (可选) 前向墙钟(描述性)。
+
+    轮 362 教训: T=4096 时 global_coherence 稀疏分数张量 MPS OOM
+    (4GB 峰值)——长 T 自适应减 batch + 长度间清缓存。
+    """
+    if T >= 4096:
+        batch = min(batch, 4)
+    if device.type == "mps":
+        torch.mps.empty_cache()
     model.eval()
     correct = total = 0
     wall = 0.0

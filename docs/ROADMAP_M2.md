@@ -274,6 +274,16 @@ mid_eval 三读数一致 chance:mid@10000=0.0632 / mid@20000=0.0658 / final=0.06
 
 **深度命题探针级总结论(§4.5 第七-十二轮,六连负全路径)**:pointer_chase 预算墙 → bubble_trace core 迭代无视 → stack 深堆叠不训练 → ds 部分救活 → ds 平面深度单调伤 → S5 正先验角落预算墙。**本机 30min 探针预算内,思考深度→能力命题在全部可推导路径(2 任务族×2 旋钮×2 监督制+理论最强任务)上均为负;非 thesis 终局反证**——探针预算(2k 步)与文献配方域(30k-10^5+ 步)差 1-2 个量级,升级预算=愿望登记挂账(30k 步级排序腿+10^5 步级 S5,凭证/资源到位由用户点火改指)。
 
+### 2026-10-03 · 第十三轮:p0c-stream-len 长流式记忆长度外推探针判决(换轴后首探针)——**h_supported=false,诊断 task_unreachable**
+
+预注册 `benchmarks/verdicts/p0c_stream_len.prereg.json`(换轴四栏推导落地:32 条键互异 KV 事实流式回忆,流长由填充密度变化[间隔 6/30/127],短训 T=256 长测 T∈{1024,4096};MT-LNN vs transformer 同 max_seq_len;判据先行 a4f4847);判决文件 `benchmarks/verdicts/p0c_stream_len.json`。
+
+**判决**:h_supported=false(A 失败:**任务本身在 2000 步预算不可学**——两模型训练长度 acc:mtlnn 0.0625=chance / transformer 0.1563<0.8 门,外推问题未触及)。**诊断 task_unreachable**(prereg 明文)——与 ROADMAP 第一轮"连 k=1 纯查表 6000 步都学不会"同现象族:in-context 查表类任务在本架构规模需要更长训练。处置=换任务参数另立预注册(N_FACTS=8 易变体:保留回忆距离测试)或加步数愿望登记。
+
+**事故留痕**:mtlnn 三腿 T=4096 评估 MPS OOM(global_coherence 稀疏分数 4GB 峰值)——自适应 batch(长 T 减至 4)+长度间清缓存修复,seed 0/1 重发 rc=0,canonical 零污染。延迟描述性报告:两模型延迟均超线性(mtlnn 4096/256 比 15.3,transformer 16.4)——**MT-LNN 的 O(1) 主张只覆盖液体子层,混合架构的注意力层仍是 O(T²)**(架构诚实边界再次自证)。
+
+**长流式记忆轴现状**:探针基础设施已建(streaming_recall.py+自测黄金回放),任务参数量级是当前瓶颈(32 事实×2000 步太难);易变体(N_FACTS=8)已入队。
+
 
 
 ## 5. 评测纪律 / Evaluation Discipline

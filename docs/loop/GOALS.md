@@ -78,7 +78,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 361 换轴推导轮:四栏推导完成=长流式记忆轴-长度外推探针候选(MT-LNN O(1) 状态 vs transformer O(T²),短训 L=512 长测外推+延迟平坦性,与端侧 thesis 直接耦合;EXPERIMENT_PLAN 盘点=PC 防遗忘线为 A100 时代历史登记,深度轴六连负收官);harness(流式任务生成+评估环)待建,入队 todo;下轮建 harness+预注册先行
+state: RUNNING            # 轮 362 判决轮(流式探针判决+弹出):3 seeds 两模型训练长度即不可学(mtlnn 0.0625=chance/transformer 0.156<0.8)⇒ h_supported=false 诊断 task_unreachable(32 事实 KV 回忆 2000 步太难,外推未触及;与第一轮查表同现象族);verdicts/p0c_stream_len.json+ROADMAP §4.5 第十三轮;OOM 事故(4096 eval 4GB 峰值)自适应 batch 修复零污染;延迟描述性=两模型均超线性(O(1) 主张只覆盖液体子层);弹出队列空;阶梯①推导=N_FACTS=8 易变体入队 todo
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -92,23 +92,17 @@ current_action: >-
   DISTILL 轮 1-105)。
   轮 106(10-02)新循环点火首轮:closer 账实结类=add -A 全仓+测试;
   AMM-012 首轮 D=3/N=3。
-  轮 107-338(10-02)在途守望期:腿 17000→29800 稳态推进+节拍×17+
-  方向动作×12+伪影证伪四现+推送 443 判例成标准动作+判读预案五件
-  开建(138/118/123/128/143/148/158);137 起程序计数器链断(账实
-  不符第五击,轮 341 结类)。
+  轮 107-338(10-02)在途守望期:腿 17000→29800+节拍×17+方向动作
+  ×12+伪影证伪四现+推送 443 判例+判读预案五件;137 起程序计数器
+  链断(第五击,轮 341 结类)。
   轮 339-349(10-02)终评判读+终止+立法链:腿 40268 判负 budget_wall
-  (M(8,0)=0.0656≈chance,verdicts/p0c_prime.json+§4.5 第七轮);exit 6
-  空审计置 BLOCKED-HUMAN+程序计数器链断全量重建;AMM-013/014(蒸馏续向
-  v4.5 队列播种 p0c-sort-relay)/015(铁律下沉+distill_inject v4.6)/
-  016(围栏 17 行 v4.7)/017(资源=蒸馏约束 v4.8:只推导≤30min 可执行,
-  超预算愿望登记不停车)+社区门#5+版本表。
-  轮 350-358(10-03)深度命题探针链前段:bubble_trace 实现+预注册
-  先行 0c7fbf1/fefc67b/9d897be+launcher 参数化(P0C_TASK/STACK/DS)+
-  接线(deep_supervision 进 fixed);core 3 seeds 判负 **flat_
-  iterations_ignored**(§4.5 第八轮)/stack 3 seeds 判负 **budget_
-  wall=深堆叠不训练**(第九轮)/ds 变体 3 seeds 判负 **direction_
-  but_underpowered=部分救活**(第十轮,ds 使深堆叠从不训练变部分
-  训练);裸 & 腿中断受管重发恢复;节拍四事(N=10)。
+  (§4.5 第七轮);程序计数器链断全量重建;AMM-013/014(蒸馏续向 v4.5
+  播种 p0c-sort-relay)/015(铁律下沉+注入管道)/016(围栏 17 行)/
+  017(资源=蒸馏约束 v4.8)+社区门#5+版本表。
+  轮 350-358(10-03)深度链前段:bubble_trace+三预注册先行(0c7fbf1/
+  fefc67b/9d897be)+launcher 参数化;core 判负 flat_iterations(第八轮)
+  /stack 判负深堆叠不训练(第九轮)/ds 判负部分救活(第十轮);
+  裸 & 中断受管恢复;节拍四事(N=10)。
   轮 359-360(10-03)阶段 2 判决+S5 收官:359=d1+ds 三短腿(判据先行
   3f88b4a)M(1)_ds=0.6421(=d1 无 ds 水平,ds 无害性✓)/M(8)_ds=
   0.1249,gain=−0.5172 三 seed 全负 ⇒ **depth_hurts**(预判兑现,
@@ -129,32 +123,42 @@ current_action: >-
   长测 L∈{1k,4k,16k} 外推+延迟曲线,假设=液体核外推保持+延迟平坦;
   训练结论=零新机制,harness=流式任务生成+评估环 ~100 行,单腿
   训练+外推评估 ≤30min 可推导);harness 待建,入队 todo。
+  轮 362(10-03)流式探针判决轮:harness=streaming_recall.py 建成
+  (自测黄金回放;布局数学两击修正)+预注册先行 a4f4847+6 腿(两模型
+  ×3 seeds,受管串行);OOM 事故(mtlnn T=4096 eval 4GB 峰值)自适应
+  batch 修复 seed 0/1 重发零污染;判据计算:两模型训练长度即不可学
+  (mtlnn 0.0625=chance/transformer 0.156)⇒ A 失败 h_supported=
+  false,**task_unreachable**(32 事实 2000 步太难,外推未触及,与
+  第一轮查表现象族同);延迟描述性=两模型均超线性(O(1) 主张只覆盖
+  液体子层,架构诚实边界自证);verdicts/p0c_stream_len.json+ROADMAP
+  §4.5 第十三轮;弹出队列空;阶梯①推导=N_FACTS=8 易变体入队 todo
+  (明文处置,同一 harness 单参数,腿 3-9min)。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
 next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
-  p0c-stream-len todo):建 harness(benchmarks/streaming_recall.py:
-  流式记忆任务生成+长度外推评估环,~100 行+自测)→标定速率→预注册
-  先行(p0c_stream_len.prereg.json:短训 L=512 长测 L∈{1k,4k,16k},
-  MT-LNN d1 vs transformer 对照,判据=外推保持 A/延迟平坦 B/对照
-  分离 C+负诊断,判据先行中程提交)→发射;EXP 窗口重置待人裁确认
-  (AMM-012);点火=v4.8 围栏
+  p0c-stream-len-e8 todo):易变体预注册先行(p0c_stream_len_e8.
+  prereg.json:同一 harness 仅 N_FACTS=8,回忆容量降/距离测试保留,
+  判据形状沿用 A/B/C+负诊断,no_posthoc_move)→中程提交→发射 6 腿
+  →判决;若易变体仍不可学=流式轴探针级预算墙(加步数愿望登记),
+  换轴再推导或阶梯走空;EXP 窗口重置待人裁确认(AMM-012);点火=v4.8
+  围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-03 (轮 361 换轴推导:长流式记忆长度外推探针立项,harness 待建)
+updated: 2026-10-03 (轮 362 流式判决:task_unreachable,易变体入队)
 ```
 
 ```yaml
 goal_queue:
-  - id: p0c-stream-len
-    goal: 长流式记忆轴-长度外推探针(轮 361 换轴推导立项)——短训
-      L=512 长测 L∈{1k,4k,16k},MT-LNN(O(1) 状态)vs transformer
-      (O(T²))对照;假设=液体核长度外推保持+延迟平坦;harness 待建
-      (流式任务生成+评估环),预注册判负标准先行后发射。
-    done_condition: 判决文件 benchmarks/verdicts/p0c_stream_len.json
-      存在且含 h_supported 字段,ROADMAP §4.5 已登记第十三轮判决条目。
-    check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_stream_len.json')); assert 'h_supported' in d"
+  - id: p0c-stream-len-e8
+    goal: 流式 KV 回忆易变体(轮 362 task_unreachable 明文处置)——
+      同一 harness 仅 N_FACTS=8(回忆容量 32→8,距离测试保留),两
+      模型 ×3 seeds 同预算 S=2000;假设=容量降后任务可达,外推保持
+      问题才可被触及。
+    done_condition: 判决文件 benchmarks/verdicts/p0c_stream_len_e8.json
+      存在且含 h_supported 字段,ROADMAP §4.5 已登记第十四轮判决条目。
+    check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_stream_len_e8.json')); assert 'h_supported' in d"
     status: todo
 ```
