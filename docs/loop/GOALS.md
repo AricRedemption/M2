@@ -78,7 +78,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 360 判决轮(S5 判决+弹出):3 seeds 两臂全 chance(M(1)=0.0079/M(8)=0.0076≈1/120)⇒ h_supported=false 诊断 budget_wall_s5(预判如实兑现,NC¹ 任务探针预算不可达);verdicts/p0c_s5_depth.json+ROADMAP §4.5 第十二轮=深度命题探针级六连负全路径收官;事故留痕=首发两腿崩(轮 350 vocab 回归,数据前修复 a618425+守卫,零污染)+裸 & 重发当轮自查纠正;弹出队列空;阶梯①推导=深度变量无可推导增量,换轴推导待下轮(盘点 EXPERIMENT_PLAN 四轴候选)
+state: RUNNING            # 轮 361 换轴推导轮:四栏推导完成=长流式记忆轴-长度外推探针候选(MT-LNN O(1) 状态 vs transformer O(T²),短训 L=512 长测外推+延迟平坦性,与端侧 thesis 直接耦合;EXPERIMENT_PLAN 盘点=PC 防遗忘线为 A100 时代历史登记,深度轴六连负收官);harness(流式任务生成+评估环)待建,入队 todo;下轮建 harness+预注册先行
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -91,26 +91,11 @@ current_action: >-
   发射与事故链/两轮 MODE-OFF/loop_closer 立项(详见 git log 与
   DISTILL 轮 1-105)。
   轮 106(10-02)新循环点火首轮:closer 账实结类=add -A 全仓+测试;
-  AMM-012 首轮 D=3/N=3;腿 17000/30000。
-  轮 107-133(10-02)在途跟进×22+节拍×2(113/123)+方向动作×2(108 停车
-  场/113 判读准备)+推送 443 判例成标准动作(111/116):腿 17000→18800
-  chance 平台;判读预案五件开建(118 分支表/123 mid_eval 预案/128
-  verdict schema)。
-  轮 134-138(10-02)跟进+135 观察轮(19400 崩落)/136 证伪(伪影判例二
-  兑现,判读程序收敛两步动作)/137-138:腿 18800→19800;137 起程序计数
-  器链断(账实不符第五击,轮 341 结类)。
-  轮 139-163(10-02)跟进×20+节拍×2(143/153)+方向动作×3(143 计算干跑
-  known-good/148 数据链字段级终检/158 2b 菜单做实):腿 19800→29400 前
-  段;23600/24400 伪影两现两证伪。
-  轮 164-213(10-02)跟进×45+节拍×5(173/183/193/203/213)+方向动作×5
-  (168/178/188/198/208 留痕):腿 23400 前后稳态;25800 伪影第四现证伪
-  (254)。
-  轮 214-263(10-02)跟进×45+节拍×5(223/233/243/253/263)+方向动作×5
-  (218/228/238/248/259 留痕):腿 23400→26400;队列头判据在途。
-  轮 264-313(10-02)跟进×45+节拍×5(273/283/293/303/313)+方向动作×5
-  (268/278/288/298/308 留痕):腿 26400→28800 稳态守望。
-  轮 314-338(10-02)跟进×22+节拍×2(323/333)+方向动作×2(318/328 留痕
-  /338 终评在即):腿 28800→29800;终评倒计时。
+  AMM-012 首轮 D=3/N=3。
+  轮 107-338(10-02)在途守望期:腿 17000→29800 稳态推进+节拍×17+
+  方向动作×12+伪影证伪四现+推送 443 判例成标准动作+判读预案五件
+  开建(138/118/123/128/143/148/158);137 起程序计数器链断(账实
+  不符第五击,轮 341 结类)。
   轮 339-349(10-02)终评判读+终止+立法链:腿 40268 判负 budget_wall
   (M(8,0)=0.0656≈chance,verdicts/p0c_prime.json+§4.5 第七轮);exit 6
   空审计置 BLOCKED-HUMAN+程序计数器链断全量重建;AMM-013/014(蒸馏续向
@@ -132,24 +117,44 @@ current_action: >-
   两臂全 chance(M≈1/120)⇒ **budget_wall_s5**(预判兑现);§4.5
   第十二轮=深度命题探针级六连负全路径收官(pointer 预算墙/core 迭代
   无视/stack 深堆叠不训练/ds 部分救活/ds 深度单调伤/S5 正先验预算墙,
-  升级预算=愿望登记);弹出队列空;阶梯①判定=深度变量无可推导增量,
-  换轴推导待下轮(盘点 EXPERIMENT_PLAN 四轴候选)。
+  升级预算=愿望登记);弹出队列空。
+  轮 361(10-03)换轴推导轮:阶梯①四栏推导——盘点 EXPERIMENT_PLAN
+  (09-09 A100 时代历史登记:PC 防遗忘 nchain worst-task 稳定性+genreplay
+  重放消除遗忘为正信号,但 harness 在 A100 线,本机不可直接复用)+
+  ROADMAP 指针(RESEARCH_PLAN.md 不在本仓检出);推导出换轴方向=
+  **长流式记忆轴-长度外推探针**(四栏:现状=深度轴六连负收官,
+  M2 架构原则#1 为已验证正面产出,长流式记忆轴无本机最小证据;
+  问题=MT-LNN O(1) 状态在长流上的外推与延迟平坦性无对照数据,
+  transformer O(T²) 在长流的延迟/显存曲线未测;目标=短训 L=512
+  长测 L∈{1k,4k,16k} 外推+延迟曲线,假设=液体核外推保持+延迟平坦;
+  训练结论=零新机制,harness=流式任务生成+评估环 ~100 行,单腿
+  训练+外推评估 ≤30min 可推导);harness 待建,入队 todo。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
-next_trigger_hint: goal_check ⇒ 路由;队列空 ⇒ exit 2 阶梯:①换轴
-  续向蒸馏(深度变量六连负收官无可推导增量;盘点 docs/EXPERIMENT_
-  PLAN.md+docs/ROADMAP_M2.md 其余三轴候选[长流式记忆/持续学习/端侧
-  延迟]做四栏推导,只推导本机 ≤30min 可执行方向;可推导⇒入队+预注册
-  +发射;推导不出且②停车场③写作④硬化全空⇒空审计,连续 3 次⇒
-  PARKED);EXP 窗口重置待人裁确认(AMM-012);点火=v4.8 围栏
+next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
+  p0c-stream-len todo):建 harness(benchmarks/streaming_recall.py:
+  流式记忆任务生成+长度外推评估环,~100 行+自测)→标定速率→预注册
+  先行(p0c_stream_len.prereg.json:短训 L=512 长测 L∈{1k,4k,16k},
+  MT-LNN d1 vs transformer 对照,判据=外推保持 A/延迟平坦 B/对照
+  分离 C+负诊断,判据先行中程提交)→发射;EXP 窗口重置待人裁确认
+  (AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-03 (轮 360 S5 判决:深度命题六连负收官,换轴推导待下轮)
+updated: 2026-10-03 (轮 361 换轴推导:长流式记忆长度外推探针立项,harness 待建)
 ```
 
 ```yaml
 goal_queue:
+  - id: p0c-stream-len
+    goal: 长流式记忆轴-长度外推探针(轮 361 换轴推导立项)——短训
+      L=512 长测 L∈{1k,4k,16k},MT-LNN(O(1) 状态)vs transformer
+      (O(T²))对照;假设=液体核长度外推保持+延迟平坦;harness 待建
+      (流式任务生成+评估环),预注册判负标准先行后发射。
+    done_condition: 判决文件 benchmarks/verdicts/p0c_stream_len.json
+      存在且含 h_supported 字段,ROADMAP §4.5 已登记第十三轮判决条目。
+    check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_stream_len.json')); assert 'h_supported' in d"
+    status: todo
 ```
