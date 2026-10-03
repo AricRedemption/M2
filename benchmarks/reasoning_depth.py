@@ -338,7 +338,17 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
                     n_heads=None, n_kv_heads=None, signed_decay=False,
                     selective_decay=False, attention_layers=None,
                     beta2=0.95, clip=1.0, sel_mode="tanh",
-                    transformer_only=False, mid_eval_steps=()):
+                    transformer_only=False, mid_eval_steps=(),
+                    deep_supervision=False):
+    """HRM-style claim: train a FRESH model at each fixed depth d, evaluate at
+    that same d. Same parameter count across depths (weight-tied iteration) —
+    if accuracy climbs with d, extra latent iterations buy real capability.
+    This avoids the anytime-training failure mode where random-depth sampling
+    teaches the model to be depth-INVARIANT (ignore iterations)."""
+    if deep_supervision and depth_setter != "stack":
+        raise SystemExit(
+            "--deep_supervision 仅支持 --stack 模式(逐迭代 logits 只在 "
+            "stack 级暴露;core 迭代的输出在 block 内部,不经过 lm_head)")
     """HRM-style claim: train a FRESH model at each fixed depth d, evaluate at
     that same d. Same parameter count across depths (weight-tied iteration) —
     if accuracy climbs with d, extra latent iterations buy real capability.
@@ -421,6 +431,7 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
             train_model(m, gen, device, steps, batch, lr, seed,
                         depth_choices=[d], fwd_kwargs=fwd_kwargs,
                         depth_setter=depth_setter, beta2=beta2, clip=clip,
+                        deep_supervision=deep_supervision,
                         mid_eval_steps=mid_set,
                         mid_eval_cb=_mid_cb("mtlnn", d) if mid_set else None)
             if mix:
@@ -495,6 +506,7 @@ def run_fixed_sweep(task, difficulty, n_values, seeds, steps, batch, lr,
             "gamma_init": gamma_init, "full_mha": full_mha,
             "depth_setter": depth_setter, "mix": mix,
             "n_global_heads": n_global_heads,
+            "deep_supervision": deep_supervision,
             "transformer_only": transformer_only,
             "mtlnn_params": n_params, "transformer_params": tr_params,
             "mtlnn_acc_by_depth": accs, "transformer_acc": tr_acc,
@@ -749,7 +761,8 @@ def main():
                          beta2=args.beta2, clip=args.clip,
                          sel_mode=args.sel_mode,
                          transformer_only=args.transformer_only,
-                         mid_eval_steps=args.mid_eval)
+                         mid_eval_steps=args.mid_eval,
+                         deep_supervision=args.deep_supervision)
     else:
         run(args.task, args.difficulty, args.n_values, args.seeds, args.steps,
             args.batch, args.lr, args.max_depth, args.eval_depths, device,

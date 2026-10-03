@@ -98,6 +98,8 @@ build_cmd() {  # build_cmd SEED → 全局数组 CMD(两种 mode 共用主干,�
        --device "$DEVICE" --tag "$TAG")
   # 深度旋钮变体(轮 353,p0c-sort-stack 探针):stack=整块迭代含注意力
   [[ ${P0C_STACK:-0} == 1 ]] && CMD+=(--stack)
+  # 深监督变体(轮 356,p0c-sort-stack-ds 探针):逐迭代 CE 攻深堆叠优化失败
+  [[ ${P0C_DS:-0} == 1 ]] && CMD+=(--deep_supervision)
   if [[ $MODE == control ]]; then
     CMD+=(--transformer_only)
   else
