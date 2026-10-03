@@ -20,7 +20,7 @@
     "lr": 0.0003,
     "beta2": 0.999,
     "clip": 0,
-    "runner": "scripts/launch_p0c.sh(P0C_TASK=s5_word P0C_DIFFICULTY=8 P0C_STACK=1 P0C_DS=1 P0C_DEPTHS='1 8' P0C_TAG=p0c_s5_depth P0C_SKIP_TRANSFORMER=1;无 --mix)",
+    "runner": "scripts/launch_p0c.sh(P0C_TASK=s5_word P0C_DIFFICULTY=8 P0C_MIX=0 P0C_STACK=1 P0C_DS=1 P0C_DEPTHS='1 8' P0C_TAG=p0c_s5_depth P0C_SKIP_TRANSFORMER=1;无 --mix——s5 不在 mix 支持列表;amendment 1 数据前:首发两腿 rc=1 崩因=轮 350 make_generator 重构回归(voc 先于分支重赋值计算,显式 n_values=16 时 s5 vocab=26<答案 token),修复=return 时点计算+自测 vocab 覆盖守卫,判据未动)",
     "launch_pattern": "3 seeds 分三次发射(AMM-017),每 seed 同腿先 d1 后 d8,受管后台通道;标定(S=2000):d8 臂≈11.6min+d1 臂≈2min ⇒ 单 seed≈14min≤30",
     "exec_tier": "T1 (MPS, Apple Silicon 本地)"
   },

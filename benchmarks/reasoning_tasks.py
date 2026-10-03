@@ -393,7 +393,10 @@ def make_generator(task: str, difficulty: int, n_values: int, seed: int):
             return gen_bubble_trace(batch, n_values, difficulty, rng)
     else:
         raise ValueError(f"unknown task: {task}")
-    return gen, voc, n_values
+    # vocab AFTER branch reassignments: parity/s5_word override n_values
+    # internally (轮 360 回归教训: 重构时先算 voc 会让显式 n_values 的
+    # s5_word 拿到 26 而非 132, canonical launcher 路径答案 token 越界)
+    return gen, vocab_size(n_values), n_values
 
 
 # ── Self-test ────────────────────────────────────────────────────────────────
@@ -530,6 +533,14 @@ def _selftest() -> None:
     y1 = gen_bubble_trace(4, 8, 2, r1)
     y2 = gen_bubble_trace(4, 8, 2, r2)
     assert (y1.tokens == y2.tokens).all() and (y1.answer == y2.answer).all()
+
+    # vocab 覆盖守卫(轮 360 回归教训): 任一 task 在显式错误 n_values 下,
+    # make_generator 返回的 vocab 必须仍覆盖全部发出 token
+    for tv, nv in [("s5_word", 16), ("parity", 999), ("s5_word", None)]:
+        g2, v2, nv2 = make_generator(tv, 4, nv if nv is not None else 120, 0)
+        sample = g2(8, np.random.default_rng(0))
+        assert sample.tokens.max() < v2 and sample.answer.max() < v2, \
+            f"{tv}: vocab {v2} 不覆盖发出 token"
 
     print("reasoning_tasks selftest OK")
 
