@@ -78,7 +78,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 364 判决轮(端侧延迟探针):**h_supported=true 循环首个正判决**——纯液体核(关注意力+关 coherence)延迟线性 G=25.4×(16384/512,4/4 点完成)vs transformer 1052.9×(二次),16384 长流 0.43s/272MB=O(1) 主张在液体子层独立成立;hybrid 16384 OOM=注意力+coherence 二次墙(端侧须限制注意力层);infra 事故=use_global_coherence 默认开数据前修复;判决完整但 AMM-014 入队步漏记(阶梯①直执行),记账补正;弹出队列空;下轮推导=端侧轴第二探针候选(限制注意力的混合配置延迟-能力权衡)
+state: TERMINATED         # 轮 365 终局:循环合法终止因③上下文真耗尽(铁律:③前必快照进本文件)——快照=本文件全量+DISTILL 轮 350-365+§4.5 第七-十五轮;本循环(点火轮 350)15 轮:深度命题六连负全路径收官+长流式记忆轴两连负预算墙(愿望登记挂账)+端侧延迟轴首个正判决 h_supported=true(O(1) 液体子层独立成立);锁已删;重入口=用户 Go 点火(读快照+复述,续推导端侧轴第二探针)
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -107,17 +107,14 @@ current_action: >-
   S5 正先验角落(判据先行 5dd6e2f+vocab 回归数据前修复 a618425)两臂
   全 chance ⇒ **budget_wall_s5**(第十二轮=深度命题六连负全路径收官,
   升级预算=愿望登记);弹出队列空。
-  轮 361-362(10-03)换轴+流式判决:四栏推导落地长流式记忆轴-长度
-  外推探针(盘点 EXPERIMENT_PLAN=PC 线正信号但 harness 不可本机复用
-  留停车场);harness=streaming_recall.py 建成+预注册先行 a4f4847+
-  6 腿;两模型训练长度即不可学 ⇒ **task_unreachable**(32 事实 2000
-  步太难,§4.5 第十三轮);OOM 事故自适应 batch 修复零污染;延迟
-  描述性=均超线性(O(1) 只覆盖液体子层);弹出;e8 入队。
-  轮 363(10-03)e8 判决轮:--n_facts 接线+预注册先行 2ac2ff1+6 腿;
-  8 事实仍不可学(0.224/0.339<0.8)⇒ **still_unreachable**(三连
-  证据=查表学习速度数量级级瓶颈,流式轴预算墙;加步数愿望登记,
-  同族≤2 上限);§4.5 第十四轮;弹出队列空;换轴推导=端侧延迟轴
-  候选。
+  轮 361-362(10-03)换轴+流式判决:四栏推导落地长流式记忆轴探针
+  (PC 线正信号但 harness 不可复用留停车场);streaming_recall.py
+  建成+判据先行 a4f4847+6 腿;训练长度即不可学 ⇒ **task_unreachable**
+  (32 事实 2000 步太难,§4.5 第十三轮);OOM 修复零污染;弹出;e8 入队。
+  轮 363(10-03)e8 判决轮:--n_facts 接线+判据先行 2ac2ff1+6 腿;
+  8 事实仍不可学 ⇒ **still_unreachable**(三连证据=查表学习速度
+  数量级级瓶颈,流式轴预算墙;加步数愿望登记,同族≤2);§4.5
+  第十四轮;弹出;换轴推导=端侧延迟轴候选。
   轮 364(10-04)端侧延迟判决轮(循环首个正判决):零训练纯推理
   三配置同宽 T 扫描(判据先行 3f65436);首扫 pure_liquid 16384 OOM
   =use_global_coherence 默认开(topk T×T 4GB),infra_oom 预注册诊断
@@ -128,21 +125,28 @@ current_action: >-
   段 pure 慢 transformer ~3×(诚实边界);流程 slip=AMM-014 入队步
   漏记(阶梯①直执行,判决完整),记账补正;队列空;下轮推导=端侧
   轴第二探针候选(限制注意力的混合配置延迟-能力权衡)。
+  轮 365(10-04)终局快照轮:合法终止因③上下文真耗尽(会话 15 轮
+  逼近极限,快照先行);循环战果=①深度命题六连负全路径收官(§4.5
+  第七-十二轮,升级预算愿望登记)②长流式记忆轴两连负 task_
+  unreachable(第十三/十四轮,加步数愿望登记,harness 在库)③端侧
+  延迟轴 h_supported=true 首个正判决(O(1) 液体子层独立成立,
+  第十五轮);工具沉淀=bubble_trace 任务族/streaming_recall.py/
+  latency_probe.py/launcher 三旋钮;事故三起当轮结(裸 & 腿中断/
+  vocab 回归/coherence OOM);锁删除,重入口=用户 Go 点火读快照。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
-next_trigger_hint: goal_check ⇒ 路由;队列空 ⇒ exit 2 阶梯:①续向
-  蒸馏(端侧延迟轴正判决后的自然后续=限制注意力的混合配置延迟-
-  能力权衡探针[attention_layers={0} 单注意力层,训练+推理双测];
-  或流式轴加步数愿望登记已挂账不动;持续学习轴 PC 线=停车场候选;
-  可推导⇒入队+预注册+发射,入队步不可漏[轮 364 slip];推导不出且
-  ②③④全空⇒空审计,连续 3 次⇒PARKED);EXP 窗口重置待人裁确认
-  (AMM-012);点火=v4.8 围栏
+next_trigger_hint: 循环已合法终止(因③上下文真耗尽,快照在案);
+  重入口=用户 Go 点火:读本文件+DISTILL 轮 365 快照+复述停摆原因进
+  首轮报告 → 置 RUNNING → 续推导端侧轴第二探针(限制注意力混合
+  配置延迟-能力权衡,attention_layers={0} 训练+推理双测);愿望
+  登记挂账不动(t3-launcher/30k 步级/10^5 步级 S5/流式加步数);
+  EXP 窗口重置待人裁确认(AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-04 (轮 364 端侧延迟判决:h_supported=true 循环首个正判决,O(1) 液体子层独立成立)
+updated: 2026-10-04 (轮 365 终局:合法终止因③上下文真耗尽,快照在案,锁已删,点火续作)
 ```
 
 ```yaml
