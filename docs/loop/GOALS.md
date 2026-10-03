@@ -78,7 +78,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 355 判决轮(stack 判决+弹出):3 seeds 判 h_supported=false 诊断 budget_wall=深堆叠优化失败(M(1)=0.6419 可学/M(8)=0.0818 三 seed chance 带/gain=−0.5601;seed 2 M(8)=0.0984 超条款线 0.0084 字面偏离如实登记,判据未动);verdicts/p0c_sort_stack.json+ROADMAP §4.5 第九轮(深度命题探针级总结论=三重错配);队首弹出队列空;阶梯①续向蒸馏推导=深监督变体探针(逐迭代 CE 攻深堆叠梯度通路,与现有 d8 行等步数对照),下轮标定+预注册
+state: RUNNING            # 轮 356 产出轮(ds 探针首腿):预注册先行 9d897be(阶段 1 可达性门=ds 能否救活 d8,对照复用在盘 p0c_sort_stack 行)+接线(run_fixed_sweep deep_supervision+launcher P0C_DS)+seed 0 判读 M(8)_ds=0.1423>chance 线 0.09>对照 0.0818,逐 j 单调爬升(j7=0.239)=深监督部分救活深堆叠(训练发生了);未到 A 线 0.30,seed 1/2 定走向(一致~0.14⇒direction_but_underpowered⇒阶段 2 深度对照可推导);墙钟 22.4min≤30
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -117,41 +117,50 @@ current_action: >-
   v4.5 队列播种 p0c-sort-relay)/015(铁律下沉+distill_inject v4.6)/
   016(围栏 17 行 v4.7)/017(资源=蒸馏约束 v4.8:只推导≤30min 可执行,
   超预算愿望登记不停车)+社区门#5+版本表。
-  轮 350-352(10-03)p0c-sort 探针判负:bubble_trace 实现+预注册先行
-  0c7fbf1+launcher 参数化;3 seeds mean_gain=−0.0047 ⇒ **flat_
-  iterations_ignored**(任务可学迭代被无视,机制=core 不重复注意力);
-  verdicts/p0c_sort.json+§4.5 第八轮;弹出。
-  轮 353-354(10-03)stack 第 1/2 腿:预注册先行 fefc67b(单变量=旋钮
-  core→stack,S=2000);seed 0 M(8)=0.0887/seed 1 M(8)=0.0584 均
-  chance=深堆叠不训练复现(墙钟超线热节流记账/26.4min);裸 & 腿
-  中断事故=受管通道重发幂等恢复(发射纪律升级);节拍四事(N=10)。
-  轮 355(10-03)判决轮:seed 2 rc=0 墙钟 26.6min;3 seeds 判据计算
-  M(1)=0.6419 可学/M(8)=0.0818 三 seed chance 带/gain=−0.5601±
-  0.0304 ⇒ A/B/C 全败 h_supported=false,**budget_wall=深堆叠优化
-  失败**(seed 2 M(8)=0.0984 超条款线 0.0084 字面偏离如实登记,判据
-  未动);verdicts/p0c_sort_stack.json+ROADMAP §4.5 第九轮=深度命题
-  探针级总结论(三重错配:预算墙/迭代无视/可训练性墙,非 thesis
-  反证);弹出队列空;阶梯①推导=深监督变体探针(stack+逐迭代 CE 攻
-  深堆叠梯度通路;与现有 p0c_sort_stack d8 行等步数对照,单变量=
-  ds 开关),下轮标定+预注册+发射。
+  轮 350-354(10-03)深度双旋钮判负:bubble_trace 实现+预注册先行
+  0c7fbf1/fefc67b+launcher 参数化;core 3 seeds mean_gain=−0.0047 ⇒
+  **flat_iterations_ignored**(任务可学迭代被无视,机制=core 不重复
+  注意力,verdicts/p0c_sort.json+§4.5 第八轮);stack seeds M(8)=
+  {0.0887,0.0584} 均 chance=深堆叠不训练;裸 & 腿中断受管重发恢复;
+  节拍四事(N=10)。
+  轮 355(10-03)判决轮:3 seeds M(1)=0.6419 可学/M(8)=0.0818 三 seed
+  chance 带 ⇒ A/B/C 全败,**budget_wall=深堆叠优化失败**(seed 2 超
+  条款线 0.0084 字面偏离如实登记,判据未动);verdicts/p0c_sort_stack.
+  json+§4.5 第九轮=深度命题探针级总结论(三重错配:预算墙/迭代无视/
+  可训练性墙);弹出队列空;阶梯①推导=ds 变体探针。
+  轮 356(10-03)ds 探针首腿:预注册先行 9d897be(阶段 1 可达性门,
+  对照复用在盘 d8 行)+接线(run_fixed_sweep deep_supervision+launcher
+  P0C_DS)+seed 0 判读 M(8)_ds=0.1423>chance 0.09>对照 0.0818,逐 j
+  单调(j7=0.239)=**深监督部分救活深堆叠**(训练发生;无 ds 时 loss
+  平台 3.2 不训练);墙钟 22.4min≤30;seed 1/2 待发射。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
 next_trigger_hint: goal_check ⇒ 路由;队列空 ⇒ exit 2 阶梯:①续向
-  蒸馏已推导深监督变体探针(p0c-sort-stack-ds:stack+deep_supervision
-  逐迭代 CE 攻"深堆叠不训练"梯度通路;与现有 p0c_sort_stack d8 三
-  seed 行等步数 S=2000 对照,单变量=ds 开关;标定 ds 每步开销→墙钟
-  核验→预注册 p0c_sort_stack_ds.prereg.json 判据先行中程提交→发射
-  seed 0 受管通道);推导可执行=本机 ≤30min 探针 ✓(墙钟按 ds 开销
-  实测核验,超线则如实记账);EXP 窗口重置待人裁确认(AMM-012);
-  点火=v4.8 围栏
+  蒸馏 ds 探针已在队列前已推导(执行序=轮 356 已发 seed 0):下轮
+  发射 seed 1 ds 腿(受管通道,同 launcher 命令末参 1)→ 判读;
+  seed 2 同型;3 seeds 齐按 p0c_sort_stack_ds.prereg.json 判据
+  (A≥0.30/B≥2/3>0.09/C vs 对照≥0.02)计算 → verdicts/
+  p0c_sort_stack_ds.json+ROADMAP §4.5 第十轮 → 弹出 → 续向蒸馏
+  (若 direction_but_underpowered:阶段 2 深度对照 d1+ds 可推导;
+  若 ds_rescue_failed:深度命题探针级穷尽评估=单目标达成候选);
+  EXP 窗口重置待人裁确认(AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-03 (轮 355 判决轮:stack 判负深堆叠不训练弹出,深度命题三重错配总结论,ds 变体推导在案)
+updated: 2026-10-03 (轮 356 ds 首腿:M(8)_ds=0.1423 部分救活,seed 1/2 待发射)
 ```
 
 ```yaml
 goal_queue:
+  - id: p0c-sort-stack-ds
+    goal: 深监督变体探针阶段 1(可达性门;轮 356 立项预注册先行
+      9d897be)——stack d8+deep_supervision 逐迭代 CE,单臂 S=2000,
+      对照=在盘 p0c_sort_stack d8 行;seed 0 已判 M(8)_ds=0.1423
+      (部分救活);3 seeds 分次发射中。
+    done_condition: 判决文件 benchmarks/verdicts/p0c_sort_stack_ds.json
+      存在且含 h_supported 字段,ROADMAP §4.5 已登记第十轮判决条目。
+    check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_sort_stack_ds.json')); assert 'h_supported' in d"
+    status: doing
 ```
