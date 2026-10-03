@@ -78,13 +78,13 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 349 立法轮(AMM-017 资源=蒸馏约束 ADOPTED):宪法 v4.8(只推导 ≤30min 可执行方向,愿望登记不停车,BLOCKED-HUMAN=仅手动停)+队列=t3-launcher 撤入愿望登记/排序探针 30min 预算版;待点火(v4.8 围栏)
+state: RUNNING            # 轮 350 产出轮(p0c-sort-relay 首腿):bubble_trace 排序任务实现+预注册先行中程提交(0c7fbf1,判据先于数据 git 可考)+seed 0 canonical 腿当轮判读(M(1)=0.7506/M(8)=0.7443/gain=−0.0056,d1 追平,双臂≫chance 0.09);队列 p0c-sort-relay doing,seed 1/2 分次发射待跑(轮 351/352),3 seeds 齐按 prereg 判据出 verdict
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
   轮次循环,单目标=队列清空(队列由续向蒸馏续填,人不在方向环;协议/
   阶梯/纪律唯一源=docs/loop/GOAL-PROMPT-M2.md v4.5,本文件不复述)。
-current_variable: p0c-prime-depth(思考深度→能力;判读已落盘=判负 budget_wall,verdicts/p0c_prime.json h_supported=false;换向由续向蒸馏推导:队列现序=t3-kaggle-launcher→p0c-sort-relay,AMM-014)
+current_variable: p0c-sort-depth(排序类多步比较链上思考深度→能力;换变量留痕=旧变量 p0c-prime-depth 判读已落盘判负 budget_wall,verdicts/p0c_prime.json h_supported=false,轮 339;新变量首腿=轮 350 bubble_trace seed 0)
 current_action: >-
   [轮次索引:更早轮单行,全文=git log(AMM-009 瘦身,永不丢)]
   轮 1-105(09-27~10-02)前循环:bootstrap/AMM-002~010 修宪链/P0-C′
@@ -111,42 +111,44 @@ current_action: >-
   (268/278/288/298/308 留痕):腿 26400→28800 稳态守望。
   轮 314-338(10-02)跟进×22+节拍×2(323/333)+方向动作×2(318/328 留痕
   /338 终评在即):腿 28800→29800;终评倒计时。
-  轮 339(10-02)终评判读轮:腿 rc=0 完成(30000 步 12.6h),M(8,0)=0.0656
-  ≈M(1,0)=0.0660 均 chance,gain=−0.0004 ⇒ h_supported=false 诊断
-  budget_wall(非 thesis 反证);verdicts/p0c_prime.json+ROADMAP §4.5
-  第七轮登记+夜账终入账(K+1 首事件);队首机械弹出;预案五件全链兑现
-  零临场发挥。
-  轮 340(10-02)exit 6 阶梯走查全空(空审计)⇒ 置 BLOCKED-HUMAN;待人
-  授权项菜单四选录 blocked_on 并报告用户;循环单目标达成待终止。
-  轮 341(10-02)终止后账实纠偏:程序计数器链断 137 起结类(轮 107
-  old_string 跨行拼接错配静默 no-op,235 轮继承),本块全量重建
-  (107-341 单行索引,全文=git log/DISTILL/gate jsonl 无损);state 行
-  补写 BLOCKED-HUMAN;循环保持终止。
-  轮 342-344(10-02)立法链:AMM-013 接力链(v4.4,短命被 014 取代)/
-  AMM-014 蒸馏续向(v4.5:方向四栏推导人不在方向环/本机训练≤30min
-  超时走 T3 Kaggle/relay_tree 废除/2b 迁移登记弹出/队列=t3-kaggle-
-  launcher→p0c-sort-relay)/343 排版卫生+蒸馏门核查(未漏)。
-  轮 345-348(10-02)立法+社区链:版本一览表(AMENDMENTS 头)/社区门
-  #5(四源 HORIZON #5:Voyager 同构验证/DGM prompt 自改拒)/AMM-015
-  (v4.6:铁律下沉 IRON-LAWS+distill_inject 注入管道+围栏 36 行)/
-  AMM-016(v4.7:细节下沉细则区围栏 17 行+点火前全项验收)。
-  轮 349(10-02)立法 AMM-017(v4.8,用户指令"没资源给,找别的方向
-  30min 迭代,不要停车索要"):资源=蒸馏约束非停车条件(只推导≤30min
-  可执行方向,超预算愿望登记不入队);BLOCKED-HUMAN=仅手动停;
-  t3-kaggle-launcher 撤队首入愿望登记,排序探针改 30min 预算版。
+  轮 339-341(10-02)终评判读+循环终止+纠偏:腿 40268 rc=0(30000 步
+  12.6h),M(8,0)=0.0656≈M(1,0) 均 chance gain=−0.0004 ⇒ 判负
+  budget_wall(非 thesis 反证;verdicts/p0c_prime.json+ROADMAP §4.5
+  第七轮+夜账 K+1 首事件);exit 6 空审计置 BLOCKED-HUMAN;程序计数器
+  链断 137 起结类全量重建(全文=git log/DISTILL/gate jsonl 无损)。
+  轮 342-348(10-02)立法链+社区:AMM-013/014(接力链→蒸馏续向 v4.5,
+  队列播种 p0c-sort-relay)/AMM-015(铁律下沉 IRON-LAWS+distill_inject
+  v4.6)/AMM-016(围栏 17 行 v4.7)/社区门#5(四源 HORIZON #5)+版本表。
+  轮 349(10-02)立法 AMM-017(v4.8):资源=蒸馏约束非停车条件(只推导
+  ≤30min 可执行方向,超预算愿望登记);launcher 撤入愿望登记,排序探针
+  改 30min 预算版;BLOCKED-HUMAN=仅手动停。
+  轮 350(10-03)产出轮 p0c-sort-relay 首腿:bubble_trace 排序任务
+  实现(冒泡 j 轮比较链后查争议区位置值;标签 32 池无放回抽取杀边际
+  捷径,per-j floor 0.035..0.083 实测钉死)+预注册先行中程提交(0c7fbf1,
+  判据 A/B/C+负诊断四选一 no_posthoc_move)+设计探索披露(定 j≤3
+  d1≈d8≈0.82 沙箱实证 ⇒ 换课程混合 j~U{1..7} k=16)+launcher env
+  参数化(默认逐字节不变,干跑验幂等);S=2200 等步数配对(r1=0.0831/
+  r8=0.5835 s/step 反推,seed 墙钟 26.0min≤30);seed 0 判读:M(1)=
+  0.7506/M(8)=0.7443/gain_s0=−0.0056(d1 慢热但 2200 步追平,标定
+  截断 d1 预算造出的优势是假信号;双臂≫chance 线 0.09,任务可学)。
+  经验:标定须按判读协议完整预算做双臂,截断预算对比假造方向;边际
+  均匀直觉会输给海龟/兔子偏斜,基线实测钉死。seed 1/2 分次发射待跑。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
 next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
-  t3-kaggle-launcher todo):当轮建 Kaggle 发射器(前置=KAGGLE_API
-  凭证,无则 BLOCKED-HUMAN 索要)→ 冒烟端到端 → 弹出 → 续向蒸馏推导
-  下一方向(p0c-sort-relay 跑 T3,>30min 红线);EXP 窗口重置待人裁
-  确认(AMM-012);点火=v4.8 围栏
+  p0c-sort-relay doing):发射 seed 1 canonical 腿(同一 launcher 命令,
+  末参改 1;幂等判重保 seed 0 行)→ 当轮判读 gain_s1;seed 2 同型
+  (轮 352);3 seeds 齐后按 p0c_sort.prereg.json 判据 A/B/C 计算 →
+  写 verdicts/p0c_sort.json+ROADMAP §4.5 第八轮登记 → 队首机械弹出
+  → 续向蒸馏推导下一方向(预期 flat_iterations 诊断时:深度信号在
+  本机探针预算内不可得的实证,升级 j/k 预算=愿望登记既有挂账);
+  EXP 窗口重置待人裁确认(AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-02 (轮 349 立法轮:AMM-017 资源约束进蒸馏,无人资源闭环,宪法 v4.8,待点火)
+updated: 2026-10-03 (轮 350 产出轮:p0c-sort-relay 首腿 seed 0 判读 gain≈0,预注册先行 0c7fbf1,队列 doing)
 ```
 
 ```yaml
@@ -164,5 +166,5 @@ goal_queue:
     done_condition: 判决文件 benchmarks/verdicts/p0c_sort.json 存在且含
       h_supported 字段(预注册格式),ROADMAP 已登记判决条目。
     check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_sort.json')); assert 'h_supported' in d"
-    status: todo
+    status: doing
 ```
