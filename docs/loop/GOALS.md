@@ -78,7 +78,7 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 353 产出轮(stack 探针首腿):预注册先行 fefc67b(单变量=深度旋钮 core→stack)+seed 0 判读 M(1)=0.6327 学得会/M(8)=0.0887≈chance(8 块堆叠 2k 步不训练,loss 平台 3.2=深堆叠优化失败;对比 core d8@300 步已 0.52=深核好训深堆叠难训);墙钟 31.1min 超 30 红线 3.4%(标定线性拟合低估+连续腿热节流,如实记账,S 按预注册不动);seed 1/2 待发射(判据需 3 seeds M(8) 全≤0.09 才 budget_wall)
+state: RUNNING            # 轮 354 产出轮(stack 第 2 腿):seed 1 判读 M(1)=0.6535 学得会/M(8)=0.0584=chance(<0.09 线),gain=−0.5951,与 seed 0 一致=深堆叠不训练稳定复现;墙钟 26.4min≤30(隔段后热节流消失,佐证 353 超线归因);事故=裸 & 后台腿被会话中断杀死(d8 臂 step 200 死,partial 在案),受管通道重发幂等恢复 canonical 零损;M(8) 两 seeds {0.0887,0.0584} 均≤0.09,seed 2 出数即判 budget_wall
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
@@ -117,39 +117,37 @@ current_action: >-
   v4.5 队列播种 p0c-sort-relay)/015(铁律下沉+distill_inject v4.6)/
   016(围栏 17 行 v4.7)/017(资源=蒸馏约束 v4.8:只推导≤30min 可执行,
   超预算愿望登记不停车)+社区门#5+版本表。
-  轮 350-351(10-03)p0c-sort 首二腿:bubble_trace 实现(32 池标签杀
-  边际捷径,floor 0.055 钉死)+预注册先行 0c7fbf1+设计探索披露+launcher
-  env 参数化;seed 0 gain=−0.0056(d1 满预算追平,标定截断 d1=假信号
-  教训)/seed 1 gain=+0.0183 反号噪声带(禁单 seed 声明铁律兑现)。
-  轮 352(10-03)判决轮:seed 2 rc=0 墙钟 26.2min,gain_s2=−0.0269;
-  3 seeds 判据计算 mean_gain=−0.0047/σ_paired=0.0226/highj=−0.0035
-  ⇒ A/B/C 全败 h_supported=false,**诊断 flat_iterations_ignored**
-  (双臂 0.66≫chance 0.09 任务可学,迭代被无视;机制解释=core 迭代
-  不重复注意力,比较链子步需跨位置交换);verdicts/p0c_sort.json+
-  ROADMAP §4.5 第八轮登记;队首机械弹出,队列空。
-  轮 353(10-03)产出轮 stack 探针首腿:阶梯①四栏推导(机制假设=stack
-  整块迭代含注意力对齐比较链子步)+预注册先行 fefc67b(单变量=旋钮
-  core→stack,S=2000,P0C_STACK 旋钮)+seed 0 判读:M(1)=0.6327 学得
-  会/M(8)=0.0887≈chance 线 0.09(8 块堆叠 2k 步不训练,loss 平台 3.2
-  =深堆叠优化失败;深核好训深堆叠难训);墙钟 31.1min 超 30 红线 3.4%
-  (标定线性拟合低估+热节流,如实记账,S 按预注册不动);stack 探针
-  入队(AMM-014 推导⇒新条目),seed 1/2 待发射。
+  轮 350-352(10-03)p0c-sort 探针判负:bubble_trace 实现(32 池标签
+  杀边际捷径,floor 0.055 钉死)+预注册先行 0c7fbf1+设计探索披露+
+  launcher env 参数化;3 seeds 分次发射全链守预算;判据计算 mean_gain=
+  −0.0047/σ=0.0226 ⇒ A/B/C 全败,**flat_iterations_ignored**(双臂
+  0.66≫chance 任务可学,迭代被无视;机制解释=core 迭代不重复注意力);
+  verdicts/p0c_sort.json+§4.5 第八轮;弹出队列空。
+  轮 353(10-03)stack 探针首腿:阶梯①四栏推导(机制假设=整块迭代含
+  注意力)+预注册先行 fefc67b(单变量=旋钮 core→stack,S=2000)+
+  P0C_STACK 旋钮+入队;seed 0 判读 M(1)=0.6327/M(8)=0.0887≈chance
+  (8 块堆叠 2k 步不训练,loss 平台 3.2=深堆叠优化失败);墙钟 31.1min
+  超 30 线 3.4%(热节流,如实记账 S 不动)。
+  轮 354(10-03)stack 第 2 腿:裸 & 后台腿被会话中断杀死(d8 臂
+  step 200,partial 在案,教训=后台腿必须走受管通道),受管通道重发
+  幂等恢复 rc=0 零损;判读 M(1)=0.6535/M(8)=0.0584=chance,gain=
+  −0.5951,与 seed 0 一致;墙钟 26.4min≤30(隔段热节流消失佐证 353
+  归因);M(8) 两 seeds 均≤0.09,seed 2 出数即判 budget_wall。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
 next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
-  p0c-sort-stack doing):发射 seed 1 stack 腿(同 launcher 命令加
-  P0C_STACK=1,末参改 1)→ 当轮判读;seed 2 同型(轮 355);3 seeds
-  齐后按 p0c_sort_stack.prereg.json 判据计算 → verdicts/
-  p0c_sort_stack.json+ROADMAP §4.5 第九轮 → 弹出 → 续向蒸馏
-  (预期 budget_wall:深堆叠优化失败 ⇒ 深监督变体探针或升级预算=
-  愿望登记);墙钟超线教训=标定须留热节流余量;EXP 窗口重置待人裁
-  确认(AMM-012);点火=v4.8 围栏
+  p0c-sort-stack doing):发射 seed 2 stack 腿(受管通道!轮 354 教训)
+  → 当轮判读 → 3 seeds 齐按 p0c_sort_stack.prereg.json 判据计算
+  → 写 verdicts/p0c_sort_stack.json+ROADMAP §4.5 第九轮 → 弹出 →
+  续向蒸馏(预期 budget_wall=深堆叠优化失败:深监督变体探针或升级
+  预算=愿望登记,推导可执行方向续填队列);EXP 窗口重置待人裁确认
+  (AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-03 (轮 353 stack 首腿:M(8)=0.089 不起飞,墙钟超线 3.4% 记账,seed 1/2 待发射)
+updated: 2026-10-03 (轮 354 stack 第 2 腿:M(8)=0.0584 复现深堆叠不训练,裸 & 腿被中断事故受管恢复,seed 2 待发射)
 ```
 
 ```yaml
