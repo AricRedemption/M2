@@ -96,6 +96,8 @@ build_cmd() {  # build_cmd SEED → 全局数组 CMD(两种 mode 共用主干,�
        --mode fixed --seeds "$1" --steps "$STEPS" ${MIXARGS[@]+"${MIXARGS[@]}"}
        --full_mha --n_global_heads 2 --beta2 0.999 --clip 0
        --device "$DEVICE" --tag "$TAG")
+  # 深度旋钮变体(轮 353,p0c-sort-stack 探针):stack=整块迭代含注意力
+  [[ ${P0C_STACK:-0} == 1 ]] && CMD+=(--stack)
   if [[ $MODE == control ]]; then
     CMD+=(--transformer_only)
   else
