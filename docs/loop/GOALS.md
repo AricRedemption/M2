@@ -78,13 +78,13 @@
   单行索引(全文=git log,永不丢);块高 ≤48 行由测试守护。
 
 ```yaml
-state: RUNNING            # 轮 351 产出轮(p0c-sort-relay 第 2 腿):seed 1 rc=0 墙钟 26.1min,gain_s1=+0.0183(与 seed 0 反号,噪声带);seeds 增益 [−0.0056,+0.0183] 均值 +0.006;seed 2 待发射(轮 352),3 seeds 齐按 prereg 判据出 verdict(预期 A 失败 flat_iterations)
+state: RUNNING            # 轮 352 产出轮(p0c-sort-relay 判决+弹出):3 seeds 齐判 h_supported=false 诊断 flat_iterations_ignored(M(1)=0.6653/M(8)=0.6605/gain=−0.0047±0.0226,双臂≫chance 任务可学但迭代被无视);verdicts/p0c_sort.json+ROADMAP §4.5 第八轮;队首机械弹出队列空;阶梯①续向蒸馏推导=stack 旋钮探针候选(core 迭代不重复注意力=判负机制解释;--stack 整块迭代含注意力机制对齐),下轮立预注册
 mode: ON                  # 循环总开关(OFF ⇒ goal_check 不动作;AMM-012 维护停后恢复)
 current_goal: >-
   M2 循环 v2(AMM-010/014 蒸馏续向连续循环):goal 校验驱动的连续
   轮次循环,单目标=队列清空(队列由续向蒸馏续填,人不在方向环;协议/
   阶梯/纪律唯一源=docs/loop/GOAL-PROMPT-M2.md v4.5,本文件不复述)。
-current_variable: p0c-sort-depth(排序类多步比较链上思考深度→能力;换变量留痕=旧变量 p0c-prime-depth 判读已落盘判负 budget_wall,verdicts/p0c_prime.json h_supported=false,轮 339;新变量首腿=轮 350 bubble_trace seed 0)
+current_variable: p0c-sort-depth(排序类多步比较链上思考深度→能力;判读落盘=verdicts/p0c_sort.json h_supported=false 诊断 flat_iterations_ignored,轮 352——core 迭代旋钮下迭代被无视;旋钮变体 stack 探针推导中,同变量留痕)
 current_action: >-
   [轮次索引:更早轮单行,全文=git log(AMM-009 瘦身,永不丢)]
   轮 1-105(09-27~10-02)前循环:bootstrap/AMM-002~010 修宪链/P0-C′
@@ -122,48 +122,34 @@ current_action: >-
   轮 349(10-02)立法 AMM-017(v4.8):资源=蒸馏约束非停车条件(只推导
   ≤30min 可执行方向,超预算愿望登记);launcher 撤入愿望登记,排序探针
   改 30min 预算版;BLOCKED-HUMAN=仅手动停。
-  轮 350(10-03)产出轮 p0c-sort-relay 首腿:bubble_trace 排序任务实现
-  (冒泡 j 轮比较链查争议区位置值;32 池标签杀边际捷径,floor 0.055 钉死)
-  +预注册先行中程提交 0c7fbf1(判据 A/B/C+负诊断,no_posthoc_move)+
-  设计探索披露(定 j≤3 d1≈d8⇒换课程混合 j~U{1..7} k=16)+launcher env
-  参数化;S=2200 等步数配对;seed 0:M(1)=0.7506/M(8)=0.7443/gain=
-  −0.0056(d1 满预算追平,标定截断 d1=假信号教训)。
-  轮 351(10-03)产出轮:seed 1 canonical 腿 rc=0 墙钟 26.1min≤30,
-  M(1)=0.6652/M(8)=0.6835/gain_s1=+0.0183/highj=+0.0133(与 seed 0
-  反号,量级同噪声);seeds 增益 [−0.0056,+0.0183] 均值 +0.006,预期
-  走向=A 失败 flat_iterations(3 seeds 齐后判);经验:单 seed 方向
-  翻转即双峰警示,判据只认 3-seed 配对统计(禁单 seed 声明铁律兑现)。
+  轮 350-351(10-03)p0c-sort 首二腿:bubble_trace 实现(32 池标签杀
+  边际捷径,floor 0.055 钉死)+预注册先行 0c7fbf1+设计探索披露+launcher
+  env 参数化;seed 0 gain=−0.0056(d1 满预算追平,标定截断 d1=假信号
+  教训)/seed 1 gain=+0.0183 反号噪声带(禁单 seed 声明铁律兑现)。
+  轮 352(10-03)判决轮:seed 2 rc=0 墙钟 26.2min,gain_s2=−0.0269;
+  3 seeds 判据计算 mean_gain=−0.0047/σ_paired=0.0226/highj=−0.0035
+  ⇒ A/B/C 全败 h_supported=false,**诊断 flat_iterations_ignored**
+  (双臂 0.66≫chance 0.09 任务可学,迭代被无视;机制解释=core 迭代
+  不重复注意力,比较链子步需跨位置交换);verdicts/p0c_sort.json+
+  ROADMAP §4.5 第八轮登记;队首机械弹出,队列空;阶梯①续向蒸馏四栏
+  推导:stack 旋钮探针候选(--stack 整块迭代含注意力=机制对齐,任务/
+  launcher 现成,速率标定后立预注册),同变量旋钮变体留痕。
 blocked_on: >-
   愿望登记(AMM-017 非阻塞,不停车):t3-kaggle-launcher(Kaggle 发射
   器,凭证到位由用户点火改指入队)/30k 步级终判预算(排序腿升级);
   另:EXP 窗口重置仍待人裁确认(AMM-012);腿 40268 已 rc=0 收官,
   无在途训练。
-next_trigger_hint: goal_check ⇒ 路由;下轮预期 VERDICT=1(队首
-  p0c-sort-relay doing):发射 seed 2 canonical 腿(末参改 2,幂等判重
-  保 seed 0/1 行)→ 当轮判读 gain_s2 → 3 seeds 齐 ⇒ 按
-  p0c_sort.prereg.json 判据 A/B/C 计算并写 verdicts/p0c_sort.json+
-  ROADMAP §4.5 第八轮登记 → 队首机械弹出 → 续向蒸馏推导下一方向
-  (预期 flat_iterations:升级 j/k 预算=愿望登记既有挂账);EXP 窗口
-  重置待人裁确认(AMM-012);点火=v4.8 围栏
+next_trigger_hint: goal_check ⇒ 路由;队列空 ⇒ exit 2 阶梯:①续向
+  蒸馏已推导 stack 旋钮探针候选(p0c-sort-stack:bubble_trace 同任务,
+  --stack 整块迭代含注意力 vs core 迭代不重复注意力=轮 352 判负的
+  机制假设;标定 stack d1/d8 速率→S 反推→预注册 p0c_sort_stack.
+  prereg.json 判据先行中程提交→发射 seed 0);推导可执行=本机
+  ≤30min 探针 ✓;EXP 窗口重置待人裁确认(AMM-012);点火=v4.8 围栏
 pointer: docs/ROADMAP_M2.md; docs/EXPERIMENT_PLAN.md; docs/DATA_FORMS.md;
   docs/TRAINING.md; docs/loop/{GOAL-PROMPT-M2,AMENDMENTS,RSI-INDEX,DISTILL,RSI-HORIZON}.md
-updated: 2026-10-03 (轮 351 产出轮:seed 1 gain=+0.0183 反号噪声带,seed 2 待发射)
+updated: 2026-10-03 (轮 352 判决轮:p0c-sort-relay 判负 flat_iterations 弹出,队列空,stack 探针推导在案)
 ```
 
 ```yaml
 goal_queue:
-  - id: p0c-sort-relay
-    goal: 排序类 fixed-depth 探针(AMM-013 立项,AMM-017 预算版:本机
-      ≤30min/腿,等墙钟预算设计)——换任务出 budget_wall 的
-      pointer_chase d16(parity 归 LNN 参数化线,v1 scope_note):MT-LNN
-      γ 配额 K=2+full_mha 修复后,探针级 fixed-depth 对照(d=1 vs d=8,
-      steps 按 30min 实测速度反推,3 seeds 分三次发射各 ≤30min),任务
-      =排序类(多步比较链,深度敏感;具体任务定义在预注册时钉死);
-      流程=预注册判负标准先行(benchmarks/verdicts/p0c_sort.prereg.json,
-      判据=探针级口径)⇒ 逐腿本机发射 ⇒ 判读登记 ROADMAP §4.5;结论
-      分级 [B] 探针级,不虚报终判(30k 步终判=愿望登记挂账)。
-    done_condition: 判决文件 benchmarks/verdicts/p0c_sort.json 存在且含
-      h_supported 字段(预注册格式),ROADMAP 已登记判决条目。
-    check_cmd: python3 -c "import json; d=json.load(open('benchmarks/verdicts/p0c_sort.json')); assert 'h_supported' in d"
-    status: doing
 ```

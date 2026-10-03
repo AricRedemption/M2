@@ -201,6 +201,21 @@ mid_eval 三读数一致 chance:mid@10000=0.0632 / mid@20000=0.0658 / final=0.06
 
 **后续分叉(另立预注册,不得现场改判据;待人裁)**:①加预算——T1 MPS 实测 0.67 step/s:10^5 步≈2 天/臂、10^6 步≈17 天/臂(RSI-HORIZON #3 sizing:grokking 视界文献先验 10^5-10^6 步,当前预算低一个量级以下);②换任务——排序类(轮 15 检索候选);③2b-120k-leg 三选另案。
 
+### 2026-10-03 · 第八轮:p0c-sort 排序类深度探针判决(γ+MHA 修复后,bubble_trace fixed-depth d=1 vs d=8)——**判负,诊断 flat_iterations_ignored**
+
+预注册 `benchmarks/verdicts/p0c_sort.prereg.json`(AMM-017 预算版:本机 ≤30min/发射,S=2200 等步数配对,3 seeds 分次发射;判据先行中程提交 0c7fbf1,no_posthoc_move);判决文件 `benchmarks/verdicts/p0c_sort.json`(h_supported=false)。
+
+任务 bubble_trace(轮 350 新增,`gen_bubble_trace`):k=16 值从 {0..31} 池无放回抽取按随机排列呈现,执行 j~U{1..7} 轮左→右相邻比较交换(升序)后读争议区位置 p 的值;池化标签把占据者秩偏斜(海龟/兔子,实测 max mass 0.23)卷进超几何弥散——per-j best-constant floor 0.035..0.083(mean 0.055)实测钉死,边际捷径被设计杀死;秩→标签查找=O(1) 注意力(深度平坦),不混淆深度对照。
+
+| 读数(口径=mean over j∈{1..7} per-j 桶,每桶 8×256) | M(1) | M(8) | gain |
+|---|---|---|---|
+| seed 0 / 1 / 2 | 0.6568 / 0.6652 / 0.6738 | 0.6512 / 0.6835 / 0.6469 | −0.0056 / +0.0183 / −0.0269 |
+| **3-seed 均值** | **0.6653** | **0.6605** | **mean_gain=−0.0047**(σ_paired=0.0226) |
+
+**判决**:h_supported=false(A/B/C 三判据全败:A mean_gain=−0.0047<0.02;B −0.0047<2σ=0.0452;C highj_gain=−0.0035<0)。**诊断 flat_iterations_ignored**(prereg negative_diagnoses 双条件兑现:M(1)、M(8) 均≫chance 线 0.09 且 |mean_gain|<0.02)——任务在该预算**可学**(双臂 0.66-0.75)但**迭代被无视**:2 层电路(每层注意力+core+FFN)满预算下即可逼近 j≤7 比较链动力学,与预注册 calibration_disclosure 的定 j 形态探索(d1≈d8≈0.82)机制一致;**非 thesis 反证亦非 budget_wall**。约束:[B] 本机实测 3 seeds 探针级;30k 步级终判=愿望登记挂账。
+
+**后续分叉(另立预注册,愿望登记不停车,AMM-017)**:①升级 j/k 预算(更深比较链/更长数组,深度信号在"可学 j 前沿"之外找;30k 步级=愿望登记既有挂账);②换任务族(S5 词问题=NC¹ 完全分离任务已在代码库,理论shortcut最硬;looped 文献配方);③设计教训入档:定 j 配置的深度敏感性论证会输给万能逼近,深度信号要靠难度轴+课程混合显形,且标定必须镜像判读协议等步数双臂跑满 S(轮 350 截断 d1 预算假信号教训)。
+
 
 
 ## 5. 评测纪律 / Evaluation Discipline
